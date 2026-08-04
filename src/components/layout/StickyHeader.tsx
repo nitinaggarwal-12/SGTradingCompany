@@ -351,6 +351,29 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {/* Prominent ALL 12 BRANDS Quick Option */}
+              <button
+                onClick={() => handleCategoryClick("All Categories")}
+                className="flex items-start gap-3.5 p-4 rounded-xl bg-amber-500/15 border-2 border-amber-500 hover:bg-amber-500 hover:text-slate-950 text-left transition-all group cursor-pointer w-full sm:col-span-2 lg:col-span-3"
+              >
+                <div className="w-10 h-10 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-black group-hover:bg-slate-950 group-hover:text-amber-400 transition-colors shrink-0">
+                  ALL
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <h5 className="font-extrabold text-sm text-amber-400 group-hover:text-slate-950 transition-colors">
+                      ☑️ SHOW ALL 12 AUTHORIZED BRANDS & 16 WHOLESALE SKUS
+                    </h5>
+                    <span className="text-xs font-mono-spec px-2.5 py-0.5 rounded bg-amber-500 text-slate-950 font-black shrink-0">
+                      16 SKUs READY
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300 group-hover:text-slate-900 font-semibold mt-1">
+                    McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka
+                  </p>
+                </div>
+              </button>
+
               {CATEGORIES.map((cat) => {
                 const Icon = cat.icon;
                 return (
