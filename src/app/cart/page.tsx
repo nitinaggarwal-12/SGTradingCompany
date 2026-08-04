@@ -87,7 +87,7 @@ export default function CartAndCheckoutPage() {
     0
   );
 
-  const gstAmount = Math.round((subtotalExclGst * 12) / 100);
+  const gstAmount = Math.round((subtotalExclGst * 5) / 100);
   const cgstAmount = Math.round(gstAmount / 2);
   const sgstAmount = gstAmount - cgstAmount;
   const deliveryFreight = cart.length > 0 ? 350 : 0;
@@ -516,17 +516,17 @@ export default function CartAndCheckoutPage() {
                     {gstType === "intrastate" ? (
                       <>
                         <div className="flex justify-between text-slate-400">
-                          <span>CGST (6%)</span>
+                          <span>CGST (2.5%)</span>
                           <span>₹{cgstAmount.toLocaleString("en-IN")}</span>
                         </div>
                         <div className="flex justify-between text-slate-400">
-                          <span>SGST (6%)</span>
+                          <span>SGST (2.5%)</span>
                           <span>₹{sgstAmount.toLocaleString("en-IN")}</span>
                         </div>
                       </>
                     ) : (
                       <div className="flex justify-between text-slate-400">
-                        <span>IGST (12%)</span>
+                        <span>IGST (5%)</span>
                         <span>₹{gstAmount.toLocaleString("en-IN")}</span>
                       </div>
                     )}

@@ -40,7 +40,7 @@ export default function RFQWorkspacePage() {
     0
   );
 
-  const totalGst = Math.round((subtotalExclGst * 12) / 100);
+  const totalGst = Math.round((subtotalExclGst * 5) / 100);
   const grandTotal = subtotalExclGst + totalGst;
 
   const handleGenerateQuote = (e: React.FormEvent) => {

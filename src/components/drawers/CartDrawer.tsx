@@ -32,7 +32,7 @@ export const CartDrawer: React.FC = () => {
     0
   );
 
-  const gstAmount = Math.round((subtotalExclGst * 12) / 100);
+  const gstAmount = Math.round((subtotalExclGst * 5) / 100);
   const cgstAmount = Math.round(gstAmount / 2);
   const sgstAmount = gstAmount - cgstAmount;
   const deliveryFreight = cart.length > 0 ? 350 : 0;
@@ -185,17 +185,17 @@ export const CartDrawer: React.FC = () => {
                   {gstType === "intrastate" ? (
                     <>
                       <div className="flex justify-between text-slate-400">
-                        <span>CGST</span>
+                        <span>CGST (2.5%)</span>
                         <span>₹{cgstAmount.toLocaleString("en-IN")}</span>
                       </div>
                       <div className="flex justify-between text-slate-400">
-                        <span>SGST</span>
+                        <span>SGST (2.5%)</span>
                         <span>₹{sgstAmount.toLocaleString("en-IN")}</span>
                       </div>
                     </>
                   ) : (
                     <div className="flex justify-between text-slate-400">
-                      <span>IGST</span>
+                      <span>IGST (5%)</span>
                       <span>₹{gstAmount.toLocaleString("en-IN")}</span>
                     </div>
                   )}
