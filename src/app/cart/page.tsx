@@ -564,57 +564,8 @@ export default function CartAndCheckoutPage() {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
-              <div className="lg:col-span-5 space-y-6">
-                {/* 1. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE AT TOP OF CART PAGE */}
-                <div className="rounded-2xl border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 shadow-2xl flex flex-col items-center">
-                  <div className="w-full flex items-center justify-between pb-2 border-b border-slate-200">
-                    <span className="text-[11px] font-mono font-black text-sky-700 uppercase tracking-wider">
-                      INSTANT SCAN &amp; PAY • PAYTM UPI QR
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold">
-                      ● ACTIVE MERCHANT
-                    </span>
-                  </div>
-
-                  {/* PROMINENT PAY BUTTON MOVED ABOVE QR CODE */}
-                  <button
-                    type="button"
-                    onClick={handleSimulatePayment}
-                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-base md:text-lg flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 hover:scale-[1.01] transition-all cursor-pointer"
-                  >
-                    <span>Pay ₹{totalInclGst.toLocaleString("en-IN")} via Paytm UPI</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-
-                  <img
-                    src="/sg-trading-company-paytm-qr.png"
-                    alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
-                    className="w-full max-w-[320px] rounded-xl shadow-lg border border-slate-200"
-                  />
-
-                  <div className="w-full text-center space-y-2">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-sm sm:text-base font-mono font-black text-sky-700 bg-sky-50 px-3.5 py-1.5 rounded-lg border border-sky-200">
-                        paytmqr69pf0i@ptys
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleCopyUPI}
-                        className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all cursor-pointer"
-                      >
-                        {copiedUpi ? "Copied!" : "Copy UPI ID"}
-                      </button>
-                    </div>
-                    <p className="text-xs text-slate-600 font-mono font-bold">
-                      Scan with Paytm, GPay, PhonePe or BHIM to pay Rahul Garg (9667731355)
-                    </p>
-                  </div>
-                </div>
-
-                {/* COLD-CHAIN DELIVERY DATE & TIME WINDOW SELECTOR */}
+                {/* COLD-CHAIN DELIVERY DATE & TIME WINDOW SELECTOR (MOVED BELOW CART) */}
                 <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/50 space-y-4">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                     <div>
@@ -693,6 +644,55 @@ export default function CartAndCheckoutPage() {
                         </button>
                       ))}
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
+              <div className="lg:col-span-5 space-y-6">
+                {/* 1. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE AT TOP OF CART PAGE */}
+                <div className="rounded-2xl border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 shadow-2xl flex flex-col items-center">
+                  <div className="w-full flex items-center justify-between pb-2 border-b border-slate-200">
+                    <span className="text-[11px] font-mono font-black text-sky-700 uppercase tracking-wider">
+                      INSTANT SCAN &amp; PAY • PAYTM UPI QR
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-extrabold">
+                      ● ACTIVE MERCHANT
+                    </span>
+                  </div>
+
+                  {/* PROMINENT PAY BUTTON MOVED ABOVE QR CODE */}
+                  <button
+                    type="button"
+                    onClick={handleSimulatePayment}
+                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-base md:text-lg flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 hover:scale-[1.01] transition-all cursor-pointer"
+                  >
+                    <span>Pay ₹{totalInclGst.toLocaleString("en-IN")} via Paytm UPI</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+
+                  <img
+                    src="/sg-trading-company-paytm-qr.png"
+                    alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
+                    className="w-full max-w-[320px] rounded-xl shadow-lg border border-slate-200"
+                  />
+
+                  <div className="w-full text-center space-y-2">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-sm sm:text-base font-mono font-black text-sky-700 bg-sky-50 px-3.5 py-1.5 rounded-lg border border-sky-200">
+                        paytmqr69pf0i@ptys
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyUPI}
+                        className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all cursor-pointer"
+                      >
+                        {copiedUpi ? "Copied!" : "Copy UPI ID"}
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-600 font-mono font-bold">
+                      Scan with Paytm, GPay, PhonePe or BHIM to pay Rahul Garg (9667731355)
+                    </p>
                   </div>
                 </div>
 
