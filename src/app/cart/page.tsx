@@ -51,6 +51,7 @@ export default function CartAndCheckoutPage() {
     clearCart,
     showToast,
     createCustomerOrder,
+    savedPaymentMethods,
   } = useApp();
 
   const [gstType, setGstType] = useState<"intrastate" | "interstate">(
@@ -563,6 +564,59 @@ export default function CartAndCheckoutPage() {
                     <span className="text-xs text-emerald-400 font-mono-spec font-bold">
                       Cards / UPI / Banking
                     </span>
+                  </div>
+
+                  {/* SAVED CUSTOMER PAYMENT METHODS WALLET (CARDS & UPI IDs) */}
+                  <div className="rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono-spec text-amber-400 font-bold uppercase">
+                        SAVED COMMERCIAL PAYMENT METHODS WALLET ({savedPaymentMethods.length})
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-mono-spec">
+                        One-Click Fast Pay
+                      </span>
+                    </div>
+
+                    <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                      {savedPaymentMethods.map((pm) => (
+                        <div
+                          key={pm.id}
+                          onClick={() => {
+                            if (pm.type === "card") {
+                              setPaymentMethod("card");
+                              setCardBrand(pm.cardBrand || "VISA");
+                              setCardNumber(pm.maskedNumber || "");
+                              setCardHolder(pm.cardHolder || "");
+                            } else {
+                              setPaymentMethod("upi");
+                            }
+                            showToast(`Selected saved method: ${pm.nickname}`);
+                          }}
+                          className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 flex items-center justify-between cursor-pointer transition-all"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            {pm.type === "card" ? (
+                              <CreditCard className="w-4 h-4 text-amber-400" />
+                            ) : (
+                              <QrCode className="w-4 h-4 text-sky-400" />
+                            )}
+                            <div>
+                              <p className="text-xs font-bold text-white">
+                                {pm.nickname}
+                              </p>
+                              <p className="text-[10px] font-mono-spec text-slate-400">
+                                {pm.type === "card"
+                                  ? `${pm.cardBrand} ${pm.maskedNumber}`
+                                  : `UPI ID: ${pm.upiId}`}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 text-[10px] font-mono-spec font-bold">
+                            Select
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Payment Method Selector Tabs */}

@@ -10,6 +10,7 @@ import {
   OrderLifecycleStage,
   OrderPaymentMethod,
   CustomerAccount,
+  SavedPaymentMethod,
 } from "@/types/equipment";
 import { PRODUCTS_CATALOG } from "@/data/products";
 
@@ -54,6 +55,11 @@ interface AppContextType {
   registerCustomer: (accountData: Partial<CustomerAccount>) => CustomerAccount;
   loginCustomer: (email: string) => CustomerAccount;
   logoutCustomer: () => void;
+
+  // Saved Customer Payment Methods (Multiple Cards & Saved Customer UPI IDs)
+  savedPaymentMethods: SavedPaymentMethod[];
+  addSavedPaymentMethod: (method: Partial<SavedPaymentMethod>) => void;
+  removeSavedPaymentMethod: (id: string) => void;
 
   // Theme state (Dark / Light)
   theme: "dark" | "light";
@@ -132,6 +138,50 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     PRODUCTS_CATALOG.find((p) => p.id === "mccain-01") || PRODUCTS_CATALOG[0],
     PRODUCTS_CATALOG.find((p) => p.id === "iscon-01") || PRODUCTS_CATALOG[8],
     PRODUCTS_CATALOG.find((p) => p.id === "brit-01") || PRODUCTS_CATALOG[6],
+  ];
+
+  // Pre-populate Customer Saved Payment Methods Wallet (Multiple Commercial Cards & Saved UPI IDs)
+  const defaultSavedPaymentMethods: SavedPaymentMethod[] = [
+    {
+      id: "PM-CARD-01",
+      type: "card",
+      nickname: "HORECA Procurement Visa Corporate",
+      cardBrand: "VISA",
+      maskedNumber: "4532 •••• •••• 8821",
+      cardHolder: "Rajesh Sharma (Procurement Dir)",
+      expiry: "09/28",
+      isDefault: true,
+    },
+    {
+      id: "PM-CARD-02",
+      type: "card",
+      nickname: "Radisson Banquets Mastercard Commercial",
+      cardBrand: "MASTERCARD",
+      maskedNumber: "5412 •••• •••• 4410",
+      cardHolder: "Radisson Blu Corporate Account",
+      expiry: "11/27",
+    },
+    {
+      id: "PM-CARD-03",
+      type: "card",
+      nickname: "Amex Corporate Executive Card",
+      cardBrand: "AMEX",
+      maskedNumber: "3782 •••••• 9102",
+      cardHolder: "Rajesh Sharma",
+      expiry: "04/29",
+    },
+    {
+      id: "PM-UPI-01",
+      type: "upi",
+      nickname: "Hotel Corporate UPI (ICICI)",
+      upiId: "radissonprocurement@icici",
+    },
+    {
+      id: "PM-UPI-02",
+      type: "upi",
+      nickname: "Banquet Kitchen UPI (Paytm)",
+      upiId: "banquetkitchen@paytm",
+    },
   ];
 
   // Authentic Order-to-Cash Enterprise Lifecycle Sample Orders
@@ -242,6 +292,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<CustomerAccount | null>(null);
   const [isGuestCheckout, setIsGuestCheckout] = useState<boolean>(true);
 
+  // Saved Customer Payment Methods Wallet State
+  const [savedPaymentMethods, setSavedPaymentMethods] = useState<
+    SavedPaymentMethod[]
+  >(defaultSavedPaymentMethods);
+
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null
@@ -272,6 +327,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 3200);
   };
 
+  // SAVED CUSTOMER PAYMENT METHODS HANDLERS
+  const addSavedPaymentMethod = (method: Partial<SavedPaymentMethod>) => {
+    const newMethod: SavedPaymentMethod = {
+      id: `PM-${Date.now()}`,
+      type: method.type || "card",
+      nickname: method.nickname || "Commercial Payment Method",
+      cardBrand: method.cardBrand || "VISA",
+      maskedNumber: method.maskedNumber || "4532 •••• •••• 9912",
+      cardHolder: method.cardHolder || "Procurement Officer",
+      expiry: method.expiry || "12/28",
+      upiId: method.upiId,
+      isDefault: false,
+    };
+    setSavedPaymentMethods((prev) => [newMethod, ...prev]);
+    showToast(
+      `Saved payment method "${newMethod.nickname}" added to your Wallet!`
+    );
+  };
+
+  const removeSavedPaymentMethod = (id: string) => {
+    setSavedPaymentMethods((prev) => prev.filter((m) => m.id !== id));
+    showToast("Payment method removed from your Wallet.");
+  };
+
   // CUSTOMER AUTH & GUEST CHECKOUT HANDLERS
   const registerCustomer = (
     accountData: Partial<CustomerAccount>
@@ -287,6 +366,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         accountData.deliveryAddress || "Mayur Vihar Phase-3, Delhi",
       establishmentType: accountData.establishmentType || "HORECA Hotel/Restaurant",
       createdAt: new Date().toLocaleDateString("en-IN"),
+      savedPaymentMethods: defaultSavedPaymentMethods,
     };
     setCurrentUser(newAcc);
     setIsGuestCheckout(false);
@@ -307,6 +387,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       deliveryAddress: "Mayur Vihar Phase-1, Delhi NCR",
       establishmentType: "5-Star Hotel & Banquet",
       createdAt: "01/01/2026",
+      savedPaymentMethods: defaultSavedPaymentMethods,
     };
     setCurrentUser(demoAcc);
     setIsGuestCheckout(false);
@@ -640,6 +721,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         registerCustomer,
         loginCustomer,
         logoutCustomer,
+        savedPaymentMethods,
+        addSavedPaymentMethod,
+        removeSavedPaymentMethod,
         theme,
         toggleTheme,
         quickViewProduct,

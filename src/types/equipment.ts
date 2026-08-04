@@ -62,6 +62,18 @@ export interface RFQItem {
   customNotes?: string;
 }
 
+export interface SavedPaymentMethod {
+  id: string;
+  type: "card" | "upi";
+  nickname: string;
+  cardBrand?: "VISA" | "MASTERCARD" | "AMEX" | "RUPAY";
+  maskedNumber?: string;
+  cardHolder?: string;
+  expiry?: string;
+  upiId?: string;
+  isDefault?: boolean;
+}
+
 export interface CustomerAccount {
   id: string;
   companyName: string;
@@ -72,6 +84,7 @@ export interface CustomerAccount {
   deliveryAddress: string;
   establishmentType: string;
   createdAt: string;
+  savedPaymentMethods?: SavedPaymentMethod[];
 }
 
 export type OrderLifecycleStage =
