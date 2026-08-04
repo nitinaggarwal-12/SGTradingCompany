@@ -26,6 +26,8 @@ import {
   Smartphone,
   Send,
   RefreshCw,
+  Truck,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -92,6 +94,24 @@ export default function CartAndCheckoutPage() {
   const sgstAmount = gstAmount - cgstAmount;
   const deliveryFreight = cart.length > 0 ? 350 : 0;
   const totalInclGst = subtotalExclGst + gstAmount + deliveryFreight;
+
+  // Delivery Date & Cold-Chain Time Window Selection
+  const [selectedDeliveryDate, setSelectedDeliveryDate] = useState("Tomorrow Morning (Aug 5)");
+  const [selectedTimeWindow, setSelectedTimeWindow] = useState("☀️ 10:30 AM – 01:30 PM (Pre-Lunch QSR Window)");
+
+  const DELIVERY_DATES = [
+    { label: "Today Express (Dispatch by 2:00 PM)", badge: "Same Day" },
+    { label: "Tomorrow Morning (Aug 5)", badge: "Recommended" },
+    { label: "Wednesday (Aug 6)", badge: "Scheduled" },
+    { label: "Thursday (Aug 7)", badge: "Scheduled" },
+  ];
+
+  const TIME_WINDOWS = [
+    { label: "🌅 07:00 AM – 09:30 AM (Early Kitchen Prep)", desc: "Best for Banquets & Breakfast" },
+    { label: "☀️ 10:30 AM – 01:30 PM (Pre-Lunch QSR Window)", desc: "Best for Burger & Fry Chains" },
+    { label: "🌆 04:30 PM – 07:30 PM (Evening Dinner Peak)", desc: "Best for Cloud Kitchens" },
+    { label: "🚚 09:00 PM – 11:30 PM (Late Hotel Dock)", desc: "Best for Night Receiving" },
+  ];
 
   const handleCopyUPI = () => {
     navigator.clipboard.writeText("paytmqr69pf0i@ptys");
@@ -547,7 +567,91 @@ export default function CartAndCheckoutPage() {
               </div>
 
               {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
-              <div className="lg:col-span-5">
+              <div className="lg:col-span-5 space-y-6">
+                {/* COLD-CHAIN DELIVERY DATE & TIME WINDOW SELECTOR */}
+                <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/50 space-y-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                    <div>
+                      <h3 className="font-extrabold text-white text-base flex items-center gap-2">
+                        <Truck className="w-4 h-4 text-amber-400" />
+                        <span>Select Cold-Chain Delivery Schedule</span>
+                      </h3>
+                      <p className="text-[11px] text-slate-400 font-mono-spec mt-0.5">
+                        -18°C Insulated Van Dispatch • Mayur Vihar Phase-3 Warehouse
+                      </p>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono-spec text-[10px] font-bold">
+                      SLOT GUARANTEED
+                    </span>
+                  </div>
+
+                  {/* 1. Choose Available Delivery Date */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-mono-spec font-bold text-amber-400 uppercase block">
+                      1. Choose Preferred Delivery Date:
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {DELIVERY_DATES.map((dt) => (
+                        <button
+                          type="button"
+                          key={dt.label}
+                          onClick={() => {
+                            setSelectedDeliveryDate(dt.label);
+                            showToast(`Delivery Date set to: ${dt.label}`);
+                          }}
+                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                            selectedDeliveryDate === dt.label
+                              ? "bg-amber-500/20 border-amber-500 text-white font-bold"
+                              : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold">{dt.label}</span>
+                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 font-mono-spec">
+                              {dt.badge}
+                            </span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 2. Choose Commercial Cold-Chain Time Window */}
+                  <div className="space-y-2 pt-2">
+                    <label className="text-xs font-mono-spec font-bold text-amber-400 uppercase flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>2. Choose Commercial Delivery Time Window:</span>
+                    </label>
+                    <div className="space-y-2">
+                      {TIME_WINDOWS.map((win) => (
+                        <button
+                          type="button"
+                          key={win.label}
+                          onClick={() => {
+                            setSelectedTimeWindow(win.label);
+                            showToast(`Delivery Time Window set to: ${win.label}`);
+                          }}
+                          className={`w-full p-3 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
+                            selectedTimeWindow === win.label
+                              ? "bg-amber-500/20 border-amber-500 text-white font-bold"
+                              : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
+                          }`}
+                        >
+                          <div>
+                            <p className="text-xs font-bold">{win.label}</p>
+                            <p className="text-[10px] text-slate-400 font-mono-spec">
+                              {win.desc}
+                            </p>
+                          </div>
+                          {selectedTimeWindow === win.label && (
+                            <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 <form
                   onSubmit={handleSimulatePayment}
                   className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-6"
