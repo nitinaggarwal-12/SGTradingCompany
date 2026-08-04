@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #090D16;
+  --foreground: #F8FAFC;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-jetbrains-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: #090D16;
+  color: #F8FAFC;
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit);
+}
+
+.font-mono-spec {
+  font-family: var(--font-jetbrains-mono);
+}
+
+/* Industrial glass card styling */
+.industrial-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.industrial-card:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 16px 40px -12px rgba(245, 158, 11, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   EXHAUSTIVE FULL-SPECTRUM LIGHT COMMERCIAL THEME ENGINE
+   ========================================================================== */
+html.light-theme,
+html.light-theme body,
+html.light-theme main {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Gradients on Hero Section & Banners */
+html.light-theme .from-slate-950,
+html.light-theme .from-slate-900 {
+  --tw-gradient-from: #f8fafc var(--tw-gradient-from-position) !important;
+}
+
+html.light-theme .via-slate-900,
+html.light-theme .via-slate-950 {
+  --tw-gradient-via: #ffffff var(--tw-gradient-via-position) !important;
+}
+
+html.light-theme .to-slate-950,
+html.light-theme .to-slate-900 {
+  --tw-gradient-to: #f1f5f9 var(--tw-gradient-to-position) !important;
+}
+
+/* Sections & Page Containers */
+html.light-theme section,
+html.light-theme .bg-slate-950,
+html.light-theme .bg-slate-900,
+html.light-theme .bg-slate-850,
+html.light-theme .bg-slate-800 {
+  background-color: #ffffff !important;
+}
+
+html.light-theme section.bg-slate-900\/70,
+html.light-theme section.bg-slate-950,
+html.light-theme section.bg-slate-900,
+html.light-theme .bg-slate-950\/90,
+html.light-theme .bg-slate-950\/80,
+html.light-theme .bg-slate-900\/90,
+html.light-theme .bg-slate-900\/80,
+html.light-theme .bg-slate-900\/70 {
+  background-color: #ffffff !important;
+}
+
+html.light-theme .industrial-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.06) !important;
+}
+
+html.light-theme .industrial-card:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 8px 25px -4px rgba(245, 158, 11, 0.15) !important;
+}
+
+/* Header & Footer */
+html.light-theme header,
+html.light-theme footer {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Text Typography Override */
+html.light-theme .text-white,
+html.light-theme .text-slate-100,
+html.light-theme .text-slate-200 {
+  color: #0f172a !important;
+}
+
+html.light-theme .text-slate-300,
+html.light-theme .text-slate-400 {
+  color: #475569 !important;
+}
+
+html.light-theme .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Borders */
+html.light-theme .border-slate-800,
+html.light-theme .border-slate-700,
+html.light-theme .border-slate-800\/80,
+html.light-theme .border-slate-700\/80,
+html.light-theme .border-slate-800\/90 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Tables & Controls */
+html.light-theme table thead,
+html.light-theme table thead tr {
+  background-color: #f1f5f9 !important;
+}
+
+html.light-theme table thead th {
+  color: #334155 !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light-theme table tbody tr {
+  border-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+}
+
+html.light-theme table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+html.light-theme input,
+html.light-theme select,
+html.light-theme textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0F172A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F59E0B;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
