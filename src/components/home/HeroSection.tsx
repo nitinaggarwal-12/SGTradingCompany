@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Direct Visiting Card Contact Credentials Box - Industrial Slate in all themes */}
             <div
-              className="p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl"
+              className="dark-surface-box p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl"
               style={{ backgroundColor: "#0F172A" }}
             >
               <div>

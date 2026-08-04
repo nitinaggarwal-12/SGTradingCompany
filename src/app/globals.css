@@ -35,7 +35,6 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #1E293B;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   border-radius: 1rem;
-  transition: all 0.2s ease;
 }
 
 .industrial-card:hover {
@@ -43,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   COMPLETE LIGHT COMMERCIAL THEME ENGINE (WCAG AAA HIGH CONTRAST)
+   RAZOR-SHARP LIGHT COMMERCIAL THEME ENGINE (ZERO DARK-ON-DARK ERRORS)
    ========================================================================== */
 html.light-theme,
 html.light-theme body,
@@ -52,23 +51,48 @@ html.light-theme main {
   color: #0F172A !important;
 }
 
-/* Sections & Gradients in Light Commercial Mode */
-html.light-theme section,
-html.light-theme .bg-slate-950,
-html.light-theme .bg-slate-900,
-html.light-theme .bg-slate-850 {
-  background-color: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
+/* Hero Section in Light Theme becomes crisp light slate with dark text */
+html.light-theme section.hero-section-container {
+  background-color: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
 }
 
-html.light-theme .industrial-card {
+html.light-theme section.hero-section-container h1 {
+  color: #0F172A !important;
+}
+
+html.light-theme section.hero-section-container p {
+  color: #1E293B !important;
+}
+
+/* Industrial Cards in Light Mode turn crisp white with dark slate text */
+html.light-theme .industrial-card,
+html.light-theme .product-card-container {
   background-color: #FFFFFF !important;
   border-color: #CBD5E1 !important;
+  color: #0F172A !important;
   box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.08) !important;
 }
 
-html.light-theme .industrial-card:hover {
-  border-color: #D97706 !important;
+/* CRITICAL SAFEGUARD: Dark surfaces ALWAYS keep bright white text, even in Light Mode! */
+.dark-surface-box,
+.dark-surface-box *,
+html.light-theme .dark-surface-box,
+html.light-theme .dark-surface-box * {
+  color: #FFFFFF !important;
+}
+
+html.light-theme .dark-surface-box span.text-amber-400,
+html.light-theme .dark-surface-box strong.text-amber-400 {
+  color: #FBBF24 !important;
+}
+
+html.light-theme .dark-surface-box span.text-sky-400 {
+  color: #38BDF8 !important;
+}
+
+html.light-theme .dark-surface-box span.text-emerald-400 {
+  color: #34D399 !important;
 }
 
 /* Header & Footer in Light Theme */
@@ -77,41 +101,6 @@ html.light-theme footer {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
   color: #0F172A !important;
-}
-
-/* High-Contrast Light Theme Text Typography */
-html.light-theme h1,
-html.light-theme h2,
-html.light-theme h3,
-html.light-theme h4,
-html.light-theme h5,
-html.light-theme h6,
-html.light-theme .text-white,
-html.light-theme .text-slate-100,
-html.light-theme .text-slate-200 {
-  color: #0F172A !important; /* Deep Slate Charcoal - AAA (>14:1) */
-}
-
-html.light-theme p,
-html.light-theme span.text-slate-300,
-html.light-theme span.text-slate-400,
-html.light-theme .text-slate-300,
-html.light-theme .text-slate-400 {
-  color: #1E293B !important; /* Deep Dark Slate - High Contrast (>10:1) */
-}
-
-/* Vibrant High-Contrast Accent Overrides for White Paper */
-html.light-theme .text-amber-400 {
-  color: #B45309 !important; /* Rich Golden Amber (>5.5:1) */
-}
-
-html.light-theme .text-sky-400,
-html.light-theme .text-cyan-400 {
-  color: #0369A1 !important; /* Deep Sapphire Blue (>7:1) */
-}
-
-html.light-theme .text-emerald-400 {
-  color: #047857 !important; /* Deep Emerald Green (>6:1) */
 }
 
 /* Light Theme Badge & Soft Background Overrides */
