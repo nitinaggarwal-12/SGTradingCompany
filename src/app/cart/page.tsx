@@ -579,6 +579,16 @@ export default function CartAndCheckoutPage() {
                     </span>
                   </div>
 
+                  {/* PROMINENT PAY BUTTON MOVED ABOVE QR CODE */}
+                  <button
+                    type="button"
+                    onClick={handleSimulatePayment}
+                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-base md:text-lg flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 hover:scale-[1.01] transition-all cursor-pointer"
+                  >
+                    <span>Pay ₹{totalInclGst.toLocaleString("en-IN")} via Paytm UPI</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+
                   <img
                     src="/sg-trading-company-paytm-qr.png"
                     alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
@@ -792,32 +802,12 @@ export default function CartAndCheckoutPage() {
                     })}
                   </div>
 
-                  {/* CUSTOMER PAYMENT METHOD 1: PAYTM / UPI QR */}
+                  {/* CUSTOMER PAYMENT METHOD 1: PAYTM / UPI QR (Active at top of page) */}
                   {paymentMethod === "upi" && (
-                    <div className="rounded-2xl overflow-hidden border-2 border-sky-500 bg-white text-slate-900 p-4 space-y-4 flex flex-col items-center">
-                      <img
-                        src="/sg-trading-company-paytm-qr.png"
-                        alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
-                        className="w-full max-w-[320px] rounded-xl shadow-lg border border-slate-200"
-                      />
-
-                      <div className="w-full text-center space-y-2">
-                        <div className="flex items-center justify-center gap-2">
-                          <span className="text-sm font-mono font-black text-sky-700 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200">
-                            paytmqr69pf0i@ptys
-                          </span>
-                          <button
-                            type="button"
-                            onClick={handleCopyUPI}
-                            className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all cursor-pointer"
-                          >
-                            {copiedUpi ? "Copied!" : "Copy UPI ID"}
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-slate-500 font-mono font-bold">
-                          Merchant: SG TRADING COMPANY • Rahul Garg (9667731355)
-                        </p>
-                      </div>
+                    <div className="rounded-2xl border border-sky-500/40 bg-sky-500/10 p-4 text-center">
+                      <p className="text-xs font-mono font-bold text-sky-400">
+                        ✓ Paytm UPI QR Standee &amp; Instant Pay button are active at the top of this checkout column.
+                      </p>
                     </div>
                   )}
 
