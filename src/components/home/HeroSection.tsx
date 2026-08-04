@@ -79,13 +79,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               (General Trade).
             </p>
 
-            {/* Direct Visiting Card Contact Credentials Box */}
-            <div className="p-5 rounded-2xl bg-slate-900 border-2 border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl">
+            {/* Direct Visiting Card Contact Credentials Box - Industrial Slate in all themes */}
+            <div
+              className="p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl"
+              style={{ backgroundColor: "#0F172A" }}
+            >
               <div>
-                <span className="block text-[10px] uppercase font-bold tracking-wider" style={{ color: "#94A3B8" }}>
+                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400">
                   Authorized Distributors
                 </span>
-                <span className="font-extrabold text-base block mt-0.5" style={{ color: "#FFFFFF" }}>
+                <span className="font-extrabold text-base block mt-0.5 text-white">
                   Rahul Garg & Sonu
                 </span>
                 <span className="text-amber-400 font-extrabold text-sm block mt-1">
@@ -93,10 +96,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </span>
               </div>
               <div>
-                <span className="block text-[10px] uppercase font-bold tracking-wider" style={{ color: "#94A3B8" }}>
+                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400">
                   Mayur Vihar Phase-3 Warehouse
                 </span>
-                <span className="font-medium block text-xs leading-relaxed mt-0.5" style={{ color: "#FFFFFF" }}>
+                <span className="font-medium block text-xs leading-relaxed mt-0.5 text-slate-200">
                   B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
                 </span>
                 <span className="text-sky-400 font-bold block text-xs mt-1">
@@ -107,8 +110,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Brand Logos Bar */}
             <div className="space-y-2">
-              <span className="text-[11px] font-mono-spec text-slate-400 uppercase tracking-wider block">
-                Official Authorized Brands Distributed:
+              <span className="text-xs font-mono-spec font-bold text-amber-400 uppercase tracking-wider block">
+                Official Authorized Brands Distributed (12):
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 {[
@@ -127,7 +130,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 ].map((b) => (
                   <span
                     key={b}
-                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-mono-spec text-slate-200"
+                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-mono-spec font-bold text-slate-200"
                   >
                     {b}
                   </span>
