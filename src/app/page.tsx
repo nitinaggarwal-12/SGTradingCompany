@@ -17,6 +17,7 @@ import { WarehouseInventoryModal } from "@/components/modals/WarehouseInventoryM
 import { CartDrawer } from "@/components/drawers/CartDrawer";
 import { RFQDrawer } from "@/components/drawers/RFQDrawer";
 import { DistributionConciergeChatbot } from "@/components/chat/DistributionConciergeChatbot";
+import { MobileCommercialAppView } from "@/components/mobile/MobileCommercialAppView";
 import { CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
@@ -46,41 +47,47 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Edge-to-Edge Sticky Navigation Header */}
-      <StickyHeader
-        onSelectCategory={(cat) => setSelectedCategory(cat)}
-        onScrollToCatalog={scrollToCatalog}
-      />
+      {/* MOBILE PHONE NATIVE APP VERSION (Visible on Phones < md) */}
+      <MobileCommercialAppView />
 
-      {/* Main Content Area */}
-      <main className="flex-1">
-        {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
-        <HeroSection onExploreCatalog={scrollToCatalog} />
-
-        {/* Animated 3D Brand Ticker showcasing all 12 Authorized Brands */}
-        <BrandTicker />
-
-        {/* Multi-Faceted HORECA & General Trade Catalog */}
-        <EquipmentCatalog
-          selectedCategory={selectedCategory}
-          onCategoryChange={(cat) => setSelectedCategory(cat)}
+      {/* DESKTOP WEB PORTAL VERSION (Visible on Desktop / Tablet >= md) */}
+      <div className="hidden md:flex flex-col flex-1">
+        {/* Edge-to-Edge Sticky Navigation Header */}
+        <StickyHeader
+          onSelectCategory={(cat) => setSelectedCategory(cat)}
+          onScrollToCatalog={scrollToCatalog}
         />
 
-        {/* Turnkey Case Supply Blueprints Showcase */}
-        <TurnkeyShowcaseSection />
+        {/* Main Content Area */}
+        <main className="flex-1">
+          {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
+          <HeroSection onExploreCatalog={scrollToCatalog} />
 
-        {/* Executive About Us Section — Rahul Garg & Sonu, Mayur Vihar Phase-3, Delhi */}
-        <AboutUsSection />
+          {/* Animated 3D Brand Ticker showcasing all 12 Authorized Brands */}
+          <BrandTicker />
 
-        {/* Interactive Contact Us & Direct Distributor Inquiry Desk */}
-        <ContactUsSection />
+          {/* Multi-Faceted HORECA & General Trade Catalog */}
+          <EquipmentCatalog
+            selectedCategory={selectedCategory}
+            onCategoryChange={(cat) => setSelectedCategory(cat)}
+          />
 
-        {/* Core Industrial Guarantees & Cold Chain Pillars */}
-        <TrustIndustrialSection />
-      </main>
+          {/* Turnkey Case Supply Blueprints Showcase */}
+          <TurnkeyShowcaseSection />
 
-      {/* Corporate Footer */}
-      <Footer />
+          {/* Executive About Us Section — Rahul Garg & Sonu, Mayur Vihar Phase-3, Delhi */}
+          <AboutUsSection />
+
+          {/* Interactive Contact Us & Direct Distributor Inquiry Desk */}
+          <ContactUsSection />
+
+          {/* Core Industrial Guarantees & Cold Chain Pillars */}
+          <TrustIndustrialSection />
+        </main>
+
+        {/* Corporate Footer */}
+        <Footer />
+      </div>
 
       {/* Modals & Slide-Over Drawers */}
       <CompareSpecsModal />
