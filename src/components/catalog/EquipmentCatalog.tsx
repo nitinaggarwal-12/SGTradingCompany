@@ -120,6 +120,12 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
       }
       return true;
     }).sort((a, b) => {
+      // Move items without crisp product images to the very end of the list
+      const hasImageA = a.image && !a.image.includes("placeholder") && a.image.trim() !== "";
+      const hasImageB = b.image && !b.image.includes("placeholder") && b.image.trim() !== "";
+      if (hasImageA && !hasImageB) return -1;
+      if (!hasImageA && hasImageB) return 1;
+
       if (sortBy === "price-asc") return a.priceExclGst - b.priceExclGst;
       if (sortBy === "price-desc") return b.priceExclGst - a.priceExclGst;
       return 0;

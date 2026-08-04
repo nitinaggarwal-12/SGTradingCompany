@@ -251,9 +251,9 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
             <Link
               href="/order-to-cash"
-              className="hover:text-amber-400 text-amber-400 font-bold transition-colors"
+              className="hover:text-amber-400 text-amber-400 font-bold transition-colors flex items-center gap-1"
             >
-              Order to Cash (O2C)
+              <span>📋 Orders &amp; Delivery Status</span>
             </Link>
 
             <Link
