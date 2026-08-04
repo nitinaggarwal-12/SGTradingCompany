@@ -38,7 +38,23 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     theme,
     toggleTheme,
     currentUser,
+    setActiveCategoryFilter,
   } = useApp();
+
+  const handleCategoryClick = (catTitle: string) => {
+    setActiveCategoryFilter(catTitle);
+    setIsMegaMenuOpen(false);
+    if (typeof window !== "undefined") {
+      if (window.location.pathname !== "/") {
+        window.location.href = "/#catalog";
+      } else {
+        const el = document.getElementById("catalog");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -92,12 +108,6 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
       count: PRODUCTS_CATALOG.filter((p) => p.category === "GT - Packaged Foods & Gourmet Snacks").length,
     },
   ];
-
-  const handleCategoryClick = (categoryName: string) => {
-    if (onSelectCategory) onSelectCategory(categoryName);
-    if (onScrollToCatalog) onScrollToCatalog();
-    setIsMegaMenuOpen(false);
-  };
 
   return (
     <header

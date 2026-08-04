@@ -69,6 +69,10 @@ interface AppContextType {
   quickViewProduct: Product | null;
   setQuickViewProduct: (product: Product | null) => void;
 
+  // Active Catalog Category Filter from Mega Menu
+  activeCategoryFilter: string;
+  setActiveCategoryFilter: (category: string) => void;
+
   // Distributor Warehouse Inventory Dashboard Modal (Rahul & Sonu)
   isInventoryModalOpen: boolean;
   setIsInventoryModalOpen: (open: boolean) => void;
@@ -301,6 +305,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null
   );
+  const [activeCategoryFilter, setActiveCategoryFilter] =
+    useState<string>("All Categories");
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -728,6 +734,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleTheme,
         quickViewProduct,
         setQuickViewProduct,
+        activeCategoryFilter,
+        setActiveCategoryFilter,
         isInventoryModalOpen,
         setIsInventoryModalOpen,
         orders,
