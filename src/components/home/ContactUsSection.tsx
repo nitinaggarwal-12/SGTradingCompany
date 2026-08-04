@@ -70,40 +70,88 @@ export const ContactUsSection: React.FC = () => {
                 Rahul Garg & Sonu (Distributors)
               </h3>
 
-              <div className="space-y-2 font-mono-spec text-xs">
-                <a
-                  href="tel:+919667731355"
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 font-bold transition-all"
-                >
-                  <span>Rahul Garg / Order Desk:</span>
-                  <span>9667731355</span>
-                </a>
+              <div className="space-y-2.5 font-mono-spec text-xs">
+                <div className="flex items-center gap-2">
+                  <a
+                    href="tel:+919667731355"
+                    className="flex-1 flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 font-bold transition-all"
+                  >
+                    <span>Rahul Garg:</span>
+                    <span>9667731355</span>
+                  </a>
+                  <a
+                    href="https://wa.me/919667731355?text=Hello%20Rahul%20Garg,%20I%20would%20like%20to%20inquire%20about%20SG%20Trading%20Company%20wholesale%20FMCG%20supplies."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shrink-0"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
 
-                <a
-                  href="tel:+919643097002"
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-bold transition-all"
-                >
-                  <span>Sonu / Cold Chain Desk:</span>
-                  <span>9643097002</span>
-                </a>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="tel:+919643097002"
+                    className="flex-1 flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-bold transition-all"
+                  >
+                    <span>Sonu / Cold Chain:</span>
+                    <span>9643097002</span>
+                  </a>
+                  <a
+                    href="https://wa.me/919643097002?text=Hello%20Sonu,%20I%20need%20to%20inquire%20about%20-18C%20Cold-Chain%20delivery%20from%20Mayur%20Vihar%20Phase-3."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shrink-0"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>WhatsApp</span>
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Mayur Vihar Phase-3 Warehouse Location Card */}
-            <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono-spec font-bold text-sky-400 uppercase">
-                <MapPin className="w-4 h-4" />
-                <span>Mayur Vihar Phase-3 Warehouse Address</span>
+            {/* Mayur Vihar Phase-3 Warehouse Location Card with Embedded Google Maps */}
+            <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-mono-spec font-bold text-sky-400 uppercase">
+                  <MapPin className="w-4 h-4" />
+                  <span>Mayur Vihar Phase-3 Warehouse Address</span>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=B-577+Shiv+Mandir+Road+GD+Colony+Mayur+Vihar+Phase-3+Delhi+110096"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-spec font-extrabold text-[10px] transition-all"
+                >
+                  Open Google Maps GPS →
+                </a>
               </div>
-              <p className="text-sm font-bold text-white leading-snug">
-                B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
-              </p>
-              <p className="text-xs text-slate-400 font-mono-spec">
-                <strong>Email:</strong> sgtradingcompany@rediffmail.com
-              </p>
-              <p className="text-xs text-slate-400 font-mono-spec">
-                <strong>Warehouse Hours:</strong> Mon - Sat: 8:00 AM to 8:00 PM
-              </p>
+
+              <div>
+                <p className="text-sm font-extrabold text-white leading-snug">
+                  B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-400 font-mono-spec mt-2">
+                  <span><strong>Email:</strong> sgtradingcompany@rediffmail.com</span>
+                  <span><strong>Hours:</strong> Mon-Sat 8AM-8PM</span>
+                </div>
+              </div>
+
+              {/* INTERACTIVE EMBEDDED GOOGLE MAPS IFRAME */}
+              <div className="w-full h-48 rounded-xl overflow-hidden border border-slate-700 relative shadow-inner">
+                <iframe
+                  title="SG Trading Company Mayur Vihar Phase-3 Warehouse Location"
+                  src="https://www.google.com/maps?q=B-577+Shiv+Mandir+Road+GD+Colony+Mayur+Vihar+Phase-3+Delhi+110096&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
             </div>
 
             {/* Cold Chain Guarantee Card */}
