@@ -411,9 +411,9 @@ export default function CartAndCheckoutPage() {
             </div>
           ) : (
             /* Widescreen Two-Column Checkout Layout */
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Left Column: Cart Items & GST Calculations (7 Cols) */}
-              <div className="lg:col-span-7 space-y-6">
+              <div className="lg:col-span-7 space-y-6 flex flex-col">
                 {/* 1. GST COMPLIANCE & CALCULATION SUMMARY CARD (AT TOP OF LEFT COLUMN) */}
                 <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/60 shadow-xl space-y-4">
                   <div className="space-y-2">
@@ -482,7 +482,7 @@ export default function CartAndCheckoutPage() {
                   </div>
                 </div>
 
-                <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
+                <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4 flex-1">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                     <h3 className="font-bold text-white text-base">
                       Added Products ({cart.length} SKUs)
@@ -567,7 +567,7 @@ export default function CartAndCheckoutPage() {
               </div>
 
               {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
-              <div className="lg:col-span-5 space-y-6">
+              <div className="lg:col-span-5 space-y-6 flex flex-col">
                 {/* 1. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE AT TOP OF CART PAGE */}
                 <div className="rounded-2xl border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 shadow-2xl flex flex-col items-center">
                   <div className="w-full flex items-center justify-between pb-2 border-b border-slate-200">
