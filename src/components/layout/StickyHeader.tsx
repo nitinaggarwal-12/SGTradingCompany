@@ -152,12 +152,12 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               </button>
             </div>
 
-            <a
-              href="#catalog"
+            <Link
+              href="/#catalog"
               className="hover:text-amber-400 transition-colors hidden sm:inline"
             >
               Brand Catalog
-            </a>
+            </Link>
 
             <Link
               href="/stock-manager"
@@ -181,19 +181,19 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             </Link>
 
-            <a
-              href="#about"
+            <Link
+              href="/#about"
               className="hover:text-amber-400 transition-colors hidden md:inline"
             >
               About Us
-            </a>
+            </Link>
 
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="hover:text-amber-400 transition-colors hidden md:inline"
             >
               Contact Us
-            </a>
+            </Link>
           </nav>
 
           {/* Right: Search Bar & Actions */}
