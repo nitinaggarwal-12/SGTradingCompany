@@ -237,95 +237,53 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
 
             {/* Payment Form Area */}
             {paymentMethod === "upi" && (
-              <div className="rounded-2xl overflow-hidden border border-sky-500/40 bg-white text-slate-900 p-6 space-y-5">
-                <div className="text-center space-y-1">
-                  <div className="inline-block px-3 py-1 rounded bg-sky-500 text-white font-extrabold text-xs tracking-wider uppercase">
-                    Paytm से UPI
+              <div className="rounded-2xl overflow-hidden border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 flex flex-col items-center">
+                <img
+                  src="/sg-trading-company-paytm-qr.png"
+                  alt="SG Trading Company Paytm UPI Merchant QR Standee"
+                  className="w-full max-w-[320px] rounded-xl shadow-lg border border-slate-200"
+                />
+
+                <div className="w-full text-center space-y-3">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-base font-mono font-black text-sky-700 bg-sky-50 px-3.5 py-1.5 rounded-lg border border-sky-200">
+                      paytmqr69pf0i@ptys
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopyUPI}
+                      className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
+                    >
+                      {copiedUpi ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy UPI</span>
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <h3 className="text-2xl font-black tracking-tight text-slate-900 uppercase mt-1">
-                    SG TRADING COMPANY
-                  </h3>
-                  <p className="text-base font-extrabold font-mono text-slate-800">
-                    9667731355
+
+                  <p className="text-xs text-slate-600 font-mono font-bold">
+                    Scan with Paytm, GPay, PhonePe or BHIM to pay <strong className="text-slate-900">₹{amount.toLocaleString("en-IN")}</strong> to Rahul Garg (9667731355).
                   </p>
-                </div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                  <div className="w-44 h-44 rounded-xl bg-white border-2 border-sky-500 p-2 shadow-md flex flex-col items-center justify-center relative">
-                    <div className="w-full h-full border border-slate-300 rounded p-1.5 flex flex-col justify-between">
-                      <div className="flex justify-between">
-                        <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                          <div className="w-4 h-4 bg-slate-900" />
-                        </div>
-                        <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                          <div className="w-4 h-4 bg-slate-900" />
-                        </div>
-                      </div>
-                      <div className="text-center font-mono-spec text-[9px] font-black text-sky-600 uppercase tracking-tighter">
-                        SCAN IN PAYTM APP
-                      </div>
-                      <div className="flex justify-between items-end">
-                        <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                          <div className="w-4 h-4 bg-slate-900" />
-                        </div>
-                        <div className="text-right text-[8px] font-mono font-bold text-slate-600">
-                          PAYTM QR
-                        </div>
-                      </div>
-                    </div>
+                  <div className="max-w-sm mx-auto text-left">
+                    <label className="text-[10px] font-mono font-bold text-slate-600 block mb-1">
+                      Enter Your Phone / UPI App ID for instant verification:
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 9667731355@paytm"
+                      value={upiId}
+                      onChange={(e) => setUpiId(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500"
+                    />
                   </div>
-
-                  <div className="space-y-3 text-center sm:text-left flex-1">
-                    <div>
-                      <span className="text-[11px] font-mono font-bold text-slate-500 uppercase block">
-                        EXACT MERCHANT UPI ID:
-                      </span>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-base font-mono font-black text-sky-600 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200">
-                          paytmqr69pf0i@ptys
-                        </span>
-                        <button
-                          type="button"
-                          onClick={handleCopyUPI}
-                          className="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold flex items-center gap-1 shadow"
-                        >
-                          {copiedUpi ? (
-                            <>
-                              <Check className="w-3.5 h-3.5" />
-                              <span>Copied!</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="w-3.5 h-3.5" />
-                              <span>Copy UPI</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-slate-600">
-                      Scan using <strong>Paytm, Google Pay, PhonePe, BHIM or UPI Lite</strong> to pay <strong className="text-slate-900">₹{amount.toLocaleString("en-IN")}</strong> directly to Rahul Garg & Sonu.
-                    </p>
-
-                    <div>
-                      <label className="text-[10px] font-mono font-bold text-slate-600 block mb-1">
-                        Enter Your Phone / UPI App ID for instant verification:
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. 9667731355@paytm"
-                        value={upiId}
-                        onChange={(e) => setUpiId(e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1">
-                  <span>Merchant: SG TRADING COMPANY</span>
-                  <span>Phone: 9667731355</span>
                 </div>
               </div>
             )}
