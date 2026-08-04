@@ -301,7 +301,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     SavedPaymentMethod[]
   >(defaultSavedPaymentMethods);
 
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null
   );
