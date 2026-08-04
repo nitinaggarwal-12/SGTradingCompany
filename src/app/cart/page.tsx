@@ -33,6 +33,7 @@ export default function CartAndCheckoutPage() {
     deductOrderStock,
     clearCart,
     showToast,
+    createCustomerOrder,
   } = useApp();
 
   const [gstType, setGstType] = useState<"intrastate" | "interstate">(
@@ -82,9 +83,23 @@ export default function CartAndCheckoutPage() {
         100000 + Math.random() * 900000
       )}`;
       setTransactionId(generatedTxn);
-      deductOrderStock(cart);
+
+      // Create live Order in Order-to-Cash (O2C) Pipeline & notify Rahul & Sonu
+      createCustomerOrder({
+        customerName: "Commercial HORECA / Retail Customer",
+        customerGstin: "07ADQFS8839Q1ZQ",
+        customerPhone: "9667731355",
+        deliveryCity: "Delhi NCR",
+        poNumber: `PO-SG-2026-${Math.floor(100 + Math.random() * 900)}`,
+        items: [...cart],
+        subtotalExclGst,
+        gstAmount,
+        totalAmount: totalInclGst,
+        paymentMethod: paymentMethod === "upi" ? "paytm_upi" : paymentMethod === "card" ? "credit_card" : "neft_rtgs",
+      });
+
       showToast(
-        "Payment Verified via Paytm UPI! Stock automatically deducted from Warehouse."
+        "PO Generated & Payment Verified! Rahul Garg & Sonu Notified in Order-to-Cash Desk."
       );
       clearCart();
     }, 1800);
