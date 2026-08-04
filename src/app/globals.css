@@ -42,7 +42,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   GOLDEN LAW: IN LIGHT THEME, NO FILL COLOR SHOULD BE DARK, ONLY TEXT IS DARK
+   GOLDEN LAW: IN LIGHT THEME, NO FILL COLOR IS DARK — ONLY TEXT IS DARK
+   (WILDCARD MATCHING ALL TAILWIND SLATE BACKGROUND & OPACITY CLASSES)
    ========================================================================== */
 html.light-theme,
 html.light-theme body,
@@ -51,18 +52,16 @@ html.light-theme main {
   color: #0F172A !important;
 }
 
-/* 1. NO DARK FILL COLORS IN LIGHT THEME — All sections, cards & wrappers become light surfaces */
+/* WILDCARD MATCH EVERY SINGLE SLATE BACKGROUND & OPACITY UTILITY CLASS IN LIGHT THEME */
+html.light-theme [class*="bg-slate-950"],
+html.light-theme [class*="bg-slate-900"],
+html.light-theme [class*="bg-slate-850"],
+html.light-theme [class*="bg-slate-800"],
+html.light-theme [class*="bg-slate-700"],
+html.light-theme .industrial-card,
 html.light-theme section,
 html.light-theme header,
-html.light-theme footer,
-html.light-theme div,
-html.light-theme article,
-html.light-theme .industrial-card,
-html.light-theme .bg-slate-950,
-html.light-theme .bg-slate-900,
-html.light-theme .bg-slate-850,
-html.light-theme .bg-slate-800,
-html.light-theme .bg-slate-700 {
+html.light-theme footer {
   background-color: #FFFFFF !important;
   background-image: none !important;
   border-color: #CBD5E1 !important;
@@ -92,7 +91,17 @@ html.light-theme .to-slate-900 {
   --tw-gradient-to: #F1F5F9 !important;
 }
 
-/* 2. ONLY TEXT IS DARK IN LIGHT THEME — WCAG AAA Ultra-High Contrast */
+/* FORCE BUTTONS, BADGES, PILLS, & CHECKBOX ROWS TO LIGHT BACKGROUNDS IN LIGHT THEME */
+html.light-theme button[class*="bg-slate-"],
+html.light-theme a[class*="bg-slate-"],
+html.light-theme span[class*="bg-slate-"],
+html.light-theme div[class*="bg-slate-"] {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+
+/* ONLY TEXT IS DARK IN LIGHT THEME — WCAG AAA Ultra-High Contrast */
 html.light-theme h1,
 html.light-theme h2,
 html.light-theme h3,
@@ -111,6 +120,7 @@ html.light-theme li,
 html.light-theme td,
 html.light-theme th,
 html.light-theme label,
+html.light-theme button,
 html.light-theme .text-slate-300,
 html.light-theme .text-slate-400,
 html.light-theme .text-slate-500 {
