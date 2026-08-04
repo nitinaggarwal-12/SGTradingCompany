@@ -414,6 +414,74 @@ export default function CartAndCheckoutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Cart Items & GST Calculations (7 Cols) */}
               <div className="lg:col-span-7 space-y-6">
+                {/* 1. GST COMPLIANCE & CALCULATION SUMMARY CARD (AT TOP OF LEFT COLUMN) */}
+                <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/60 shadow-xl space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-mono-spec font-extrabold text-amber-400 block uppercase">
+                      GST Compliance Billing Option:
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => setGstType("intrastate")}
+                        className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
+                          gstType === "intrastate"
+                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
+                            : "bg-slate-900 border-slate-800 text-slate-400"
+                        }`}
+                      >
+                        CGST + SGST (Delhi NCR)
+                      </button>
+                      <button
+                        onClick={() => setGstType("interstate")}
+                        className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
+                          gstType === "interstate"
+                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
+                            : "bg-slate-900 border-slate-800 text-slate-400"
+                        }`}
+                      >
+                        IGST (Inter-State)
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 font-mono-spec text-xs border-t border-slate-800 pt-4">
+                    <div className="flex justify-between text-slate-300">
+                      <span>Products Subtotal (Excl. GST)</span>
+                      <span>₹{subtotalExclGst.toLocaleString("en-IN")}</span>
+                    </div>
+
+                    {gstType === "intrastate" ? (
+                      <>
+                        <div className="flex justify-between text-slate-400">
+                          <span>CGST (2.5%)</span>
+                          <span>₹{cgstAmount.toLocaleString("en-IN")}</span>
+                        </div>
+                        <div className="flex justify-between text-slate-400">
+                          <span>SGST (2.5%)</span>
+                          <span>₹{sgstAmount.toLocaleString("en-IN")}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex justify-between text-slate-400">
+                        <span>IGST (5%)</span>
+                        <span>₹{gstAmount.toLocaleString("en-IN")}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between text-slate-400">
+                      <span>-18°C Refrigerated Delivery &amp; Logistics</span>
+                      <span>₹{deliveryFreight}</span>
+                    </div>
+
+                    <div className="flex justify-between text-xl font-black text-white pt-3 border-t border-slate-800">
+                      <span>TOTAL ORDER PAYABLE</span>
+                      <span className="text-amber-400">
+                        ₹{totalInclGst.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                     <h3 className="font-bold text-white text-base">
@@ -500,75 +568,7 @@ export default function CartAndCheckoutPage() {
 
               {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
               <div className="lg:col-span-5 space-y-6">
-                {/* 1. GST COMPLIANCE & CALCULATION SUMMARY CARD (MOVED ABOVE QR CODE ON RIGHT) */}
-                <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/60 shadow-xl space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono-spec font-extrabold text-amber-400 block uppercase">
-                      GST Compliance Billing Option:
-                    </label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        onClick={() => setGstType("intrastate")}
-                        className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
-                          gstType === "intrastate"
-                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
-                            : "bg-slate-900 border-slate-800 text-slate-400"
-                        }`}
-                      >
-                        CGST + SGST (Delhi NCR)
-                      </button>
-                      <button
-                        onClick={() => setGstType("interstate")}
-                        className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
-                          gstType === "interstate"
-                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
-                            : "bg-slate-900 border-slate-800 text-slate-400"
-                        }`}
-                      >
-                        IGST (Inter-State)
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 font-mono-spec text-xs border-t border-slate-800 pt-4">
-                    <div className="flex justify-between text-slate-300">
-                      <span>Products Subtotal (Excl. GST)</span>
-                      <span>₹{subtotalExclGst.toLocaleString("en-IN")}</span>
-                    </div>
-
-                    {gstType === "intrastate" ? (
-                      <>
-                        <div className="flex justify-between text-slate-400">
-                          <span>CGST (2.5%)</span>
-                          <span>₹{cgstAmount.toLocaleString("en-IN")}</span>
-                        </div>
-                        <div className="flex justify-between text-slate-400">
-                          <span>SGST (2.5%)</span>
-                          <span>₹{sgstAmount.toLocaleString("en-IN")}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="flex justify-between text-slate-400">
-                        <span>IGST (5%)</span>
-                        <span>₹{gstAmount.toLocaleString("en-IN")}</span>
-                      </div>
-                    )}
-
-                    <div className="flex justify-between text-slate-400">
-                      <span>-18°C Refrigerated Delivery &amp; Logistics</span>
-                      <span>₹{deliveryFreight}</span>
-                    </div>
-
-                    <div className="flex justify-between text-xl font-black text-white pt-3 border-t border-slate-800">
-                      <span>TOTAL ORDER PAYABLE</span>
-                      <span className="text-amber-400">
-                        ₹{totalInclGst.toLocaleString("en-IN")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE BELOW GST SUMMARY */}
+                {/* 1. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE AT TOP OF CART PAGE */}
                 <div className="rounded-2xl border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 shadow-2xl flex flex-col items-center">
                   <div className="w-full flex items-center justify-between pb-2 border-b border-slate-200">
                     <span className="text-[11px] font-mono font-black text-sky-700 uppercase tracking-wider">
