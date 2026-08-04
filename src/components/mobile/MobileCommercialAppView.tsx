@@ -78,12 +78,6 @@ export const MobileCommercialAppView: React.FC = () => {
       return false;
     }
     return true;
-  }).sort((a, b) => {
-    const hasImageA = a.image && !a.image.includes("placeholder") && a.image.trim() !== "";
-    const hasImageB = b.image && !b.image.includes("placeholder") && b.image.trim() !== "";
-    if (hasImageA && !hasImageB) return -1;
-    if (!hasImageA && hasImageB) return 1;
-    return 0;
   });
 
   const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);

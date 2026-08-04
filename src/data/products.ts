@@ -22,7 +22,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     lowStockThreshold: 20,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
     isFeatured: true,
-    image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
     badges: ["HORECA No.1 Fry", "Golden Crisp", "-18°C Cold Chain"],
     description:
       "India's leading commercial french fry for QSR chains, hotel banquets, and cloud kitchens. High solids content ensures long holding time and maximum golden crunch.",
