@@ -219,30 +219,23 @@ export const DistributionConciergeChatbot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Chat Trigger Launcher Button */}
+      {/* Floating Chat Trigger Launcher Button - ICON ONLY */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-slate-950 font-extrabold shadow-2xl hover:scale-105 transition-all cursor-pointer group border-2 border-amber-300"
+          className="fixed bottom-6 right-6 z-50 w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center shadow-2xl hover:scale-110 transition-all cursor-pointer border-2 border-amber-300"
+          title="SG Commercial AI Specialist (Rahul Garg & Sonu)"
         >
           <div className="relative">
-            <MessageSquare className="w-5 h-5 fill-slate-950" />
-            <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full absolute -top-1 -right-1 border-2 border-amber-500 animate-pulse" />
-          </div>
-          <div className="text-left">
-            <span className="text-xs font-black block leading-tight">
-              SG Commercial AI Specialist
-            </span>
-            <span className="text-[10px] font-mono-spec font-bold text-slate-900 block">
-              Rahul Garg & Sonu • Ask about brand choices & cold-chain
-            </span>
+            <MessageSquare className="w-6 h-6 fill-slate-950" />
+            <span className="w-3 h-3 bg-emerald-500 rounded-full absolute -top-1 -right-1 border-2 border-slate-950 animate-pulse" />
           </div>
         </button>
       )}
 
-      {/* Modern High-Craft Distribution Concierge Panel */}
+      {/* Modern High-Craft Distribution Concierge Panel - REDUCED COMPACT WIDTH */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[440px] h-[640px] max-h-[90vh] bg-slate-950 rounded-2xl border-2 border-amber-500/60 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[92vw] sm:w-[340px] h-[550px] max-h-[85vh] bg-slate-950 rounded-2xl border-2 border-amber-500/60 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5">
           {/* Header with High-Contrast Typography & Visual Status */}
           <div className="p-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
