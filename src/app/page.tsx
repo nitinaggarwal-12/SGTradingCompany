@@ -62,14 +62,14 @@ export default function HomePage() {
 
         {/* Main Content Area */}
         <main className="flex-1">
+          {/* High-Resolution HORECA & Cold-Chain Commercial Showcase Carousel (RIGHT AFTER HEADER) */}
+          <CommercialShowcaseCarousel />
+
           {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
           <HeroSection onExploreCatalog={scrollToCatalog} />
 
           {/* Animated 3D Brand Ticker showcasing all 12 Authorized Brands */}
           <BrandTicker />
-
-          {/* High-Resolution HORECA & Cold-Chain Commercial Showcase Carousel */}
-          <CommercialShowcaseCarousel />
 
           {/* Dynamic 3D Industrial Cold-Chain & Product Quality Telemetry Visualizer */}
           <ColdChain3DVisualizer />
