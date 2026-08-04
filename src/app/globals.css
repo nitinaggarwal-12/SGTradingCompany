@@ -202,3 +202,18 @@ html.light-theme table tbody tr:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #F59E0B;
 }
+
+/* PRESERVE DARK PHOTO OVERLAYS AND PURE WHITE TEXT FOR COMMERCIAL SHOWCASE PHOTO CAROUSEL IN LIGHT THEME */
+html.light-theme .commercial-showcase-photo-overlay h3,
+html.light-theme .commercial-showcase-photo-overlay p,
+html.light-theme .commercial-showcase-photo-overlay .showcase-metric-text {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.light-theme .commercial-showcase-photo-gradient {
+  background-image: linear-gradient(to top, rgba(9, 13, 22, 0.95), rgba(9, 13, 22, 0.65), transparent) !important;
+  --tw-gradient-from: rgba(9, 13, 22, 0.95) !important;
+  --tw-gradient-via: rgba(9, 13, 22, 0.65) !important;
+  --tw-gradient-to: transparent !important;
+}

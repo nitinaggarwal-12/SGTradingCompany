@@ -147,11 +147,11 @@ export const CommercialShowcaseCarousel: React.FC = () => {
                 />
 
                 {/* Dark Vignette & Gradient Overlay for Contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/30 to-transparent" />
+                <div className="commercial-showcase-photo-gradient absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                <div className="commercial-showcase-photo-gradient absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/30 to-transparent" />
 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between">
+                <div className="commercial-showcase-photo-overlay absolute inset-0 p-6 md:p-12 flex flex-col justify-between">
                   {/* Top Badges */}
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <span className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-mono-spec text-xs font-black uppercase tracking-wider shadow-lg">
