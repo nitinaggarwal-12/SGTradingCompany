@@ -645,18 +645,16 @@ export default function CartAndCheckoutPage() {
                             setSelectedDeliveryDate(dt.label);
                             showToast(`Delivery Date set to: ${dt.label}`);
                           }}
-                          className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                          className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer h-20 flex flex-col justify-between ${
                             selectedDeliveryDate === dt.label
-                              ? "bg-amber-500/20 border-amber-500 text-white font-bold"
+                              ? "bg-amber-500/20 border-amber-500 text-white font-bold shadow-md"
                               : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
                           }`}
                         >
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold">{dt.label}</span>
-                            <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-400 font-mono-spec">
-                              {dt.badge}
-                            </span>
-                          </div>
+                          <span className="text-xs font-bold leading-tight block">{dt.label}</span>
+                          <span className="text-[10px] self-start px-2 py-0.5 rounded bg-slate-800/90 text-amber-400 font-mono-spec font-extrabold">
+                            {dt.badge}
+                          </span>
                         </button>
                       ))}
                     </div>
