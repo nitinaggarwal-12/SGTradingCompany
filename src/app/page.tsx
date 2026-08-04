@@ -18,6 +18,7 @@ import { CartDrawer } from "@/components/drawers/CartDrawer";
 import { RFQDrawer } from "@/components/drawers/RFQDrawer";
 import { DistributionConciergeChatbot } from "@/components/chat/DistributionConciergeChatbot";
 import { MobileCommercialAppView } from "@/components/mobile/MobileCommercialAppView";
+import { ColdChain3DVisualizer } from "@/components/home/ColdChain3DVisualizer";
 import { CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
@@ -65,6 +66,9 @@ export default function HomePage() {
 
           {/* Animated 3D Brand Ticker showcasing all 12 Authorized Brands */}
           <BrandTicker />
+
+          {/* Dynamic 3D Industrial Cold-Chain & Product Quality Telemetry Visualizer */}
+          <ColdChain3DVisualizer />
 
           {/* Multi-Faceted HORECA & General Trade Catalog */}
           <EquipmentCatalog
