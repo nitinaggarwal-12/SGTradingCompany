@@ -959,22 +959,24 @@ export default function CartAndCheckoutPage() {
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={isProcessing}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 cursor-pointer"
-                  >
-                    {isProcessing ? (
-                      <span>Processing Payment & Settling to SG Trading Co. Paytm UPI...</span>
-                    ) : (
-                      <>
-                        <span>
-                          Pay ₹{totalInclGst.toLocaleString("en-IN")} via {paymentMethod === "upi" ? "Paytm UPI" : paymentMethod === "card" ? `${cardBrand} Card` : "NetBanking"}
-                        </span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
+                  {paymentMethod !== "upi" && (
+                    <button
+                      type="submit"
+                      disabled={isProcessing}
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 cursor-pointer"
+                    >
+                      {isProcessing ? (
+                        <span>Processing Payment &amp; Settling to SG Trading Co. Paytm UPI...</span>
+                      ) : (
+                        <>
+                          <span>
+                            Pay ₹{totalInclGst.toLocaleString("en-IN")} via {paymentMethod === "card" ? `${cardBrand} Card` : "NetBanking"}
+                          </span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  )}
                 </form>
               </div>
             </div>
