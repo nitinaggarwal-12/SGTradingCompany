@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { PRODUCTS_CATALOG } from "@/data/products";
 import { StickyHeader } from "@/components/layout/StickyHeader";
 import { Footer } from "@/components/layout/Footer";
 import { DistributionConciergeChatbot } from "@/components/chat/DistributionConciergeChatbot";
@@ -47,6 +48,7 @@ interface PaidOrderReceipt {
 export default function CartAndCheckoutPage() {
   const {
     cart,
+    addToCart,
     removeFromCart,
     updateCartQuantity,
     deductOrderStock,
@@ -479,6 +481,65 @@ export default function CartAndCheckoutPage() {
                         ₹{totalInclGst.toLocaleString("en-IN")}
                       </span>
                     </div>
+                  </div>
+                </div>
+
+                {/* FREQUENTLY ORDERED TOGETHER RELATED PRODUCTS (ADD OR SKIP) */}
+                <div className="industrial-card rounded-2xl p-5 border-2 border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-slate-900 to-amber-500/10 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-mono-spec text-[10px] font-black uppercase">
+                        RECOMMENDED KITCHEN PAIRING
+                      </span>
+                      <h4 className="text-xs sm:text-sm font-extrabold text-white">
+                        Complete Your Order — Frequently Bought Together
+                      </h4>
+                    </div>
+                    <span className="text-[11px] font-mono-spec text-slate-400">
+                      1-Click Bulk Add or Skip
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    {PRODUCTS_CATALOG.filter(
+                      (p) => !cart.some((c) => c.product.id === p.id)
+                    )
+                      .slice(0, 2)
+                      .map((relProduct) => (
+                        <div
+                          key={relProduct.id}
+                          className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <img
+                              src={relProduct.image}
+                              alt={relProduct.name}
+                              className="w-12 h-12 rounded-lg object-cover border border-slate-700 shrink-0"
+                            />
+                            <div className="min-w-0">
+                              <span className="text-[9px] font-mono-spec text-amber-400 font-bold block uppercase">
+                                {relProduct.brand}
+                              </span>
+                              <h5 className="text-xs font-bold text-white truncate">
+                                {relProduct.name}
+                              </h5>
+                              <p className="text-[10px] font-mono-spec text-slate-400">
+                                ₹{relProduct.priceExclGst} (Excl. GST)
+                              </p>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              addToCart(relProduct, 1);
+                              showToast(`Added ${relProduct.name} to Wholesale Cart!`);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-[11px] font-extrabold shrink-0 cursor-pointer transition-all"
+                          >
+                            + Add SKU
+                          </button>
+                        </div>
+                      ))}
                   </div>
                 </div>
 
