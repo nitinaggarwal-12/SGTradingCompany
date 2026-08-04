@@ -67,31 +67,39 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               FMCG Supplies.
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-              Direct institutional distributor for <strong className="text-white">McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods & Milkana Professional</strong> (HORECA) alongside <strong className="text-white">Anoop Sattu, Ocean Water, Sleepy Owl Coffee & Loyka</strong> (General Trade).
+            <p className="text-base sm:text-lg text-slate-100 font-medium leading-relaxed max-w-2xl">
+              Direct institutional distributor for{" "}
+              <strong className="text-amber-400 font-extrabold">
+                McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods & Milkana Professional
+              </strong>{" "}
+              (HORECA) alongside{" "}
+              <strong className="text-amber-400 font-extrabold">
+                Anoop Sattu, Ocean Water, Sleepy Owl Coffee & Loyka
+              </strong>{" "}
+              (General Trade).
             </p>
 
             {/* Direct Visiting Card Contact Credentials Box */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec">
+            <div className="p-5 rounded-2xl bg-slate-900 border-2 border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl">
               <div>
-                <span className="text-slate-400 block text-[10px] uppercase">
+                <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">
                   Authorized Distributors
                 </span>
-                <span className="text-white font-bold text-sm block">
+                <span className="text-white font-extrabold text-base block mt-0.5">
                   Rahul Garg & Sonu
                 </span>
-                <span className="text-amber-400 font-bold block mt-0.5">
+                <span className="text-amber-400 font-extrabold text-sm block mt-1">
                   Ph: 9667731355 / 9643097002
                 </span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[10px] uppercase">
+                <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">
                   Mayur Vihar Phase-3 Warehouse
                 </span>
-                <span className="text-slate-300 block text-[11px] leading-tight">
+                <span className="text-slate-100 font-medium block text-xs leading-relaxed mt-0.5">
                   B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
                 </span>
-                <span className="text-sky-400 block text-[10px] mt-0.5">
+                <span className="text-sky-400 font-bold block text-xs mt-1">
                   sgtradingcompany@rediffmail.com
                 </span>
               </div>
