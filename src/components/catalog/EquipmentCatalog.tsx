@@ -257,9 +257,9 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
 
         {/* Catalog Main Layout: Sidebar Filters + Product Display */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8">
-          {/* Left Sidebar Filter Matrix (3 Columns) */}
-          <div className="lg:col-span-3 space-y-6">
-            <div className="industrial-card rounded-2xl p-5 border border-slate-800 space-y-6">
+          {/* Left Sidebar Filter Matrix (3 Columns - Sticky Floating) */}
+          <div className="lg:col-span-3">
+            <div className="industrial-card rounded-2xl p-5 border border-slate-800 space-y-6 lg:sticky lg:top-24 lg:max-h-[85vh] lg:overflow-y-auto">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2 font-bold text-sm text-white">
                   <Filter className="w-4 h-4 text-amber-400" />
