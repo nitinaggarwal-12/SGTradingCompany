@@ -67,7 +67,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               FMCG Supplies.
             </h1>
 
-            <p className="text-base sm:text-lg font-medium leading-relaxed max-w-2xl" style={{ color: "#FFFFFF" }}>
+            <p className="text-base sm:text-lg font-medium leading-relaxed max-w-2xl text-slate-200">
               Direct institutional distributor for{" "}
               <strong className="text-amber-400 font-extrabold">
                 McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods & Milkana Professional
@@ -79,11 +79,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               (General Trade).
             </p>
 
-            {/* Direct Visiting Card Contact Credentials Box - Industrial Slate in all themes */}
-            <div
-              className="dark-surface-box p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl"
-              style={{ backgroundColor: "#0F172A" }}
-            >
+            {/* Direct Visiting Card Contact Credentials Box */}
+            <div className="industrial-card p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl">
               <div>
                 <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400">
                   Authorized Distributors
