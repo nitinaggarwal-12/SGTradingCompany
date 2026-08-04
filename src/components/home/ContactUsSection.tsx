@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { PaytmMerchantQRStandee } from "@/components/common/PaytmMerchantQRStandee";
 import {
   Phone,
   Mail,
@@ -11,6 +12,7 @@ import {
   Building2,
   Clock,
   MessageSquare,
+  QrCode,
 } from "lucide-react";
 
 export const ContactUsSection: React.FC = () => {
@@ -110,6 +112,9 @@ export const ContactUsSection: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* OFFICIAL AUTHENTIC SG TRADING COMPANY PAYTM UPI STANDEE */}
+            <PaytmMerchantQRStandee />
 
             {/* Mayur Vihar Phase-3 Warehouse Location Card with Embedded Google Maps */}
             <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">

@@ -36,7 +36,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     TURNKEY_KITCHEN_CONFIGS[0];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 py-12 md:py-16 lg:py-20 border-b border-slate-800/80">
+    <section className="relative w-full overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white py-12 md:py-16 lg:py-20 border-b border-slate-200 dark:border-slate-800/80">
       {/* Background Subtle Industrial Mesh & Radial Sheen */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent pointer-events-none" />
       <div
@@ -53,7 +53,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Left Column: Brand Technical Authority & Messaging */}
           <div className="lg:col-span-6 space-y-7">
             {/* Visiting Card Badge */}
-            <div className="inline-flex flex-wrap items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-wider">
+            <div className="inline-flex flex-wrap items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-400 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
               <span>SG TRADING COMPANY • AUTH. DISTRIBUTOR (DELHI NCR)</span>
             </div>
