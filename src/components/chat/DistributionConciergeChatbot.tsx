@@ -97,29 +97,102 @@ export const DistributionConciergeChatbot: React.FC = () => {
 
       const query = textToSend.toLowerCase();
 
-      if (query.includes("mccain") || query.includes("iscon") || query.includes("fries")) {
+      // Check if user is asking about live stock / inventory
+      if (
+        query.includes("stock") ||
+        query.includes("inventory") ||
+        query.includes("available") ||
+        query.includes("how many") ||
+        query.includes("cases")
+      ) {
+        const friesProducts = products.filter(
+          (p) =>
+            p.name.toLowerCase().includes("frie") ||
+            p.category.toLowerCase().includes("frozen")
+        );
+
+        const totalFryCases = friesProducts.reduce(
+          (acc, p) => acc + (p.stockQuantity || 0),
+          0
+        );
+
+        responseText = `**Live Mayur Vihar Phase-3 Warehouse Stock Status (-18°C Cold Room):**\n\n${friesProducts
+          .map(
+            (p) =>
+              `• **${p.brand} — ${p.name}**: **${p.stockQuantity} Master Cases** in stock (₹${p.priceExclGst} / Pack)`
+          )
+          .join("\n")}\n\n**Total Frozen / Fry Cases Ready for Immediate Dispatch:** **${totalFryCases.toLocaleString(
+          "en-IN"
+        )} Cases**!\n\nRahul Garg & Sonu maintain continuous -18°C cold-chain replenishment. Orders placed before 12:00 PM are dispatched same-day.`;
+
+        followUps = [
+          "Load McCain & Iscon Balaji Fries into my Wholesale Cart",
+          "Can I get a discount if I order 10+ master cases?",
+          "Call Rahul Garg (9667731355) to reserve stock",
+        ];
+      } else if (
+        (query.includes("mccain") && query.includes("iscon")) ||
+        query.includes("compare fries") ||
+        query.includes("difference")
+      ) {
+        const mccain = products.find((p) => p.brand.includes("McCain"));
+        const iscon = products.find((p) => p.brand.includes("Iscon"));
+
         responseText =
           "**McCain vs. Iscon Balaji 9mm Fries Commercial Comparison:**\n\n1. **McCain 9mm French Fries (2.5 Kg - ₹380)**: Industry benchmark with superior starch consistency, crisp retention (25+ mins under heat lamps), and zero oil absorption variance. Ideal for 4-star/5-star banquets & premium QSRs.\n2. **Iscon Balaji 9mm Fries (2.5 Kg - ₹340)**: High yield and ₹40 lower per pack cost, giving cloud kitchens a 14% higher net margin on every fry basket.\n\nRahul Garg & Sonu keep both ready in `-18°C Cold Room 1` in Mayur Vihar Phase-3!";
         followUps = [
+          "What is the current stock of fries at your store?",
           "Can I get a combo case of McCain Fries + Britannia Cheese?",
           "How many portions can I serve from a 2.5 Kg McCain pack?",
-          "Check running warehouse stock for McCain & Iscon Balaji",
         ];
-      } else if (query.includes("cheese") || query.includes("unorganized") || query.includes("dairy")) {
+      } else if (
+        query.includes("mccain") ||
+        query.includes("fries")
+      ) {
+        const fryItems = products.filter((p) =>
+          p.name.toLowerCase().includes("frie")
+        );
+        responseText = `**Current Warehouse Stock & Commercial Specs for French Fries:**\n\n${fryItems
+          .map(
+            (p) =>
+              `• **${p.name}** (${p.brand}): **${p.stockQuantity} Cases Available** at ₹${p.priceExclGst} / Pack`
+          )
+          .join(
+            "\n"
+          )}\n\nBoth McCain Food Service & Iscon Balaji fries are stored at -18°C in Mayur Vihar Phase-3 and ready for instant delivery across Delhi NCR!`;
+        followUps = [
+          "McCain vs Iscon Balaji fries: Which should I choose for my kitchen?",
+          "Can I get a discount if I order 5+ master cases?",
+          "What happens if frozen food defrosts during delivery?",
+        ];
+      } else if (
+        query.includes("cheese") ||
+        query.includes("unorganized") ||
+        query.includes("dairy")
+      ) {
         responseText =
           "**Why Britannia & Go Diced Mozzarella Outperform Local Unorganized Dairy:**\n\n• **Baking Stretch & Stretch Retention**: Commercial Britannia Diced Mozzarella & Cheddar blend melts uniformly without oiling off at 280°C.\n• **FSSAI & GST Compliance**: 100% legal GST invoices with **GSTIN: 07ADQFS8839Q1ZQ** allowing your restaurant to claim input tax credit.\n• **Cold-Chain Safety**: Stored strictly at 2°C to 4°C in our Mayur Vihar Phase-3 Chilled Bay.";
         followUps = [
           "What is the wholesale price for 10+ packs of Britannia Cheese?",
           "Compare Britannia 51-Slice Burger Cheese vs Diced Mozzarella",
         ];
-      } else if (query.includes("discount") || query.includes("master case") || query.includes("bulk") || query.includes("price")) {
+      } else if (
+        query.includes("discount") ||
+        query.includes("master case") ||
+        query.includes("bulk") ||
+        query.includes("price")
+      ) {
         responseText =
           "**Bulk Case & Wholesale Margin Structuring:**\n\nRahul Garg & Sonu offer institutional tier discounts for recurring contracts:\n• **5+ Master Cases**: Flat wholesale B2B case rates applied automatically.\n• **10+ Master Cases**: Free refrigerated delivery within Delhi NCR + priority morning 7:00 AM dispatch slot.\n\nYou can also submit a formal B2B RFQ directly in our wholesale workspace!";
         followUps = [
           "Open B2B Wholesale RFQ Workspace",
           "What is the contact number for Rahul Garg & Sonu?",
         ];
-      } else if (query.includes("defrost") || query.includes("cold chain") || query.includes("delivery")) {
+      } else if (
+        query.includes("defrost") ||
+        query.includes("cold chain") ||
+        query.includes("delivery")
+      ) {
         responseText =
           "**Our 100% Unbroken Cold-Chain Delivery Guarantee:**\n\nEvery frozen item (McCain, ITC Master Chef, Iscon Balaji, Chatha Foods) leaves our Mayur Vihar Phase-3 warehouse inside dedicated **-18°C insulated refrigerated vans**.\n\nIf any pack temperature exceeds -12°C upon delivery, Rahul Garg & Sonu provide **100% instant replacement** without question.";
         followUps = [
@@ -128,7 +201,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
         ];
       } else {
         responseText =
-          "Thank you for reaching out! As authorized distributors for **McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka**, we ensure direct distributor pricing and zero-dedefrost logistics.\n\nHow can Rahul Garg & Sonu assist your business today?";
+          "Thank you for reaching out! As authorized distributors for **McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka**, we ensure direct distributor pricing and zero-defrost logistics.\n\nHow can Rahul Garg & Sonu assist your business today?";
         followUps = INITIAL_SUGGESTED_QUESTIONS;
       }
 
