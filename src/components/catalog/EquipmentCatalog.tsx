@@ -22,44 +22,67 @@ interface EquipmentCatalogProps {
   onCategoryChange: (category: string) => void;
 }
 
+const ALL_BRANDS_LIST = [
+  "McCain Food Service",
+  "ITC Master Chef",
+  "Veeba Food Services",
+  "Britannia Cheese",
+  "Iscon Balaji Foods",
+  "Go Diced Cheese",
+  "Chatha Foods",
+  "Milkana Professional",
+  "Anoop Sattu",
+  "Ocean Water",
+  "Sleepy Owl Coffee",
+  "Loyka",
+];
+
+const ALL_CATEGORIES_LIST = [
+  "HORECA - Frozen Foods & Fries",
+  "HORECA - Commercial Cheese & Dairy",
+  "HORECA - Sauces, Mayo & Dressings",
+  "GT - Beverages & Hydration",
+  "GT - Packaged Foods & Gourmet Snacks",
+];
+
 export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   selectedCategory,
   onCategoryChange,
 }) => {
   const [segment, setSegment] = useState<string>("All");
-  const [brand, setBrand] = useState<string>("All");
+  // Multi-select brands array (defaults to all 12 brands selected)
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(ALL_BRANDS_LIST);
   const [storageCondition, setStorageCondition] = useState<string>("All");
   const [maxPrice, setMaxPrice] = useState<number>(500);
   const [onlyInStock, setOnlyInStock] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<string>("featured");
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 
-  const CATEGORY_LIST = [
-    "All Categories",
-    "HORECA - Frozen Foods & Fries",
-    "HORECA - Commercial Cheese & Dairy",
-    "HORECA - Sauces, Mayo & Dressings",
-    "GT - Beverages & Hydration",
-    "GT - Packaged Foods & Gourmet Snacks",
-  ];
+  const isAllBrandsSelected = selectedBrands.length === ALL_BRANDS_LIST.length;
+
+  const toggleBrand = (brandName: string) => {
+    setSelectedBrands((prev) => {
+      if (prev.includes(brandName)) {
+        // Uncheck this brand (if at least 1 remains, or allow empty)
+        const next = prev.filter((b) => b !== brandName);
+        return next;
+      } else {
+        // Check this brand
+        return [...prev, brandName];
+      }
+    });
+  };
+
+  const toggleAllBrands = () => {
+    if (isAllBrandsSelected) {
+      // If all are selected, uncheck all (or reset)
+      setSelectedBrands([]);
+    } else {
+      setSelectedBrands(ALL_BRANDS_LIST);
+    }
+  };
 
   const SEGMENTS = ["All", "HORECA Institutional", "General Trade (GT)"];
-
-  const BRANDS = [
-    "All Brands",
-    "McCain Food Service",
-    "ITC Master Chef",
-    "Veeba Food Services",
-    "Britannia Cheese",
-    "Iscon Balaji Foods",
-    "Go Diced Cheese",
-    "Chatha Foods",
-    "Milkana Professional",
-    "Anoop Sattu",
-    "Ocean Water",
-    "Sleepy Owl Coffee",
-    "Loyka",
-  ];
 
   const STORAGE_CONDITIONS = [
     "All Storage Conditions",
@@ -79,7 +102,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
       if (segment !== "All" && p.segment !== segment) {
         return false;
       }
-      if (brand !== "All Brands" && brand !== "All" && p.brand !== brand) {
+      if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand)) {
         return false;
       }
       if (
@@ -104,7 +127,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   }, [
     selectedCategory,
     segment,
-    brand,
+    selectedBrands,
     storageCondition,
     maxPrice,
     onlyInStock,
@@ -114,7 +137,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   const handleResetFilters = () => {
     onCategoryChange("All Categories");
     setSegment("All");
-    setBrand("All Brands");
+    setSelectedBrands(ALL_BRANDS_LIST);
     setStorageCondition("All Storage Conditions");
     setMaxPrice(500);
     setOnlyInStock(false);
@@ -182,23 +205,29 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
           </div>
         </div>
 
-        {/* Quick Filter Checkbox Bar with ALL Options */}
+        {/* Quick Interactive Checkbox Bar */}
         <div className="flex flex-wrap items-center gap-2 py-4 border-b border-slate-800/80">
           <span className="text-xs font-mono-spec font-bold text-slate-400 mr-2">
-            QUICK CHECKBOX FILTERS:
+            CHECKBOX FILTER CONTROL:
           </span>
           <button
-            onClick={handleResetFilters}
-            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              selectedCategory === "All Categories" &&
-              brand === "All Brands" &&
-              segment === "All"
+            onClick={toggleAllBrands}
+            className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              isAllBrandsSelected
                 ? "bg-amber-500 text-slate-950 border-amber-500 font-extrabold"
                 : "bg-slate-900 text-slate-300 border-slate-800 hover:border-amber-500"
             }`}
           >
-            <CheckSquare className="w-3.5 h-3.5" />
-            <span>☑️ ALL BRANDS & CATEGORIES (16 SKUs)</span>
+            {isAllBrandsSelected ? (
+              <CheckSquare className="w-4 h-4" />
+            ) : (
+              <Square className="w-4 h-4" />
+            )}
+            <span>
+              {isAllBrandsSelected
+                ? "☑️ ALL 12 BRANDS CHECKED (Click to Toggle)"
+                : "⬜ SELECT ALL 12 BRANDS"}
+            </span>
           </button>
 
           <button
@@ -218,35 +247,11 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
           </button>
 
           <button
-            onClick={() => setBrand("All Brands")}
-            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              brand === "All Brands" || brand === "All"
-                ? "bg-amber-500/20 text-amber-400 border-amber-500"
-                : "bg-slate-900 text-slate-400 border-slate-800"
-            }`}
+            onClick={handleResetFilters}
+            className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-xs font-bold text-slate-300 flex items-center gap-1 cursor-pointer ml-auto"
           >
-            {brand === "All Brands" || brand === "All" ? (
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Square className="w-3.5 h-3.5" />
-            )}
-            <span>ALL 12 BRANDS</span>
-          </button>
-
-          <button
-            onClick={() => setSegment("All")}
-            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              segment === "All"
-                ? "bg-amber-500/20 text-amber-400 border-amber-500"
-                : "bg-slate-900 text-slate-400 border-slate-800"
-            }`}
-          >
-            {segment === "All" ? (
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Square className="w-3.5 h-3.5" />
-            )}
-            <span>ALL SEGMENTS (HORECA + GT)</span>
+            <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
+            <span>Reset All Filters</span>
           </button>
         </div>
 
@@ -265,21 +270,21 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                   className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-mono-spec"
                 >
                   <RotateCcw className="w-3 h-3" />
-                  Reset ALL
+                  Reset
                 </button>
               </div>
 
-              {/* Checkbox Category List with ALL at Top */}
+              {/* Product Category Filter */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
                   Product Category Filter
                 </label>
                 <div className="space-y-1">
-                  {CATEGORY_LIST.map((cat) => {
-                    const isSelected =
-                      selectedCategory === cat ||
-                      (cat === "All Categories" &&
-                        selectedCategory === "All Categories");
+                  {[
+                    "All Categories",
+                    ...ALL_CATEGORIES_LIST,
+                  ].map((cat) => {
+                    const isSelected = selectedCategory === cat;
                     return (
                       <button
                         key={cat}
@@ -302,7 +307,66 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                 </div>
               </div>
 
-              {/* Segment Selector Checkboxes (HORECA vs GT with ALL) */}
+              {/* Multi-Select Authorized Brands with ☑️ ALL Toggle */}
+              <div className="space-y-2 pt-2 border-t border-slate-800">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    Authorized Brands ({selectedBrands.length}/12)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={toggleAllBrands}
+                    className="text-[11px] font-mono-spec text-amber-400 hover:underline font-bold"
+                  >
+                    {isAllBrandsSelected ? "Uncheck All" : "Check All"}
+                  </button>
+                </div>
+
+                <div className="max-h-64 overflow-y-auto space-y-1 pr-1">
+                  {/* Master ALL BRANDS Checkbox */}
+                  <button
+                    type="button"
+                    onClick={toggleAllBrands}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      isAllBrandsSelected
+                        ? "bg-amber-500/20 text-amber-400 border border-amber-500/40"
+                        : "bg-slate-900 text-slate-400 border border-slate-800"
+                    }`}
+                  >
+                    {isAllBrandsSelected ? (
+                      <CheckSquare className="w-4 h-4 text-amber-400 shrink-0" />
+                    ) : (
+                      <Square className="w-4 h-4 text-slate-500 shrink-0" />
+                    )}
+                    <span>☑️ ALL 12 AUTHORIZED BRANDS</span>
+                  </button>
+
+                  {ALL_BRANDS_LIST.map((b) => {
+                    const isChecked = selectedBrands.includes(b);
+                    return (
+                      <button
+                        key={b}
+                        type="button"
+                        onClick={() => toggleBrand(b)}
+                        className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-all flex items-center gap-2 cursor-pointer ${
+                          isChecked
+                            ? "text-white font-bold bg-slate-900/80"
+                            : "text-slate-500 hover:text-slate-300"
+                        }`}
+                      >
+                        {isChecked ? (
+                          <CheckSquare className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        ) : (
+                          <Square className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                        )}
+                        <span className="truncate">{b}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Segment Selector (HORECA vs GT) */}
               <div className="space-y-2 pt-2 border-t border-slate-800">
                 <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
                   Distribution Segment
@@ -336,41 +400,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                 </div>
               </div>
 
-              {/* Brand Selector Checkboxes with ALL BRANDS */}
-              <div className="space-y-2 pt-2 border-t border-slate-800">
-                <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                  Authorized Brands ({BRANDS.length - 1})
-                </label>
-                <div className="max-h-56 overflow-y-auto space-y-1 pr-1">
-                  {BRANDS.map((b) => {
-                    const isSelected =
-                      brand === b ||
-                      (b === "All Brands" && brand === "All Brands");
-                    return (
-                      <button
-                        key={b}
-                        onClick={() => setBrand(b)}
-                        className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
-                          isSelected
-                            ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 font-bold"
-                            : "text-slate-400 hover:bg-slate-900 hover:text-white"
-                        }`}
-                      >
-                        {isSelected ? (
-                          <CheckSquare className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                        ) : (
-                          <Square className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                        )}
-                        <span className="truncate">
-                          {b === "All Brands" ? "☑️ ALL 12 BRANDS" : b}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Storage & Cold Chain Checkbox Filter with ALL */}
+              {/* Storage & Cold Chain Filter */}
               <div className="space-y-2 pt-2 border-t border-slate-800">
                 <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
                   Storage & Cold Chain
@@ -448,10 +478,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                   Category: {selectedCategory}
                 </span>
                 <span className="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-mono-spec font-bold border border-amber-500/30">
-                  Segment: {segment}
-                </span>
-                <span className="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-mono-spec font-bold border border-amber-500/30">
-                  Brand: {brand}
+                  Brands: {selectedBrands.length}/12 Selected
                 </span>
                 <span className="px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 font-mono-spec font-bold border border-cyan-500/30">
                   Storage: {storageCondition}
