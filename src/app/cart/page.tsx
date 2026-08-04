@@ -496,11 +496,14 @@ export default function CartAndCheckoutPage() {
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* GST Compliance & Calculation Summary Card */}
-                <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
+              {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
+              <div className="lg:col-span-5 space-y-6">
+                {/* 1. GST COMPLIANCE & CALCULATION SUMMARY CARD (MOVED ABOVE QR CODE ON RIGHT) */}
+                <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/60 shadow-xl space-y-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-mono-spec text-slate-400 block uppercase">
+                    <label className="text-xs font-mono-spec font-extrabold text-amber-400 block uppercase">
                       GST Compliance Billing Option:
                     </label>
                     <div className="grid grid-cols-2 gap-3">
@@ -508,7 +511,7 @@ export default function CartAndCheckoutPage() {
                         onClick={() => setGstType("intrastate")}
                         className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
                           gstType === "intrastate"
-                            ? "bg-amber-500/15 border-amber-500 text-amber-400"
+                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
                             : "bg-slate-900 border-slate-800 text-slate-400"
                         }`}
                       >
@@ -518,7 +521,7 @@ export default function CartAndCheckoutPage() {
                         onClick={() => setGstType("interstate")}
                         className={`py-2 px-3 rounded-xl text-xs font-bold border cursor-pointer ${
                           gstType === "interstate"
-                            ? "bg-amber-500/15 border-amber-500 text-amber-400"
+                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
                             : "bg-slate-900 border-slate-800 text-slate-400"
                         }`}
                       >
@@ -552,11 +555,11 @@ export default function CartAndCheckoutPage() {
                     )}
 
                     <div className="flex justify-between text-slate-400">
-                      <span>-18°C Refrigerated Delivery & Logistics</span>
+                      <span>-18°C Refrigerated Delivery &amp; Logistics</span>
                       <span>₹{deliveryFreight}</span>
                     </div>
 
-                    <div className="flex justify-between text-lg font-extrabold text-white pt-3 border-t border-slate-800">
+                    <div className="flex justify-between text-xl font-black text-white pt-3 border-t border-slate-800">
                       <span>TOTAL ORDER PAYABLE</span>
                       <span className="text-amber-400">
                         ₹{totalInclGst.toLocaleString("en-IN")}
@@ -565,92 +568,7 @@ export default function CartAndCheckoutPage() {
                   </div>
                 </div>
 
-                {/* COLD-CHAIN DELIVERY DATE & TIME WINDOW SELECTOR (MOVED BELOW CART) */}
-                <div className="industrial-card rounded-2xl p-6 border-2 border-amber-500/50 space-y-4">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                    <div>
-                      <h3 className="font-extrabold text-white text-base flex items-center gap-2">
-                        <Truck className="w-4 h-4 text-amber-400" />
-                        <span>Select Cold-Chain Delivery Schedule</span>
-                      </h3>
-                      <p className="text-[11px] text-slate-400 font-mono-spec mt-0.5">
-                        -18°C Insulated Van Dispatch • Mayur Vihar Phase-3 Warehouse
-                      </p>
-                    </div>
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono-spec text-[10px] font-bold">
-                      SLOT GUARANTEED
-                    </span>
-                  </div>
-
-                  {/* 1. Choose Available Delivery Date */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono-spec font-bold text-amber-400 uppercase block">
-                      1. Choose Preferred Delivery Date:
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {DELIVERY_DATES.map((dt) => (
-                        <button
-                          type="button"
-                          key={dt.label}
-                          onClick={() => {
-                            setSelectedDeliveryDate(dt.label);
-                            showToast(`Delivery Date set to: ${dt.label}`);
-                          }}
-                          className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer h-20 flex flex-col justify-between ${
-                            selectedDeliveryDate === dt.label
-                              ? "bg-amber-500/20 border-amber-500 text-white font-bold shadow-md"
-                              : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
-                          }`}
-                        >
-                          <span className="text-xs font-bold leading-tight block">{dt.label}</span>
-                          <span className="text-[10px] self-start px-2 py-0.5 rounded bg-slate-800/90 text-amber-400 font-mono-spec font-extrabold">
-                            {dt.badge}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 2. Choose Commercial Cold-Chain Time Window */}
-                  <div className="space-y-2 pt-2">
-                    <label className="text-xs font-mono-spec font-bold text-amber-400 uppercase flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span>2. Choose Commercial Delivery Time Window:</span>
-                    </label>
-                    <div className="space-y-2">
-                      {TIME_WINDOWS.map((win) => (
-                        <button
-                          type="button"
-                          key={win.label}
-                          onClick={() => {
-                            setSelectedTimeWindow(win.label);
-                            showToast(`Delivery Time Window set to: ${win.label}`);
-                          }}
-                          className={`w-full p-3 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
-                            selectedTimeWindow === win.label
-                              ? "bg-amber-500/20 border-amber-500 text-white font-bold"
-                              : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
-                          }`}
-                        >
-                          <div>
-                            <p className="text-xs font-bold">{win.label}</p>
-                            <p className="text-[10px] text-slate-400 font-mono-spec">
-                              {win.desc}
-                            </p>
-                          </div>
-                          {selectedTimeWindow === win.label && (
-                            <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
-              <div className="lg:col-span-5 space-y-6">
-                {/* 1. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE AT TOP OF CART PAGE */}
+                {/* 2. OFFICIAL SG TRADING COMPANY PAYTM UPI QR STANDEE BELOW GST SUMMARY */}
                 <div className="rounded-2xl border-2 border-sky-500 bg-white text-slate-900 p-5 space-y-4 shadow-2xl flex flex-col items-center">
                   <div className="w-full flex items-center justify-between pb-2 border-b border-slate-200">
                     <span className="text-[11px] font-mono font-black text-sky-700 uppercase tracking-wider">
