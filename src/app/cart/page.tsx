@@ -35,7 +35,8 @@ interface PaidOrderReceipt {
   gstAmount: number;
   deliveryFreight: number;
   totalInclGst: number;
-  paymentMethod: string;
+  customerPaymentMethod: string;
+  merchantSettlementAccount: string;
   itemsCount: number;
 }
 
@@ -68,12 +69,12 @@ export default function CartAndCheckoutPage() {
   const [customerEmailInput, setCustomerEmailInput] = useState("");
   const [customerPhoneInput, setCustomerPhoneInput] = useState("9667731355");
 
-  // Form states
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiry, setCardExpiry] = useState("");
-  const [cardCvv, setCardCvv] = useState("");
-  const [cardHolder, setCardHolder] = useState("");
-  const [upiId, setUpiId] = useState("");
+  // Credit Card Form states
+  const [cardNumber, setCardNumber] = useState("4532 •••• •••• 8821");
+  const [cardExpiry, setCardExpiry] = useState("09/28");
+  const [cardCvv, setCardCvv] = useState("842");
+  const [cardHolder, setCardHolder] = useState("Rahul Procurement Officer");
+  const [selectedBank, setSelectedBank] = useState("HDFC Corporate NetBanking");
 
   const subtotalExclGst = cart.reduce(
     (acc, item) => acc + item.product.priceExclGst * item.quantity,
@@ -97,7 +98,6 @@ export default function CartAndCheckoutPage() {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Save exact amount snapshot BEFORE clearing cart so receipt displays real amount!
     const snapshotSubtotal = subtotalExclGst;
     const snapshotGst = gstAmount;
     const snapshotFreight = deliveryFreight;
@@ -111,6 +111,15 @@ export default function CartAndCheckoutPage() {
         100000 + Math.random() * 900000
       )}`;
 
+      const customerMethodLabel =
+        paymentMethod === "upi"
+          ? "Paytm / UPI App QR"
+          : paymentMethod === "card"
+          ? `Credit / Debit Card (${cardHolder})`
+          : paymentMethod === "netbanking"
+          ? `NetBanking (${selectedBank})`
+          : "RTGS / NEFT Wire";
+
       const newReceipt: PaidOrderReceipt = {
         transactionId: generatedTxn,
         poNumber: `PO-SG-2026-${Math.floor(100 + Math.random() * 900)}`,
@@ -118,13 +127,14 @@ export default function CartAndCheckoutPage() {
         gstAmount: snapshotGst,
         deliveryFreight: snapshotFreight,
         totalInclGst: snapshotTotal,
-        paymentMethod: paymentMethod.toUpperCase(),
+        customerPaymentMethod: customerMethodLabel,
+        merchantSettlementAccount:
+          "SG TRADING COMPANY Paytm UPI (paytmqr69pf0i@ptys • 9667731355)",
         itemsCount: snapshotCount,
       };
 
       setPaidReceipt(newReceipt);
 
-      // Create live Order in Order-to-Cash (O2C) Pipeline & notify Rahul & Sonu
       createCustomerOrder({
         customerName: "Commercial HORECA / Retail Customer",
         customerGstin: "07ADQFS8839Q1ZQ",
@@ -144,7 +154,9 @@ export default function CartAndCheckoutPage() {
       });
 
       showToast(
-        "PO Generated & Payment Verified! Rahul Garg & Sonu Notified in Order-to-Cash Desk."
+        "Payment Processed! Customer paid via " +
+          customerMethodLabel +
+          " ➔ Settled directly into SG Trading Co. Paytm UPI Account!"
       );
       clearCart();
     }, 1600);
@@ -165,7 +177,7 @@ export default function CartAndCheckoutPage() {
     const text = encodeURIComponent(
       `*SG TRADING COMPANY - OFFICIAL GST TAX INVOICE*\nDistributor: Rahul Garg & Sonu (Mayur Vihar Phase-3)\nGSTIN: 07ADQFS8839Q1ZQ\nPO Number: ${paidReceipt?.poNumber}\nTransaction ID: ${paidReceipt?.transactionId}\n*Total Amount Paid: ₹${paidReceipt?.totalInclGst?.toLocaleString(
         "en-IN"
-      )}*\nGST Input Credit: ₹${paidReceipt?.gstAmount?.toLocaleString("en-IN")}\nPaid via: Paytm / UPI (${paidReceipt?.paymentMethod})`
+      )}*\nCustomer Paid Via: ${paidReceipt?.customerPaymentMethod}\nMerchant Settlement: SG Trading Co. Paytm UPI (paytmqr69pf0i@ptys)\nGST Input Credit: ₹${paidReceipt?.gstAmount?.toLocaleString("en-IN")}`
     );
     window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
     setDispatchStatus("WhatsApp Tax Receipt link generated!");
@@ -199,7 +211,7 @@ export default function CartAndCheckoutPage() {
                 SG Trading Co. — Wholesale Cart & Payment Gateway
               </h1>
               <p className="text-sm text-slate-400 mt-1 font-mono-spec">
-                Official Distributor Checkout • GSTIN: 07ADQFS8839Q1ZQ • Rahul Garg & Sonu (Mayur Vihar Phase-3)
+                Customer Payment Choice (Cards / UPI / NetBanking) • Settled Directly to SG Trading Co. Paytm UPI Account (`paytmqr69pf0i@ptys`)
               </p>
             </div>
 
@@ -211,7 +223,7 @@ export default function CartAndCheckoutPage() {
           </div>
 
           {paymentSuccess && paidReceipt ? (
-            /* Official Digital GST Tax Receipt View (FIXED: Exact Paid Amount Preserved!) */
+            /* Official Digital GST Tax Receipt View */
             <div className="industrial-card max-w-3xl mx-auto rounded-2xl p-8 border border-slate-700 text-center space-y-6">
               <div className="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border-2 border-emerald-500/40">
                 <CheckCircle2 className="w-12 h-12" />
@@ -219,7 +231,7 @@ export default function CartAndCheckoutPage() {
 
               <div className="space-y-2">
                 <span className="text-xs font-mono-spec uppercase tracking-wider text-emerald-400 font-bold">
-                  PAYMENT VERIFIED VIA PAYTM / UPI
+                  CUSTOMER PAYMENT PROCESSED & SETTLED TO SG TRADING CO. PAYTM UPI
                 </span>
                 <h2 className="text-3xl font-extrabold text-white">
                   Commercial Order Confirmed!
@@ -239,12 +251,20 @@ export default function CartAndCheckoutPage() {
                   <span className="text-amber-400 font-bold">07ADQFS8839Q1ZQ</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">UPI ID PAID TO:</span>
-                  <span className="text-amber-400 font-bold">paytmqr69pf0i@ptys</span>
+                  <span className="text-slate-400">CUSTOMER PAID VIA:</span>
+                  <span className="text-sky-400 font-bold">
+                    {paidReceipt.customerPaymentMethod}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">MERCHANT SETTLEMENT ACCOUNT:</span>
+                  <span className="text-emerald-400 font-bold">
+                    Paytm UPI (paytmqr69pf0i@ptys • 9667731355)
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">PO & TRANSACTION ID:</span>
-                  <span className="text-sky-400 font-bold">
+                  <span className="text-amber-400 font-bold">
                     {paidReceipt.poNumber} • {paidReceipt.transactionId}
                   </span>
                 </div>
@@ -510,18 +530,23 @@ export default function CartAndCheckoutPage() {
                 </div>
               </div>
 
-              {/* Right Column: Full-Fledged Payment Gateway (5 Cols) */}
+              {/* Right Column: Full-Fledged Customer Payment Gateway (5 Cols) */}
               <div className="lg:col-span-5">
                 <form
                   onSubmit={handleSimulatePayment}
                   className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-6"
                 >
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                    <h3 className="font-bold text-white text-base">
-                      Select Payment Method
-                    </h3>
+                    <div>
+                      <h3 className="font-bold text-white text-base">
+                        Customer Payment Options
+                      </h3>
+                      <p className="text-[11px] text-emerald-400 font-mono-spec mt-0.5">
+                        Settled directly to SG Trading Co. Paytm UPI (`paytmqr69pf0i@ptys`)
+                      </p>
+                    </div>
                     <span className="text-xs text-emerald-400 font-mono-spec font-bold">
-                      Paytm / UPI / Card
+                      Cards / UPI / Banking
                     </span>
                   </div>
 
@@ -529,7 +554,7 @@ export default function CartAndCheckoutPage() {
                   <div className="grid grid-cols-4 gap-2">
                     {[
                       { id: "upi", label: "Paytm / UPI QR", icon: QrCode },
-                      { id: "card", label: "Card", icon: CreditCard },
+                      { id: "card", label: "Credit/Debit Card", icon: CreditCard },
                       { id: "netbanking", label: "NetBanking", icon: Building2 },
                       { id: "neft", label: "RTGS / NEFT", icon: ShieldCheck },
                     ].map((m) => {
@@ -543,25 +568,25 @@ export default function CartAndCheckoutPage() {
                               m.id as "upi" | "card" | "netbanking" | "neft"
                             )
                           }
-                          className={`p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer ${
+                          className={`p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer ${
                             paymentMethod === m.id
                               ? "bg-amber-500/15 border-amber-500 text-amber-400 font-bold"
                               : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
                           }`}
                         >
-                          <Icon className="w-5 h-5" />
-                          <span className="text-xs font-semibold">{m.label}</span>
+                          <Icon className="w-4 h-4" />
+                          <span className="text-[11px] font-semibold">{m.label}</span>
                         </button>
                       );
                     })}
                   </div>
 
-                  {/* Paytm UPI Display */}
+                  {/* CUSTOMER PAYMENT METHOD 1: PAYTM / UPI QR */}
                   {paymentMethod === "upi" && (
                     <div className="rounded-2xl overflow-hidden border border-sky-500/40 bg-white text-slate-900 p-6 space-y-4">
                       <div className="text-center space-y-1">
                         <div className="inline-block px-3 py-1 rounded bg-sky-500 text-white font-extrabold text-xs tracking-wider uppercase">
-                          Paytm से UPI
+                          Paytm से UPI • Merchant Settlement Account
                         </div>
                         <h3 className="text-2xl font-black tracking-tight text-slate-900 uppercase">
                           SG TRADING COMPANY
@@ -617,17 +642,127 @@ export default function CartAndCheckoutPage() {
                     </div>
                   )}
 
+                  {/* CUSTOMER PAYMENT METHOD 2: CREDIT / DEBIT CARD */}
+                  {paymentMethod === "card" && (
+                    <div className="rounded-2xl border border-amber-500/40 bg-slate-950 p-5 space-y-4">
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <span className="text-xs font-mono-spec text-amber-400 font-bold uppercase">
+                          CORPORATE CREDIT / DEBIT CARD
+                        </span>
+                        <span className="text-[10px] text-emerald-400 font-mono-spec">
+                          Settled to SG Trading Co. Paytm UPI
+                        </span>
+                      </div>
+
+                      <div className="space-y-3 font-mono-spec text-xs">
+                        <div>
+                          <label className="text-[11px] text-slate-400 block mb-1">
+                            Cardholder Name *
+                          </label>
+                          <input
+                            type="text"
+                            value={cardHolder}
+                            onChange={(e) => setCardHolder(e.target.value)}
+                            className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] text-slate-400 block mb-1">
+                            16-Digit Credit / Debit Card Number *
+                          </label>
+                          <input
+                            type="text"
+                            value={cardNumber}
+                            onChange={(e) => setCardNumber(e.target.value)}
+                            className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[11px] text-slate-400 block mb-1">
+                              Expiry (MM/YY) *
+                            </label>
+                            <input
+                              type="text"
+                              value={cardExpiry}
+                              onChange={(e) => setCardExpiry(e.target.value)}
+                              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[11px] text-slate-400 block mb-1">
+                              CVV / CVC *
+                            </label>
+                            <input
+                              type="text"
+                              value={cardCvv}
+                              onChange={(e) => setCardCvv(e.target.value)}
+                              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-white"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CUSTOMER PAYMENT METHOD 3: NETBANKING */}
+                  {paymentMethod === "netbanking" && (
+                    <div className="rounded-2xl border border-sky-500/40 bg-slate-950 p-5 space-y-4">
+                      <span className="text-xs font-mono-spec text-sky-400 font-bold uppercase block">
+                        SELECT CORPORATE NETBANKING GATEWAY
+                      </span>
+                      <select
+                        value={selectedBank}
+                        onChange={(e) => setSelectedBank(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white"
+                      >
+                        <option value="HDFC Bank Corporate">HDFC Bank Corporate NetBanking</option>
+                        <option value="ICICI Bank Commercial">ICICI Bank Commercial Banking</option>
+                        <option value="State Bank of India (SBI)">State Bank of India (SBI Enterprise)</option>
+                        <option value="Axis Bank Business">Axis Bank Corporate Banking</option>
+                      </select>
+                      <p className="text-[11px] text-slate-400 font-mono-spec">
+                        Payment will be collected via NetBanking & settled directly to SG Trading Company's Paytm UPI Account (`paytmqr69pf0i@ptys`).
+                      </p>
+                    </div>
+                  )}
+
+                  {/* CUSTOMER PAYMENT METHOD 4: RTGS / NEFT */}
+                  {paymentMethod === "neft" && (
+                    <div className="rounded-2xl border border-emerald-500/40 bg-slate-950 p-5 space-y-3 font-mono-spec text-xs">
+                      <span className="text-xs text-emerald-400 font-bold uppercase block">
+                        RTGS / NEFT DIRECT BANK WIRE DETAILS
+                      </span>
+                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">BENEFICIARY:</span>
+                          <span className="text-white font-bold">SG TRADING COMPANY</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">BANK & BRANCH:</span>
+                          <span className="text-white">ICICI Bank, Mayur Vihar Phase-3</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">UPI MERCH ID:</span>
+                          <span className="text-amber-400 font-bold">paytmqr69pf0i@ptys</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={isProcessing}
                     className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 cursor-pointer"
                   >
                     {isProcessing ? (
-                      <span>Verifying Paytm UPI Payment & Deducting Stock...</span>
+                      <span>Processing Payment & Settling to SG Trading Co. Paytm UPI...</span>
                     ) : (
                       <>
                         <span>
-                          Confirm Payment of ₹{totalInclGst.toLocaleString("en-IN")} & Complete Order
+                          Pay ₹{totalInclGst.toLocaleString("en-IN")} via {paymentMethod === "upi" ? "Paytm UPI" : paymentMethod === "card" ? "Credit Card" : "NetBanking"}
                         </span>
                         <ArrowRight className="w-4 h-4" />
                       </>
