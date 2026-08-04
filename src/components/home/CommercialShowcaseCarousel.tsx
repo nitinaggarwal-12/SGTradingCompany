@@ -169,13 +169,13 @@ export const CommercialShowcaseCarousel: React.FC = () => {
 
                   {/* Bottom Text & Actions */}
                   <div className="max-w-3xl space-y-3">
-                    <span className="text-xs font-mono-spec text-amber-400 font-bold uppercase tracking-wider block">
+                    <span className="text-xs font-mono-spec !text-amber-400 font-extrabold uppercase tracking-wider block drop-shadow">
                       {slide.brandTag}
                     </span>
-                    <h3 className="text-xl sm:text-2xl md:text-4xl font-black text-white leading-tight">
+                    <h3 className="text-xl sm:text-2xl md:text-4xl font-black !text-white leading-tight drop-shadow-lg">
                       {slide.title}
                     </h3>
-                    <p className="text-xs sm:text-sm md:text-base text-slate-200 line-clamp-2 sm:line-clamp-none max-w-2xl">
+                    <p className="text-xs sm:text-sm md:text-base !text-white font-medium line-clamp-2 sm:line-clamp-none max-w-2xl drop-shadow-md">
                       {slide.subtitle}
                     </p>
 
