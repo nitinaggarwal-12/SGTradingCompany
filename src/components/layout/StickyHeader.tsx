@@ -19,6 +19,10 @@ import {
   Building2,
   Store,
   CheckSquare,
+  Menu,
+  UserCheck,
+  PhoneCall,
+  Scale,
 } from "lucide-react";
 import Link from "next/link";
 import { PRODUCTS_CATALOG } from "@/data/products";
@@ -44,9 +48,15 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     setActiveCategoryFilter,
   } = useApp();
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleCategoryClick = (catTitle: string) => {
     setActiveCategoryFilter(catTitle);
     setIsMegaMenuOpen(false);
+    setIsMobileMenuOpen(false);
     if (typeof window !== "undefined") {
       if (window.location.pathname !== "/") {
         window.location.href = "/#catalog";
@@ -58,10 +68,6 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
       }
     }
   };
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
 
   const totalCartItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const totalRFQItems = rfqItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -133,20 +139,20 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <span className="font-extrabold text-sm sm:text-base md:text-lg tracking-tight text-white group-hover:text-amber-400 transition-colors">
                     SG TRADING COMPANY
                   </span>
-                  <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/30">
+                  <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 font-extrabold border border-amber-500/30 hidden sm:inline-block">
                     AUTH. DISTRIBUTOR
                   </span>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium">
-                  Rahul Garg & Sonu • Mayur Vihar Phase-3, Delhi •{" "}
-                  <span className="text-amber-400">sgtradingcompany@rediffmail.com</span>
+                <p className="text-[10px] text-slate-400 font-medium truncate max-w-[240px] sm:max-w-none">
+                  Rahul Garg &amp; Sonu • Mayur Vihar Phase-3, Delhi •{" "}
+                  <span className="text-amber-400">9667731355</span>
                 </p>
               </div>
             </Link>
           </div>
 
-          {/* Center: Executive Navigation Links with Sleek Compact Single Dropdown */}
-          <nav className="flex items-center gap-4 sm:gap-6 text-xs font-bold uppercase tracking-wider text-slate-300">
+          {/* Center: Desktop Executive Navigation Links */}
+          <nav className="hidden xl:flex items-center gap-5 text-xs font-bold uppercase tracking-wider text-slate-300">
             {/* Sleek Compact Single Dropdown Trigger */}
             <div
               className="relative"
@@ -177,7 +183,6 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                     </button>
                   </div>
 
-                  {/* Show All 12 Brands Option */}
                   <button
                     onClick={() => handleCategoryClick("All Categories")}
                     className="w-full text-left p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
@@ -231,7 +236,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
             <Link
               href="/#catalog"
-              className="hover:text-amber-400 transition-colors hidden sm:inline"
+              className="hover:text-amber-400 transition-colors"
             >
               Brand Catalog
             </Link>
@@ -246,35 +251,35 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
             <Link
               href="/order-to-cash"
-              className="hover:text-amber-400 text-amber-400 font-bold transition-colors hidden lg:inline"
+              className="hover:text-amber-400 text-amber-400 font-bold transition-colors"
             >
               Order to Cash (O2C)
             </Link>
 
             <Link
               href="/account"
-              className="hover:text-amber-400 font-bold transition-colors hidden md:inline"
+              className="hover:text-amber-400 font-bold transition-colors"
             >
               {currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             </Link>
 
             <Link
               href="/#about"
-              className="hover:text-amber-400 transition-colors hidden md:inline"
+              className="hover:text-amber-400 transition-colors"
             >
               About Us
             </Link>
 
             <Link
               href="/#contact"
-              className="hover:text-amber-400 transition-colors hidden md:inline"
+              className="hover:text-amber-400 transition-colors"
             >
               Contact Us
             </Link>
           </nav>
 
-          {/* Right: Search Bar & Actions */}
-          <div className="flex items-center gap-2.5">
+          {/* Right: Search Bar, Actions & Responsive Mobile Trigger */}
+          <div className="flex items-center gap-2">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
@@ -288,23 +293,23 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </button>
 
-            {/* Instant Search Bar */}
+            {/* Instant Search Bar (Responsive Width) */}
             <div className="relative">
               <div className="relative">
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search McCain, ITC, Fries..."
+                  placeholder="Search..."
                   value={searchQuery}
                   onFocus={() => setIsSearchFocused(true)}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-36 sm:w-48 lg:w-56 pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-all"
+                  className="w-24 sm:w-44 lg:w-52 pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-all"
                 />
               </div>
 
               {/* Instant Search Dropdown Results */}
               {isSearchFocused && searchResults.length > 0 && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50">
+                <div className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50">
                   <span className="text-[10px] font-mono-spec text-slate-400 px-2 py-1 block uppercase">
                     Matching Distribution SKUs
                   </span>
@@ -340,18 +345,112 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            {/* Wholesale Cart Drawer Link */}
+            {/* Wholesale Cart Link */}
             <Link
               href="/cart"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white transition-all cursor-pointer"
             >
               <ShoppingCart className="w-4 h-4 text-amber-400" />
               <span className="text-xs font-bold font-mono-spec">
-                Cart ({totalCartItems})
+                ({totalCartItems})
               </span>
             </Link>
+
+            {/* MOBILE MENU TOGGLE BUTTON (Visible on < xl screens) */}
+            <button
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              className="xl:hidden p-2 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
+              title="Open Navigation Menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* TOUCH-FRIENDLY RESPONSIVE MOBILE NAVIGATION DRAWER */}
+        {isMobileMenuOpen && (
+          <div className="xl:hidden mt-3 pt-3 border-t border-slate-800 space-y-2 font-mono-spec text-xs animate-in fade-in slide-in-from-top-2">
+            <div className="grid grid-cols-2 gap-2 pb-2">
+              <Link
+                href="/account"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 flex items-center gap-2 text-white font-bold"
+              >
+                <UserCheck className="w-4 h-4 text-emerald-400" />
+                <span className="truncate">
+                  {currentUser ? currentUser.companyName : "Sign In / Account"}
+                </span>
+              </Link>
+
+              <Link
+                href="/stock-manager"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 flex items-center gap-2 text-amber-400 font-bold"
+              >
+                <Boxes className="w-4 h-4" />
+                <span>Warehouse Stock ({totalStockCount})</span>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pb-2">
+              <Link
+                href="/order-to-cash"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 font-extrabold flex items-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Order-to-Cash (O2C)</span>
+              </Link>
+
+              <Link
+                href="/rfq-workspace"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-sky-400 font-bold flex items-center gap-2"
+              >
+                <Scale className="w-4 h-4" />
+                <span>Wholesale RFQ Quote</span>
+              </Link>
+            </div>
+
+            {/* Mobile All 12 Brands Selector */}
+            <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+              <span className="text-[10px] text-amber-400 uppercase font-extrabold block">
+                Authorized FMCG Distribution Directory:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                <button
+                  onClick={() => handleCategoryClick("All Categories")}
+                  className="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-[11px]"
+                >
+                  All 12 Brands (16 SKUs)
+                </button>
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.name}
+                    onClick={() => handleCategoryClick(cat.name)}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-200 hover:text-amber-400 text-[11px] font-bold"
+                  >
+                    {cat.name.split("-")[0]} ({cat.count})
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2 text-[11px] text-slate-400">
+              <span>Mayur Vihar Phase-3, Delhi NCR</span>
+              <a
+                href="tel:+919667731355"
+                className="text-amber-400 font-bold flex items-center gap-1"
+              >
+                <PhoneCall className="w-3 h-3" /> Rahul Garg: 9667731355
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
