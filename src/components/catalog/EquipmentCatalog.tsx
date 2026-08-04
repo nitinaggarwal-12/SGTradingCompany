@@ -469,24 +469,24 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
           {/* Right Column: Catalog Grid or Specification Matrix (9 Columns) */}
           <div className="lg:col-span-9 space-y-6">
             {/* Filter Status Pills */}
-            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900/80 dark:bg-slate-900/80 border border-slate-800">
               <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-slate-400 font-mono-spec">
+                <span className="font-mono-spec font-bold uppercase text-amber-400">
                   Active Filters:
                 </span>
-                <span className="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-mono-spec font-bold border border-amber-500/30">
+                <span className="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-400 font-mono-spec font-bold border border-amber-500/40">
                   Category: {selectedCategory}
                 </span>
-                <span className="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-400 font-mono-spec font-bold border border-amber-500/30">
+                <span className="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-400 font-mono-spec font-bold border border-amber-500/40">
                   Brands: {selectedBrands.length}/12 Selected
                 </span>
-                <span className="px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 font-mono-spec font-bold border border-cyan-500/30">
+                <span className="px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono-spec font-bold border border-cyan-500/40">
                   Storage: {storageCondition}
                 </span>
               </div>
 
-              <div className="text-xs font-mono-spec font-bold text-slate-300">
-                Showing <span className="text-amber-400">{filteredProducts.length}</span> of{" "}
+              <div className="text-xs font-mono-spec font-extrabold text-white">
+                Showing <span className="text-amber-400 text-sm">{filteredProducts.length}</span> of{" "}
                 {PRODUCTS_CATALOG.length} Authorized SKUs
               </div>
             </div>
