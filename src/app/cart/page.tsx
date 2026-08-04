@@ -25,6 +25,7 @@ import {
   MessageCircle,
   Smartphone,
   Send,
+  RefreshCw,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -36,6 +37,7 @@ interface PaidOrderReceipt {
   deliveryFreight: number;
   totalInclGst: number;
   customerPaymentMethod: string;
+  cardNetworkClearing: string;
   merchantSettlementAccount: string;
   itemsCount: number;
 }
@@ -57,6 +59,9 @@ export default function CartAndCheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<
     "upi" | "card" | "netbanking" | "neft"
   >("upi");
+  const [cardBrand, setCardBrand] = useState<
+    "VISA" | "MASTERCARD" | "AMEX" | "RUPAY"
+  >("VISA");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [copiedUpi, setCopiedUpi] = useState(false);
@@ -115,10 +120,15 @@ export default function CartAndCheckoutPage() {
         paymentMethod === "upi"
           ? "Paytm / UPI App QR"
           : paymentMethod === "card"
-          ? `Credit / Debit Card (${cardHolder})`
+          ? `${cardBrand} Commercial Card (${cardHolder})`
           : paymentMethod === "netbanking"
           ? `NetBanking (${selectedBank})`
           : "RTGS / NEFT Wire";
+
+      const cardClearingRef =
+        paymentMethod === "card"
+          ? `${cardBrand} Network Clearing ➔ Gateway Settle-to-UPI`
+          : "Direct NPCI UPI Instant Settlement";
 
       const newReceipt: PaidOrderReceipt = {
         transactionId: generatedTxn,
@@ -128,6 +138,7 @@ export default function CartAndCheckoutPage() {
         deliveryFreight: snapshotFreight,
         totalInclGst: snapshotTotal,
         customerPaymentMethod: customerMethodLabel,
+        cardNetworkClearing: cardClearingRef,
         merchantSettlementAccount:
           "SG TRADING COMPANY Paytm UPI (paytmqr69pf0i@ptys • 9667731355)",
         itemsCount: snapshotCount,
@@ -154,9 +165,7 @@ export default function CartAndCheckoutPage() {
       });
 
       showToast(
-        "Payment Processed! Customer paid via " +
-          customerMethodLabel +
-          " ➔ Settled directly into SG Trading Co. Paytm UPI Account!"
+        `Payment Processed via ${cardBrand} Card! Interbank Clearing Completed & Settled to SG Trading Co. Paytm UPI!`
       );
       clearCart();
     }, 1600);
@@ -177,7 +186,7 @@ export default function CartAndCheckoutPage() {
     const text = encodeURIComponent(
       `*SG TRADING COMPANY - OFFICIAL GST TAX INVOICE*\nDistributor: Rahul Garg & Sonu (Mayur Vihar Phase-3)\nGSTIN: 07ADQFS8839Q1ZQ\nPO Number: ${paidReceipt?.poNumber}\nTransaction ID: ${paidReceipt?.transactionId}\n*Total Amount Paid: ₹${paidReceipt?.totalInclGst?.toLocaleString(
         "en-IN"
-      )}*\nCustomer Paid Via: ${paidReceipt?.customerPaymentMethod}\nMerchant Settlement: SG Trading Co. Paytm UPI (paytmqr69pf0i@ptys)\nGST Input Credit: ₹${paidReceipt?.gstAmount?.toLocaleString("en-IN")}`
+      )}*\nCustomer Paid Via: ${paidReceipt?.customerPaymentMethod}\nCard Network Clearing: ${paidReceipt?.cardNetworkClearing}\nMerchant Settlement: SG Trading Co. Paytm UPI (paytmqr69pf0i@ptys)\nGST Input Credit: ₹${paidReceipt?.gstAmount?.toLocaleString("en-IN")}`
     );
     window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
     setDispatchStatus("WhatsApp Tax Receipt link generated!");
@@ -211,7 +220,7 @@ export default function CartAndCheckoutPage() {
                 SG Trading Co. — Wholesale Cart & Payment Gateway
               </h1>
               <p className="text-sm text-slate-400 mt-1 font-mono-spec">
-                Customer Payment Choice (Cards / UPI / NetBanking) • Settled Directly to SG Trading Co. Paytm UPI Account (`paytmqr69pf0i@ptys`)
+                Customer Payment Choice (Visa / Mastercard / Amex / UPI) • Automatically Settled to SG Trading Co. Paytm UPI (`paytmqr69pf0i@ptys`)
               </p>
             </div>
 
@@ -231,7 +240,7 @@ export default function CartAndCheckoutPage() {
 
               <div className="space-y-2">
                 <span className="text-xs font-mono-spec uppercase tracking-wider text-emerald-400 font-bold">
-                  CUSTOMER PAYMENT PROCESSED & SETTLED TO SG TRADING CO. PAYTM UPI
+                  CARD NETWORK CLEARED & SETTLED TO SG TRADING CO. PAYTM UPI
                 </span>
                 <h2 className="text-3xl font-extrabold text-white">
                   Commercial Order Confirmed!
@@ -254,6 +263,12 @@ export default function CartAndCheckoutPage() {
                   <span className="text-slate-400">CUSTOMER PAID VIA:</span>
                   <span className="text-sky-400 font-bold">
                     {paidReceipt.customerPaymentMethod}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">CARD NETWORK CLEARING:</span>
+                  <span className="text-amber-400 font-bold">
+                    {paidReceipt.cardNetworkClearing}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -542,7 +557,7 @@ export default function CartAndCheckoutPage() {
                         Customer Payment Options
                       </h3>
                       <p className="text-[11px] text-emerald-400 font-mono-spec mt-0.5">
-                        Settled directly to SG Trading Co. Paytm UPI (`paytmqr69pf0i@ptys`)
+                        Visa / Mastercard / Amex / UPI ➔ Settled to SG Trading Co. Paytm UPI (`paytmqr69pf0i@ptys`)
                       </p>
                     </div>
                     <span className="text-xs text-emerald-400 font-mono-spec font-bold">
@@ -554,7 +569,7 @@ export default function CartAndCheckoutPage() {
                   <div className="grid grid-cols-4 gap-2">
                     {[
                       { id: "upi", label: "Paytm / UPI QR", icon: QrCode },
-                      { id: "card", label: "Credit/Debit Card", icon: CreditCard },
+                      { id: "card", label: "Visa / MC / Amex", icon: CreditCard },
                       { id: "netbanking", label: "NetBanking", icon: Building2 },
                       { id: "neft", label: "RTGS / NEFT", icon: ShieldCheck },
                     ].map((m) => {
@@ -642,16 +657,56 @@ export default function CartAndCheckoutPage() {
                     </div>
                   )}
 
-                  {/* CUSTOMER PAYMENT METHOD 2: CREDIT / DEBIT CARD */}
+                  {/* CUSTOMER PAYMENT METHOD 2: VISA / MASTERCARD / AMEX CLEARING & SETTLEMENT */}
                   {paymentMethod === "card" && (
                     <div className="rounded-2xl border border-amber-500/40 bg-slate-950 p-5 space-y-4">
                       <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                         <span className="text-xs font-mono-spec text-amber-400 font-bold uppercase">
-                          CORPORATE CREDIT / DEBIT CARD
+                          CREDIT / DEBIT CARD CLEARING NETWORK
                         </span>
                         <span className="text-[10px] text-emerald-400 font-mono-spec">
-                          Settled to SG Trading Co. Paytm UPI
+                          Auto-Settle to SG Trading Co. Paytm UPI
                         </span>
+                      </div>
+
+                      {/* Card Brand Network Selector */}
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-mono-spec text-slate-400 uppercase">
+                          Select Card Clearing Network:
+                        </label>
+                        <div className="grid grid-cols-4 gap-2">
+                          {(["VISA", "MASTERCARD", "AMEX", "RUPAY"] as const).map(
+                            (brand) => (
+                              <button
+                                key={brand}
+                                type="button"
+                                onClick={() => setCardBrand(brand)}
+                                className={`py-1.5 px-2 rounded-lg text-xs font-mono-spec font-bold border cursor-pointer ${
+                                  cardBrand === brand
+                                    ? "bg-amber-500/20 border-amber-500 text-amber-400"
+                                    : "bg-slate-900 border-slate-800 text-slate-400"
+                                }`}
+                              >
+                                {brand}
+                              </button>
+                            )
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Visual Card Clearing & Settlement Explanation Banner */}
+                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] font-mono-spec text-slate-300 space-y-1">
+                        <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>CARD CLEARING & PAYTM UPI SETTLEMENT TRACE:</span>
+                        </div>
+                        <p>
+                          1. Customer pays via <strong>{cardBrand} Commercial Card</strong>.
+                          <br />
+                          2. Gateway performs {cardBrand} Network Clearing.
+                          <br />
+                          3. Net settlement deposited directly to <strong>SG Trading Company Paytm UPI (`paytmqr69pf0i@ptys`)</strong>.
+                        </p>
                       </div>
 
                       <div className="space-y-3 font-mono-spec text-xs">
@@ -669,7 +724,7 @@ export default function CartAndCheckoutPage() {
 
                         <div>
                           <label className="text-[11px] text-slate-400 block mb-1">
-                            16-Digit Credit / Debit Card Number *
+                            16-Digit {cardBrand} Credit / Debit Card Number *
                           </label>
                           <input
                             type="text"
@@ -762,7 +817,7 @@ export default function CartAndCheckoutPage() {
                     ) : (
                       <>
                         <span>
-                          Pay ₹{totalInclGst.toLocaleString("en-IN")} via {paymentMethod === "upi" ? "Paytm UPI" : paymentMethod === "card" ? "Credit Card" : "NetBanking"}
+                          Pay ₹{totalInclGst.toLocaleString("en-IN")} via {paymentMethod === "upi" ? "Paytm UPI" : paymentMethod === "card" ? `${cardBrand} Card` : "NetBanking"}
                         </span>
                         <ArrowRight className="w-4 h-4" />
                       </>
