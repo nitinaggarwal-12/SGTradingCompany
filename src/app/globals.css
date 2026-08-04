@@ -18,67 +18,27 @@ body {
   font-family: var(--font-inter);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-outfit);
+  color: #FFFFFF;
 }
 
 .font-mono-spec {
   font-family: var(--font-jetbrains-mono);
 }
 
-/* Industrial glass card styling */
+/* Unified Industrial Commercial Glass Card */
 .industrial-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: #0F172A;
+  border: 1px solid #1E293B;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1rem;
 }
 
 .industrial-card:hover {
   border-color: rgba(245, 158, 11, 0.45);
-  box-shadow: 0 16px 40px -12px rgba(245, 158, 11, 0.12);
-  transform: translateY(-2px);
-}
-
-/* ==========================================================================
-   EXHAUSTIVE HIGH-CONTRAST LIGHT COMMERCIAL THEME ENGINE (WCAG AAA)
-   ========================================================================== */
-html.light-theme,
-html.light-theme body,
-html.light-theme main {
-  background-color: #f8fafc;
-  color: #0f172a;
-}
-
-/* In Light theme, cards with light backgrounds use clean white paper */
-html.light-theme .industrial-card {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.06);
-}
-
-html.light-theme .industrial-card:hover {
-  border-color: #d97706;
-  box-shadow: 0 8px 25px -4px rgba(217, 119, 6, 0.15);
-}
-
-/* Header & Footer in light theme */
-html.light-theme header,
-html.light-theme footer {
-  background-color: #ffffff;
-  border-color: #cbd5e1;
-  color: #0f172a;
-}
-
-/* Ensure bright white text inside dark containers stays pure white */
-.bg-slate-900 .text-white,
-.bg-slate-950 .text-white,
-.bg-slate-900/90 .text-white,
-.bg-amber-500 .text-slate-950 {
-  color: inherit;
 }
 
 /* Custom Scrollbar */
@@ -98,13 +58,4 @@ html.light-theme footer {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #F59E0B;
-}
-
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
