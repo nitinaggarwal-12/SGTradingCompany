@@ -758,61 +758,29 @@ export default function CartAndCheckoutPage() {
 
                   {/* CUSTOMER PAYMENT METHOD 1: PAYTM / UPI QR */}
                   {paymentMethod === "upi" && (
-                    <div className="rounded-2xl overflow-hidden border border-sky-500/40 bg-white text-slate-900 p-6 space-y-4">
-                      <div className="text-center space-y-1">
-                        <div className="inline-block px-3 py-1 rounded bg-sky-500 text-white font-extrabold text-xs tracking-wider uppercase">
-                          Paytm से UPI • Merchant Settlement Account
-                        </div>
-                        <h3 className="text-2xl font-black tracking-tight text-slate-900 uppercase">
-                          SG TRADING COMPANY
-                        </h3>
-                        <p className="text-base font-extrabold font-mono text-slate-800">
-                          9667731355
-                        </p>
-                      </div>
+                    <div className="rounded-2xl overflow-hidden border-2 border-sky-500 bg-white text-slate-900 p-4 space-y-4 flex flex-col items-center">
+                      <img
+                        src="/sg-trading-company-paytm-qr.png"
+                        alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
+                        className="w-full max-w-[320px] rounded-xl shadow-lg border border-slate-200"
+                      />
 
-                      <div className="flex flex-col items-center justify-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <div className="w-44 h-44 rounded-xl bg-white border-2 border-sky-500 p-2 shadow-md flex flex-col items-center justify-center">
-                          <div className="w-full h-full border border-slate-300 rounded p-1.5 flex flex-col justify-between">
-                            <div className="flex justify-between">
-                              <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                                <div className="w-4 h-4 bg-slate-900" />
-                              </div>
-                              <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                                <div className="w-4 h-4 bg-slate-900" />
-                              </div>
-                            </div>
-                            <div className="text-center font-mono-spec text-[9px] font-black text-sky-600 uppercase">
-                              SCAN IN PAYTM APP
-                            </div>
-                            <div className="flex justify-between items-end">
-                              <div className="w-10 h-10 border-4 border-slate-900 flex items-center justify-center">
-                                <div className="w-4 h-4 bg-slate-900" />
-                              </div>
-                              <div className="text-right text-[8px] font-mono font-bold text-slate-600">
-                                PAYTM QR
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center space-y-2">
-                          <span className="text-[11px] font-mono font-bold text-slate-500 uppercase block">
-                            EXACT MERCHANT UPI ID:
+                      <div className="w-full text-center space-y-2">
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="text-sm font-mono font-black text-sky-700 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200">
+                            paytmqr69pf0i@ptys
                           </span>
-                          <div className="flex items-center justify-center gap-2">
-                            <span className="text-sm font-mono font-black text-sky-600 bg-sky-50 px-3 py-1 rounded-lg border border-sky-200">
-                              paytmqr69pf0i@ptys
-                            </span>
-                            <button
-                              type="button"
-                              onClick={handleCopyUPI}
-                              className="px-3 py-1 rounded-lg bg-sky-600 text-white text-xs font-bold"
-                            >
-                              {copiedUpi ? "Copied!" : "Copy UPI"}
-                            </button>
-                          </div>
+                          <button
+                            type="button"
+                            onClick={handleCopyUPI}
+                            className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all cursor-pointer"
+                          >
+                            {copiedUpi ? "Copied!" : "Copy UPI ID"}
+                          </button>
                         </div>
+                        <p className="text-[11px] text-slate-500 font-mono font-bold">
+                          Merchant: SG TRADING COMPANY • Rahul Garg (9667731355)
+                        </p>
                       </div>
                     </div>
                   )}
