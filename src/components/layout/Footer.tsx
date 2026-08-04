@@ -1,14 +1,16 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import {
   Phone,
   Mail,
   MapPin,
   ShieldCheck,
   FileText,
-  Flame,
-  Zap,
+  Snowflake,
+  Boxes,
+  UserCheck,
 } from "lucide-react";
 
 export const Footer: React.FC = () => {
@@ -26,101 +28,116 @@ export const Footer: React.FC = () => {
                 <span className="font-extrabold text-lg text-white block leading-tight">
                   SG TRADING COMPANY
                 </span>
-                <span className="text-[11px] font-mono-spec text-amber-400">
-                  COMMERCIAL KITCHEN & HORECA SYSTEMS
+                <span className="text-[11px] font-mono-spec text-amber-400 font-bold">
+                  AUTHORIZED HORECA & GENERAL TRADE FMCG DISTRIBUTOR
                 </span>
               </div>
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              India's trusted industrial trading enterprise and online marketplace for heavy-duty commercial cooking equipment, hotel refrigerators, bakery rotary ovens, SS304 fabrication, and turnkey commercial kitchen projects.
+              Delhi NCR&apos;s premier commercial distributor for Hotels, Restaurants, Banquets, QSRs & Retail Stores. Managed by <strong className="text-amber-400">Rahul Garg & Sonu</strong> with active <strong className="text-cyan-400">-18°C cold-chain storage</strong> in Mayur Vihar Phase-3.
             </p>
 
-            <div className="space-y-1.5 text-xs text-slate-300 font-mono-spec pt-2">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Plot 42, Okhla Industrial Area Phase-III, New Delhi - 110020</span>
+            <div className="space-y-2 text-xs text-slate-200 font-mono-spec pt-2">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span>
+                  B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>B2B Sales Helpline: +91 98765 43210</span>
+                <span>Direct Distributor Helpline: +91 9667731355 / +91 9643097002</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-sky-400 shrink-0" />
-                <span>rfq@sgtradingco.in | GSTIN: 07AABCS1429B1Z1</span>
+                <span>
+                  sgtradingcompany@rediffmail.com • GSTIN: <strong className="text-amber-400">07ADQFS8839Q1ZQ</strong>
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Categories */}
+          {/* Active Portal Navigation Links */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Commercial Equipment
+              Distributor Operations & Portal
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  Heavy 4 & 6 Burner Gas Ranges
-                </a>
+                <Link
+                  href="/#catalog"
+                  className="hover:text-amber-400 transition-colors font-medium"
+                >
+                  Authorized 12-Brand FMCG Directory
+                </Link>
               </li>
               <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  Commercial Twin Electric Fryers
-                </a>
+                <Link
+                  href="/stock-manager"
+                  className="hover:text-amber-400 transition-colors font-medium flex items-center gap-1.5"
+                >
+                  <Boxes className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Mayur Vihar Warehouse Stock Manager</span>
+                </Link>
               </li>
               <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  Upright 1000L SS304 Reach-In Chillers
-                </a>
+                <Link
+                  href="/order-to-cash"
+                  className="hover:text-amber-400 text-amber-400 font-bold transition-colors"
+                >
+                  Order-to-Cash (O2C) Enterprise Desk
+                </Link>
               </li>
               <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  Commercial Ice Cube Machines
-                </a>
-              </li>
-              <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  40Kg Industrial Spiral Dough Mixers
-                </a>
-              </li>
-              <li>
-                <a href="#catalog" className="hover:text-amber-400 transition-colors">
-                  16-Tray Rotary Rack Bakery Ovens
-                </a>
+                <Link
+                  href="/account"
+                  className="hover:text-amber-400 transition-colors font-medium flex items-center gap-1.5"
+                >
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Customer Account & Guest Shopping</span>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Turnkey Solutions */}
+          {/* B2B Wholesale & Payment Tools */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Turnkey Kitchen Layouts
+              B2B Commercial Tools
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#turnkey" className="hover:text-amber-400 transition-colors">
-                  Cloud Kitchen Layout Blueprint
-                </a>
+                <Link
+                  href="/rfq-workspace"
+                  className="hover:text-amber-400 transition-colors font-medium"
+                >
+                  B2B Wholesale Proforma Quote Sheet
+                </Link>
               </li>
               <li>
-                <a href="#turnkey" className="hover:text-amber-400 transition-colors">
-                  5-Star & Boutique Hotel Kitchens
-                </a>
+                <Link
+                  href="/compare"
+                  className="hover:text-amber-400 transition-colors font-medium"
+                >
+                  Technical & Margin Spec Comparison
+                </Link>
               </li>
               <li>
-                <a href="#turnkey" className="hover:text-amber-400 transition-colors">
-                  Fine Dining & Specialty Kitchens
-                </a>
+                <Link
+                  href="/cart"
+                  className="hover:text-amber-400 transition-colors font-medium"
+                >
+                  Wholesale Cart & Payment Gateway
+                </Link>
               </li>
               <li>
-                <a href="#turnkey" className="hover:text-amber-400 transition-colors">
-                  Industrial Bakery Manufacturing Floor
-                </a>
-              </li>
-              <li>
-                <a href="#turnkey" className="hover:text-amber-400 transition-colors">
-                  QSR & Fast Food Chain Outlets
-                </a>
+                <Link
+                  href="/#about"
+                  className="hover:text-amber-400 transition-colors font-medium"
+                >
+                  Distributor Infrastructure & Fleet
+                </Link>
               </li>
             </ul>
           </div>
@@ -128,31 +145,34 @@ export const Footer: React.FC = () => {
           {/* Corporate & Compliance */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              B2B Corporate & Compliance
+              Authorized Distribution Guarantees
             </h4>
             <ul className="space-y-2 text-xs">
-              <li className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>100% SS 304 Food-Grade Guarantee</span>
+              <li className="flex items-center gap-1.5 text-cyan-400 font-semibold">
+                <Snowflake className="w-3.5 h-3.5" />
+                <span>-18°C Unbroken Cold-Chain Delivery</span>
               </li>
               <li className="flex items-center gap-1.5 text-amber-400 font-semibold">
                 <FileText className="w-3.5 h-3.5" />
-                <span>GST Tax Invoice (18% Input Credit)</span>
+                <span>GST Tax Invoice (100% Input Credit)</span>
               </li>
-              <li>Pan-India Heavy Crane & Tailgate Freight</li>
-              <li>Annual Maintenance Contracts (AMC)</li>
-              <li>FSSAI & HACCP Sanitation Guidance</li>
+              <li className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Direct Authorized Distributor Pricing</span>
+              </li>
+              <li className="text-slate-300 font-mono-spec text-[11px] pt-1">
+                Merchant Settlement Account: SG Trading Co. Paytm UPI (`paytmqr69pf0i@ptys`)
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Copyright & Disclaimer */}
         <div className="pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <p>© 2026 SG TRADING COMPANY. All rights reserved. Commercial Kitchen & HORECA Systems.</p>
-          <div className="flex items-center gap-6 font-mono-spec text-slate-400">
-            <span>GSTIN: 07ADQFS8839Q1ZQ</span>
-            <span>FSSAI LIC. NO: [ADD YOUR FSSAI NO.]</span>
-            <span>ISO 9001:2015 CERTIFIED</span>
+          <p>© 2026 SG TRADING COMPANY (Rahul Garg & Sonu). All rights reserved.</p>
+          <div className="flex items-center gap-6 font-mono-spec text-slate-300">
+            <span>OFFICIAL GSTIN: <strong className="text-amber-400">07ADQFS8839Q1ZQ</strong></span>
+            <span>WAREHOUSE: MAYUR VIHAR PHASE-3, DELHI NCR</span>
           </div>
         </div>
       </div>
