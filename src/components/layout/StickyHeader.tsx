@@ -37,6 +37,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     products,
     theme,
     toggleTheme,
+    currentUser,
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -171,6 +172,13 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               className="hover:text-amber-400 text-amber-400 font-bold transition-colors hidden lg:inline"
             >
               Order to Cash (O2C)
+            </Link>
+
+            <Link
+              href="/account"
+              className="hover:text-amber-400 font-bold transition-colors hidden md:inline"
+            >
+              {currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             </Link>
 
             <a

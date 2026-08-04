@@ -9,6 +9,7 @@ import {
   CustomerOrder,
   OrderLifecycleStage,
   OrderPaymentMethod,
+  CustomerAccount,
 } from "@/types/equipment";
 import { PRODUCTS_CATALOG } from "@/data/products";
 
@@ -45,6 +46,14 @@ interface AppContextType {
   clearCompare: () => void;
   isCompareModalOpen: boolean;
   setIsCompareModalOpen: (open: boolean) => void;
+
+  // Customer Account & Guest Shopping System
+  currentUser: CustomerAccount | null;
+  isGuestCheckout: boolean;
+  setIsGuestCheckout: (guest: boolean) => void;
+  registerCustomer: (accountData: Partial<CustomerAccount>) => CustomerAccount;
+  loginCustomer: (email: string) => CustomerAccount;
+  logoutCustomer: () => void;
 
   // Theme state (Dark / Light)
   theme: "dark" | "light";
@@ -229,6 +238,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [orders, setOrders] = useState<CustomerOrder[]>(defaultOrders);
 
+  // Customer Auth & Guest Checkout State
+  const [currentUser, setCurrentUser] = useState<CustomerAccount | null>(null);
+  const [isGuestCheckout, setIsGuestCheckout] = useState<boolean>(true);
+
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null
@@ -257,6 +270,56 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     setTimeout(() => {
       setToastMessage((prev) => (prev === message ? null : prev));
     }, 3200);
+  };
+
+  // CUSTOMER AUTH & GUEST CHECKOUT HANDLERS
+  const registerCustomer = (
+    accountData: Partial<CustomerAccount>
+  ): CustomerAccount => {
+    const newAcc: CustomerAccount = {
+      id: `CUST-${Math.floor(1000 + Math.random() * 9000)}`,
+      companyName: accountData.companyName || "Commercial Partner",
+      gstin: accountData.gstin || "07ADQFS8839Q1ZQ",
+      contactPerson: accountData.contactPerson || "Procurement Officer",
+      phone: accountData.phone || "9667731355",
+      email: accountData.email || "partner@company.com",
+      deliveryAddress:
+        accountData.deliveryAddress || "Mayur Vihar Phase-3, Delhi",
+      establishmentType: accountData.establishmentType || "HORECA Hotel/Restaurant",
+      createdAt: new Date().toLocaleDateString("en-IN"),
+    };
+    setCurrentUser(newAcc);
+    setIsGuestCheckout(false);
+    showToast(
+      `Welcome ${newAcc.companyName}! Business account registered with GSTIN ${newAcc.gstin}.`
+    );
+    return newAcc;
+  };
+
+  const loginCustomer = (email: string): CustomerAccount => {
+    const demoAcc: CustomerAccount = {
+      id: "CUST-9921",
+      companyName: "Radisson Blu Hotel & Banquets",
+      gstin: "07AAACR3841C1Z5",
+      contactPerson: "Rajesh Sharma (Procurement Director)",
+      phone: "+91 98112 44901",
+      email: email || "purchase@radissonmayurvihar.com",
+      deliveryAddress: "Mayur Vihar Phase-1, Delhi NCR",
+      establishmentType: "5-Star Hotel & Banquet",
+      createdAt: "01/01/2026",
+    };
+    setCurrentUser(demoAcc);
+    setIsGuestCheckout(false);
+    showToast(
+      `Signed in as ${demoAcc.companyName}. Saved GSTIN & delivery address pre-filled.`
+    );
+    return demoAcc;
+  };
+
+  const logoutCustomer = () => {
+    setCurrentUser(null);
+    setIsGuestCheckout(true);
+    showToast("Signed out. You can continue shopping as a Guest!");
   };
 
   // Products dynamically enriched with running warehouse stock
@@ -304,11 +367,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       poNumber: newPo,
       invoiceNumber: `INV-SG-2026-${Math.floor(120 + Math.random() * 880)}`,
       customerName:
-        orderData.customerName || "HORECA Commercial Partner / Retailer",
-      customerGstin: orderData.customerGstin || "07ADQFS8839Q1ZQ",
-      customerPhone: orderData.customerPhone || "+91 96677 31355",
-      customerEmail: orderData.customerEmail || "purchase@customer.com",
-      deliveryCity: orderData.deliveryCity || "Delhi NCR",
+        orderData.customerName ||
+        currentUser?.companyName ||
+        "Commercial HORECA / Retail Guest Buyer",
+      customerGstin:
+        orderData.customerGstin ||
+        currentUser?.gstin ||
+        "07ADQFS8839Q1ZQ",
+      customerPhone:
+        orderData.customerPhone ||
+        currentUser?.phone ||
+        "+91 96677 31355",
+      customerEmail:
+        orderData.customerEmail ||
+        currentUser?.email ||
+        "purchase@customer.com",
+      deliveryCity:
+        orderData.deliveryCity ||
+        currentUser?.deliveryAddress ||
+        "Delhi NCR",
       items: orderData.items || [...cart],
       subtotalExclGst: orderData.subtotalExclGst || 5000,
       gstAmount: orderData.gstAmount || 600,
@@ -557,6 +634,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         clearCompare,
         isCompareModalOpen,
         setIsCompareModalOpen,
+        currentUser,
+        isGuestCheckout,
+        setIsGuestCheckout,
+        registerCustomer,
+        loginCustomer,
+        logoutCustomer,
         theme,
         toggleTheme,
         quickViewProduct,

@@ -62,6 +62,18 @@ export interface RFQItem {
   customNotes?: string;
 }
 
+export interface CustomerAccount {
+  id: string;
+  companyName: string;
+  gstin: string;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  deliveryAddress: string;
+  establishmentType: string;
+  createdAt: string;
+}
+
 export type OrderLifecycleStage =
   | "1_PO_PLACED"
   | "2_DISTRIBUTOR_NOTIFIED"
