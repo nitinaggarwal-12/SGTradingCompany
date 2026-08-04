@@ -1,24 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useApp } from "@/context/AppContext";
-import { PRODUCTS_CATALOG } from "@/data/products";
 import {
   Search,
   ShoppingCart,
+  Boxes,
   FileText,
   ChevronDown,
-  Snowflake,
   Sparkles,
-  Award,
-  X,
-  Boxes,
+  Snowflake,
   ShieldCheck,
+  Award,
   Sun,
   Moon,
-  Scale,
+  CheckCircle2,
+  X,
+  Building2,
+  Store,
+  CheckSquare,
 } from "lucide-react";
+import Link from "next/link";
+import { PRODUCTS_CATALOG } from "@/data/products";
 
 interface StickyHeaderProps {
   onSelectCategory?: (category: string) => void;
@@ -80,31 +83,31 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     {
       name: "HORECA - Frozen Foods & Fries",
       icon: Snowflake,
-      desc: "McCain, ITC Master Chef, Iscon Balaji & Chatha Foods (-18°C)",
+      desc: "McCain, ITC Master Chef, Iscon Balaji & Chatha",
       count: PRODUCTS_CATALOG.filter((p) => p.category === "HORECA - Frozen Foods & Fries").length,
     },
     {
       name: "HORECA - Commercial Cheese & Dairy",
       icon: ShieldCheck,
-      desc: "Britannia Cheese, Go Diced Mozzarella & Milkana Professional",
+      desc: "Britannia Cheese, Go Diced & Milkana",
       count: PRODUCTS_CATALOG.filter((p) => p.category === "HORECA - Commercial Cheese & Dairy").length,
     },
     {
       name: "HORECA - Sauces, Mayo & Dressings",
       icon: Award,
-      desc: "Veeba Food Services Mayo & Sauces, ITC Chef Makhani Base",
+      desc: "Veeba Food Services Mayo & Makhani Base",
       count: PRODUCTS_CATALOG.filter((p) => p.category === "HORECA - Sauces, Mayo & Dressings").length,
     },
     {
       name: "GT - Beverages & Hydration",
       icon: Sparkles,
-      desc: "Ocean Fruit Water Cartons & Sleepy Owl Arabica Coffee Jars",
+      desc: "Ocean Fruit Water & Sleepy Owl Coffee",
       count: PRODUCTS_CATALOG.filter((p) => p.category === "GT - Beverages & Hydration").length,
     },
     {
       name: "GT - Packaged Foods & Gourmet Snacks",
       icon: Award,
-      desc: "Anoop Pure Roasted Chana Sattu & Loyka Almond Brittle Boxes",
+      desc: "Anoop Chana Sattu & Loyka Almond Brittle",
       count: PRODUCTS_CATALOG.filter((p) => p.category === "GT - Packaged Foods & Gourmet Snacks").length,
     },
   ];
@@ -142,24 +145,88 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
           </div>
 
-          {/* Center: Executive Navigation Links with Hover Expansion */}
+          {/* Center: Executive Navigation Links with Sleek Compact Single Dropdown */}
           <nav className="flex items-center gap-4 sm:gap-6 text-xs font-bold uppercase tracking-wider text-slate-300">
-            {/* Mega Menu Hover Trigger */}
+            {/* Sleek Compact Single Dropdown Trigger */}
             <div
-              className="relative py-2"
+              className="relative"
               onMouseEnter={() => setIsMegaMenuOpen(true)}
             >
               <button
-                onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-amber-500 text-amber-400 font-bold hover:text-white transition-all cursor-pointer"
+                onClick={() => setIsMegaMenuOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-extrabold transition-all cursor-pointer"
               >
                 <span>All 12 Brands</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform ${
+                  className={`w-3.5 h-3.5 text-amber-400 transition-transform ${
                     isMegaMenuOpen ? "rotate-180" : ""
                   }`}
                 />
               </button>
+
+              {/* COMPACT SINGLE VERTICAL DROPDOWN MENU */}
+              {isMegaMenuOpen && (
+                <div className="absolute top-full left-0 mt-2 w-80 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2.5 space-y-1.5 z-50 animate-in fade-in slide-in-from-top-2">
+                  <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] font-mono-spec text-amber-400 uppercase font-bold">
+                    <span>Authorized Distribution Directory</span>
+                    <button
+                      onClick={() => setIsMegaMenuOpen(false)}
+                      className="text-slate-400 hover:text-white"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Show All 12 Brands Option */}
+                  <button
+                    onClick={() => handleCategoryClick("All Categories")}
+                    className="w-full text-left p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <CheckSquare className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
+                      <div>
+                        <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
+                          ALL 12 AUTHORIZED BRANDS
+                        </p>
+                        <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-medium">
+                          Show entire 16 SKU wholesale portfolio
+                        </p>
+                      </div>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-black">
+                      16 SKUs
+                    </span>
+                  </button>
+
+                  <div className="border-t border-slate-800/80 pt-1 space-y-1">
+                    {CATEGORIES.map((cat) => {
+                      const Icon = cat.icon;
+                      return (
+                        <button
+                          key={cat.name}
+                          onClick={() => handleCategoryClick(cat.name)}
+                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-900 flex items-center justify-between group transition-all cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <Icon className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-bold text-xs text-slate-200 group-hover:text-amber-400 truncate">
+                                {cat.name}
+                              </p>
+                              <p className="text-[10px] text-slate-400 truncate">
+                                {cat.desc}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-mono-spec font-bold text-slate-400 shrink-0 ml-2">
+                            {cat.count} SKUs
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
 
             <Link
@@ -207,214 +274,85 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
           </nav>
 
           {/* Right: Search Bar & Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Instant Search Bar */}
-            <div
-              className="relative w-36 sm:w-48 md:w-56"
-              onMouseEnter={() => setIsSearchFocused(true)}
+          <div className="flex items-center gap-2.5">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
+              title={`Switch to ${theme === "dark" ? "Light Commercial" : "Dark Executive"} Theme`}
             >
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                className="w-full pl-8 pr-6 py-1.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-amber-500/80 transition-all"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-                >
-                  <X className="w-3 h-3" />
-                </button>
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-sky-600" />
               )}
+            </button>
 
-              {/* Autocomplete Dropdown */}
+            {/* Instant Search Bar */}
+            <div className="relative">
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search McCain, ITC, Fries..."
+                  value={searchQuery}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-36 sm:w-48 lg:w-56 pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-all"
+                />
+              </div>
+
+              {/* Instant Search Dropdown Results */}
               {isSearchFocused && searchResults.length > 0 && (
-                <div
-                  className="fixed sm:absolute right-4 sm:right-0 top-16 sm:top-full mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50 w-72"
-                  onMouseEnter={() => setIsSearchFocused(true)}
-                  onMouseLeave={() => setIsSearchFocused(false)}
-                >
-                  <div className="p-2 border-b border-slate-800 text-[10px] font-mono-spec text-slate-400 px-3">
-                    AUTHORIZED BRAND SKUS ({searchResults.length})
-                  </div>
-                  {searchResults.map((product) => (
-                    <Link
-                      key={product.id}
-                      href="/#catalog"
+                <div className="absolute top-full right-0 mt-2 w-80 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50">
+                  <span className="text-[10px] font-mono-spec text-slate-400 px-2 py-1 block uppercase">
+                    Matching Distribution SKUs
+                  </span>
+                  {searchResults.map((prod) => (
+                    <div
+                      key={prod.id}
                       onClick={() => {
+                        setQuickViewProduct(prod);
                         setIsSearchFocused(false);
                         setSearchQuery("");
                       }}
-                      className="w-full flex items-center gap-3 p-2.5 hover:bg-slate-800 text-left transition-colors border-b border-slate-800/50 last:border-0 cursor-pointer block"
+                      className="p-2 rounded-xl hover:bg-slate-900 flex items-center gap-3 cursor-pointer"
                     >
                       <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-10 h-10 rounded object-cover border border-slate-700 shrink-0"
+                        src={prod.image}
+                        alt={prod.name}
+                        className="w-10 h-10 rounded-lg object-cover border border-slate-800 shrink-0"
                       />
-                      <div className="flex-1 min-w-0">
-                        <span className="text-[10px] font-mono-spec text-amber-400 font-bold block">
-                          {product.brand}
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] font-mono-spec text-amber-400 block font-bold">
+                          {prod.brand}
                         </span>
-                        <p className="text-xs font-semibold text-white truncate">
-                          {product.name}
-                        </p>
-                        <p className="text-[10px] font-mono-spec text-slate-400">
-                          ₹{product.priceExclGst} / Pack
-                        </p>
+                        <h5 className="text-xs font-bold text-white truncate">
+                          {prod.name}
+                        </h5>
+                        <span className="text-[10px] font-mono-spec text-slate-400">
+                          ₹{prod.priceExclGst} / Pack
+                        </span>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Dedicated Full-Screen Compare Page URL Link */}
-            <Link
-              href="/compare"
-              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-sky-500/60 text-xs font-bold text-slate-200 hover:text-white transition-all cursor-pointer"
-              title="Compare Brands & Pack Specs"
-            >
-              <Scale className="w-4 h-4 text-sky-400" />
-              <span className="hidden sm:inline">Compare</span>
-              {compareList.length > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-sky-500 text-slate-950 font-bold text-[10px] font-mono-spec">
-                  {compareList.length}
-                </span>
-              )}
-            </Link>
-
-            {/* Dedicated Full-Screen B2B Wholesale RFQ Page URL Link */}
-            <Link
-              href="/rfq-workspace"
-              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 hover:bg-amber-500/20 text-xs font-bold text-amber-400 transition-all cursor-pointer"
-              title="B2B Wholesale RFQ"
-            >
-              <FileText className="w-4 h-4" />
-              <span className="hidden sm:inline">B2B RFQ</span>
-              {totalRFQItems > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] font-mono-spec">
-                  {totalRFQItems}
-                </span>
-              )}
-            </Link>
-
-            {/* Dedicated Full-Screen Cart Checkout & Payment Page URL Link */}
+            {/* Wholesale Cart Drawer Link */}
             <Link
               href="/cart"
-              className="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white transition-all cursor-pointer"
             >
-              <ShoppingCart className="w-4 h-4 text-slate-950" />
-              <span>Cart</span>
-              {totalCartItems > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-slate-950 text-amber-400 font-bold text-[10px] font-mono-spec">
-                  {totalCartItems}
-                </span>
-              )}
+              <ShoppingCart className="w-4 h-4 text-amber-400" />
+              <span className="text-xs font-bold font-mono-spec">
+                Cart ({totalCartItems})
+              </span>
             </Link>
-
-            {/* Theme Switcher Toggle (Dark Mode 🌙 / Light Mode ☀️) */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-amber-500 text-amber-400 hover:text-white transition-all cursor-pointer"
-              title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
-            >
-              {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-slate-300" />
-              )}
-            </button>
           </div>
         </div>
       </div>
-
-      {/* FULL-WIDTH RESPONSIVE MEGA-MENU DROPDOWN WITH HOVER EXPANSION */}
-      {isMegaMenuOpen && (
-        <div
-          className="fixed left-0 right-0 top-[60px] w-full bg-slate-950 border-b border-amber-500/40 shadow-2xl p-4 sm:p-6 lg:p-8 z-50 max-h-[85vh] overflow-y-auto"
-          onMouseEnter={() => setIsMegaMenuOpen(true)}
-          onMouseLeave={() => setIsMegaMenuOpen(false)}
-        >
-          <div className="max-w-[1600px] mx-auto">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-              <div>
-                <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">
-                  Authorized HORECA & General Trade Distribution Portfolio
-                </h4>
-                <p className="text-xs text-slate-400">
-                  Rahul Garg & Sonu • Mayur Vihar Phase-3, Delhi NCR •{" "}
-                  <span className="text-amber-400">sgtradingcompany@rediffmail.com</span>
-                </p>
-              </div>
-              <button
-                onClick={() => setIsMegaMenuOpen(false)}
-                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-white flex items-center gap-1.5 cursor-pointer font-bold"
-              >
-                <span>Close Menu</span>
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {/* Prominent ALL 12 BRANDS Quick Option */}
-              <button
-                onClick={() => handleCategoryClick("All Categories")}
-                className="flex items-start gap-3.5 p-4 rounded-xl bg-amber-500/15 border-2 border-amber-500 hover:bg-amber-500 hover:text-slate-950 text-left transition-all group cursor-pointer w-full sm:col-span-2 lg:col-span-3"
-              >
-                <div className="w-10 h-10 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-black group-hover:bg-slate-950 group-hover:text-amber-400 transition-colors shrink-0">
-                  ALL
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <h5 className="font-extrabold text-sm text-amber-400 group-hover:text-slate-950 transition-colors">
-                      ☑️ SHOW ALL 12 AUTHORIZED BRANDS & 16 WHOLESALE SKUS
-                    </h5>
-                    <span className="text-xs font-mono-spec px-2.5 py-0.5 rounded bg-amber-500 text-slate-950 font-black shrink-0">
-                      16 SKUs READY
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-300 group-hover:text-slate-900 font-semibold mt-1">
-                    McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka
-                  </p>
-                </div>
-              </button>
-
-              {CATEGORIES.map((cat) => {
-                const Icon = cat.icon;
-                return (
-                  <button
-                    key={cat.name}
-                    onClick={() => handleCategoryClick(cat.name)}
-                    className="flex items-start gap-3.5 p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/60 hover:bg-slate-850 text-left transition-all group cursor-pointer w-full"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors shrink-0">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <h5 className="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">
-                          {cat.name}
-                        </h5>
-                        <span className="text-xs font-mono-spec px-2 py-0.5 rounded bg-slate-800 text-amber-400 font-bold shrink-0">
-                          {cat.count} SKUs
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-400 mt-1 line-clamp-2">
-                        {cat.desc}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
