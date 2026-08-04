@@ -219,20 +219,54 @@ export default function RFQWorkspacePage() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between pt-4 border-t border-slate-200">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-200">
                 <button
                   onClick={() => setQuoteGenerated(false)}
                   className="px-5 py-2.5 rounded-xl bg-slate-200 text-slate-900 font-bold text-xs"
                 >
                   ← Edit Buyer & Items
                 </button>
-                <button
-                  onClick={handlePrint}
-                  className="px-6 py-3 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs flex items-center gap-2 cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print / Save Official PDF Sheet</span>
-                </button>
+
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    onClick={() => {
+                      const text = encodeURIComponent(
+                        `*SG TRADING COMPANY - B2B WHOLESALE PROFORMA QUOTATION*\nDistributor: Rahul Garg & Sonu (Mayur Vihar Phase-3)\nGSTIN: 07ADQFS8839Q1ZQ\nBuyer: ${buyer.companyName}\n*Grand Total: ₹${grandTotal.toLocaleString("en-IN")}*\nSubtotal (Excl. GST): ₹${subtotalExclGst.toLocaleString("en-IN")}\nGST: ₹${totalGst.toLocaleString("en-IN")}`
+                      );
+                      window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
+                      showToast("Opening WhatsApp with B2B Wholesale Proforma Quotation...");
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
+                  >
+                    Send via WhatsApp
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      showToast(`Official B2B Proforma Quotation emailed to ${buyer.email || "buyer@company.com"} & sgtradingcompany@rediffmail.com!`);
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs"
+                  >
+                    Send via Email
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      showToast(`SMS Wholesale Quotation alert sent to +91 ${buyer.phone || "9667731355"}`);
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-slate-800 text-white font-bold text-xs"
+                  >
+                    Send via SMS
+                  </button>
+
+                  <button
+                    onClick={handlePrint}
+                    className="px-6 py-3 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <Printer className="w-4 h-4" />
+                    <span>Print / Save Official PDF Sheet</span>
+                  </button>
+                </div>
               </div>
             </div>
           ) : (

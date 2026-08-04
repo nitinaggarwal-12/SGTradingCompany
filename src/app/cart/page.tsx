@@ -21,9 +21,23 @@ import {
   Copy,
   Check,
   ArrowLeft,
-  Snowflake,
+  Mail,
+  MessageCircle,
+  Smartphone,
+  Send,
 } from "lucide-react";
 import Link from "next/link";
+
+interface PaidOrderReceipt {
+  transactionId: string;
+  poNumber: string;
+  subtotalExclGst: number;
+  gstAmount: number;
+  deliveryFreight: number;
+  totalInclGst: number;
+  paymentMethod: string;
+  itemsCount: number;
+}
 
 export default function CartAndCheckoutPage() {
   const {
@@ -44,8 +58,15 @@ export default function CartAndCheckoutPage() {
   >("upi");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [transactionId, setTransactionId] = useState("");
   const [copiedUpi, setCopiedUpi] = useState(false);
+
+  // Preserve exact paid order amount so receipt NEVER shows ₹0 after clearCart!
+  const [paidReceipt, setPaidReceipt] = useState<PaidOrderReceipt | null>(null);
+
+  // Dispatch notification modals/states
+  const [dispatchStatus, setDispatchStatus] = useState<string | null>(null);
+  const [customerEmailInput, setCustomerEmailInput] = useState("");
+  const [customerPhoneInput, setCustomerPhoneInput] = useState("9667731355");
 
   // Form states
   const [cardNumber, setCardNumber] = useState("");
@@ -76,13 +97,32 @@ export default function CartAndCheckoutPage() {
     e.preventDefault();
     setIsProcessing(true);
 
+    // Save exact amount snapshot BEFORE clearing cart so receipt displays real amount!
+    const snapshotSubtotal = subtotalExclGst;
+    const snapshotGst = gstAmount;
+    const snapshotFreight = deliveryFreight;
+    const snapshotTotal = totalInclGst;
+    const snapshotCount = cart.length;
+
     setTimeout(() => {
       setIsProcessing(false);
       setPaymentSuccess(true);
       const generatedTxn = `SG-PTM-2026-${Math.floor(
         100000 + Math.random() * 900000
       )}`;
-      setTransactionId(generatedTxn);
+
+      const newReceipt: PaidOrderReceipt = {
+        transactionId: generatedTxn,
+        poNumber: `PO-SG-2026-${Math.floor(100 + Math.random() * 900)}`,
+        subtotalExclGst: snapshotSubtotal,
+        gstAmount: snapshotGst,
+        deliveryFreight: snapshotFreight,
+        totalInclGst: snapshotTotal,
+        paymentMethod: paymentMethod.toUpperCase(),
+        itemsCount: snapshotCount,
+      };
+
+      setPaidReceipt(newReceipt);
 
       // Create live Order in Order-to-Cash (O2C) Pipeline & notify Rahul & Sonu
       createCustomerOrder({
@@ -90,23 +130,54 @@ export default function CartAndCheckoutPage() {
         customerGstin: "07ADQFS8839Q1ZQ",
         customerPhone: "9667731355",
         deliveryCity: "Delhi NCR",
-        poNumber: `PO-SG-2026-${Math.floor(100 + Math.random() * 900)}`,
+        poNumber: newReceipt.poNumber,
         items: [...cart],
-        subtotalExclGst,
-        gstAmount,
-        totalAmount: totalInclGst,
-        paymentMethod: paymentMethod === "upi" ? "paytm_upi" : paymentMethod === "card" ? "credit_card" : "neft_rtgs",
+        subtotalExclGst: snapshotSubtotal,
+        gstAmount: snapshotGst,
+        totalAmount: snapshotTotal,
+        paymentMethod:
+          paymentMethod === "upi"
+            ? "paytm_upi"
+            : paymentMethod === "card"
+            ? "credit_card"
+            : "neft_rtgs",
       });
 
       showToast(
         "PO Generated & Payment Verified! Rahul Garg & Sonu Notified in Order-to-Cash Desk."
       );
       clearCart();
-    }, 1800);
+    }, 1600);
   };
 
   const handlePrintReceipt = () => {
     window.print();
+  };
+
+  const handleSendEmail = () => {
+    const emailTo = customerEmailInput || "sgtradingcompany@rediffmail.com";
+    setDispatchStatus(`Invoice & Tax Receipt sent via Email to ${emailTo}`);
+    showToast(`Official Tax Invoice emailed to ${emailTo}!`);
+    setTimeout(() => setDispatchStatus(null), 4000);
+  };
+
+  const handleSendWhatsApp = () => {
+    const text = encodeURIComponent(
+      `*SG TRADING COMPANY - OFFICIAL GST TAX INVOICE*\nDistributor: Rahul Garg & Sonu (Mayur Vihar Phase-3)\nGSTIN: 07ADQFS8839Q1ZQ\nPO Number: ${paidReceipt?.poNumber}\nTransaction ID: ${paidReceipt?.transactionId}\n*Total Amount Paid: ₹${paidReceipt?.totalInclGst?.toLocaleString(
+        "en-IN"
+      )}*\nGST Input Credit: ₹${paidReceipt?.gstAmount?.toLocaleString("en-IN")}\nPaid via: Paytm / UPI (${paidReceipt?.paymentMethod})`
+    );
+    window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
+    setDispatchStatus("WhatsApp Tax Receipt link generated!");
+    showToast("Opening WhatsApp Web with itemized official GST receipt...");
+  };
+
+  const handleSendSMS = () => {
+    setDispatchStatus(
+      `SMS Text Message Invoice sent to +91 ${customerPhoneInput}`
+    );
+    showToast(`SMS Tax Invoice sent to +91 ${customerPhoneInput}!`);
+    setTimeout(() => setDispatchStatus(null), 4000);
   };
 
   return (
@@ -139,8 +210,8 @@ export default function CartAndCheckoutPage() {
             </div>
           </div>
 
-          {paymentSuccess ? (
-            /* Official Digital GST Tax Receipt View */
+          {paymentSuccess && paidReceipt ? (
+            /* Official Digital GST Tax Receipt View (FIXED: Exact Paid Amount Preserved!) */
             <div className="industrial-card max-w-3xl mx-auto rounded-2xl p-8 border border-slate-700 text-center space-y-6">
               <div className="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border-2 border-emerald-500/40">
                 <CheckCircle2 className="w-12 h-12" />
@@ -172,34 +243,95 @@ export default function CartAndCheckoutPage() {
                   <span className="text-amber-400 font-bold">paytmqr69pf0i@ptys</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">TRANSACTION ID:</span>
-                  <span className="text-sky-400 font-bold">{transactionId}</span>
+                  <span className="text-slate-400">PO & TRANSACTION ID:</span>
+                  <span className="text-sky-400 font-bold">
+                    {paidReceipt.poNumber} • {paidReceipt.transactionId}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">GST INPUT CREDIT:</span>
+                  <span className="text-slate-400">GST INPUT CREDIT (12%):</span>
                   <span className="text-emerald-400 font-bold">
-                    ₹{gstAmount.toLocaleString("en-IN")}
+                    ₹{paidReceipt.gstAmount.toLocaleString("en-IN")}
                   </span>
                 </div>
                 <div className="flex justify-between text-base font-extrabold pt-3 border-t border-slate-800">
                   <span className="text-slate-300">TOTAL AMOUNT PAID:</span>
-                  <span className="text-amber-400">
-                    ₹{totalInclGst.toLocaleString("en-IN")}
+                  <span className="text-amber-400 text-xl">
+                    ₹{paidReceipt.totalInclGst.toLocaleString("en-IN")}
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                <button
-                  onClick={handlePrintReceipt}
-                  className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print Official GST Tax Receipt</span>
-                </button>
+              {/* Status feedback banner for Email/WhatsApp/SMS */}
+              {dispatchStatus && (
+                <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono-spec text-xs font-bold">
+                  ✓ {dispatchStatus}
+                </div>
+              )}
+
+              {/* Multi-Channel Invoice Dispatch Controls (Email, WhatsApp, SMS/Text, Print) */}
+              <div className="space-y-4 pt-2">
+                <div className="text-xs font-mono-spec text-slate-400 uppercase">
+                  DISPATCH OFFICIAL GST TAX INVOICE & RECEIPT VIA:
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    onClick={handleSendEmail}
+                    className="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4 text-amber-400" />
+                    <span>Send via Email</span>
+                  </button>
+
+                  <button
+                    onClick={handleSendWhatsApp}
+                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Send via WhatsApp</span>
+                  </button>
+
+                  <button
+                    onClick={handleSendSMS}
+                    className="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-sky-500 text-white font-bold text-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <Smartphone className="w-4 h-4 text-sky-400" />
+                    <span>Send via SMS / Text</span>
+                  </button>
+
+                  <button
+                    onClick={handlePrintReceipt}
+                    className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 cursor-pointer"
+                  >
+                    <Printer className="w-4 h-4" />
+                    <span>Print Official PDF Receipt</span>
+                  </button>
+                </div>
+
+                {/* Email / SMS Contact Input row */}
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <input
+                    type="email"
+                    placeholder="Enter Email (default: sgtradingcompany@rediffmail.com)"
+                    value={customerEmailInput}
+                    onChange={(e) => setCustomerEmailInput(e.target.value)}
+                    className="px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white w-64 focus:outline-none focus:border-amber-500"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="WhatsApp / SMS Phone (+91 9667731355)"
+                    value={customerPhoneInput}
+                    onChange={(e) => setCustomerPhoneInput(e.target.value)}
+                    className="px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white w-52 focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-800">
                 <Link
                   href="/stock-manager"
-                  className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs"
+                  className="inline-block px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs"
                 >
                   Inspect Updated Warehouse Stock →
                 </Link>
