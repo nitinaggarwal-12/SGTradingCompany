@@ -59,47 +59,47 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Proportional Scaling Hero Header */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-slate-900 dark:text-white">
               Authorized Distributor for{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500">
-                HORECA & General Trade (GT)
+              <span className="text-amber-600 dark:text-amber-400">
+                HORECA &amp; General Trade (GT)
               </span>{" "}
               FMCG Supplies.
             </h1>
 
-            <p className="text-base sm:text-lg font-medium leading-relaxed max-w-2xl text-slate-200">
+            <p className="text-base sm:text-lg font-medium leading-relaxed max-w-2xl text-slate-700 dark:text-slate-200">
               Direct institutional distributor for{" "}
-              <strong className="text-amber-400 font-extrabold">
-                McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods & Milkana Professional
+              <strong className="text-amber-700 dark:text-amber-400 font-extrabold">
+                McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods &amp; Milkana Professional
               </strong>{" "}
               (HORECA) alongside{" "}
-              <strong className="text-amber-400 font-extrabold">
-                Anoop Sattu, Ocean Water, Sleepy Owl Coffee & Loyka
+              <strong className="text-amber-700 dark:text-amber-400 font-extrabold">
+                Anoop Sattu, Ocean Water, Sleepy Owl Coffee &amp; Loyka
               </strong>{" "}
               (General Trade).
             </p>
 
-            {/* Direct Visiting Card Contact Credentials Box */}
-            <div className="industrial-card p-5 rounded-2xl border-2 border-amber-500/50 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl">
+            {/* Direct Visiting Card Contact Credentials Box - 100% Razor Sharp Contrast in both themes */}
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0F172A] border-2 border-amber-500/60 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono-spec shadow-xl">
               <div>
-                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">
                   Authorized Distributors
                 </span>
-                <span className="font-extrabold text-base block mt-0.5 text-white">
-                  Rahul Garg & Sonu
+                <span className="font-extrabold text-lg block mt-0.5 text-slate-900 dark:text-white">
+                  Rahul Garg &amp; Sonu
                 </span>
-                <span className="text-amber-400 font-extrabold text-sm block mt-1">
+                <span className="text-amber-600 dark:text-amber-400 font-extrabold text-sm block mt-1">
                   Ph: 9667731355 / 9643097002
                 </span>
               </div>
               <div>
-                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400">
                   Mayur Vihar Phase-3 Warehouse
                 </span>
-                <span className="font-medium block text-xs leading-relaxed mt-0.5 text-slate-200">
+                <span className="font-bold block text-xs leading-relaxed mt-0.5 text-slate-800 dark:text-slate-200">
                   B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
                 </span>
-                <span className="text-sky-400 font-bold block text-xs mt-1">
+                <span className="text-sky-700 dark:text-sky-400 font-extrabold block text-xs mt-1">
                   sgtradingcompany@rediffmail.com
                 </span>
               </div>
@@ -107,7 +107,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Brand Logos Bar */}
             <div className="space-y-2">
-              <span className="text-xs font-mono-spec font-bold text-amber-400 uppercase tracking-wider block">
+              <span className="text-xs font-mono-spec font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">
                 Official Authorized Brands Distributed (12):
               </span>
               <div className="flex flex-wrap items-center gap-2">
@@ -127,7 +127,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 ].map((b) => (
                   <span
                     key={b}
-                    className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-mono-spec font-bold text-slate-200"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-[11px] font-mono-spec font-bold text-slate-800 dark:text-slate-200"
                   >
                     {b}
                   </span>
