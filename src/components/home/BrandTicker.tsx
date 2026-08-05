@@ -411,11 +411,12 @@ export const BrandTicker: React.FC = () => {
       {/* BRAND COMMERCIAL PRODUCT DETAIL & ADD-TO-CART MODAL */}
       {selectedBrandModal && (
         <div
-          onMouseLeave={() => setSelectedBrandModal(null)}
+          onClick={() => setSelectedBrandModal(null)}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#060911]/75 backdrop-blur-sm transition-all duration-200"
         >
           <div
             onClick={(e) => e.stopPropagation()}
+            onMouseLeave={() => setSelectedBrandModal(null)}
             className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#0B101D] text-white border-2 border-amber-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-6 md:p-8 space-y-6"
           >
             {/* Modal Header */}
