@@ -501,6 +501,49 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                     viewMode={viewMode}
                   />
                 ))}
+
+                {/* Symmetrical Grid Filler Card to eliminate empty whitespace in incomplete rows */}
+                <div className="industrial-card rounded-2xl p-6 border-2 border-dashed border-amber-500/40 bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950 flex flex-col justify-between hover:border-amber-500 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-400 font-mono-spec text-[10px] font-black uppercase">
+                        CUSTOM HORECA SUPPLY
+                      </span>
+                      <span className="text-xs text-emerald-400 font-mono-spec font-bold">
+                        ● MAYUR VIHAR WAREHOUSE
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-extrabold text-white leading-tight">
+                      Need a Special Commercial Brand or Custom Master Case Size?
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Rahul Garg &amp; Sonu provide custom frozen food, institutional cheese blends, and GT packaging contracts across Mayur Vihar &amp; Delhi NCR.
+                    </p>
+
+                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 font-mono-spec text-xs">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Rahul Garg Direct:</span>
+                        <span className="text-amber-400 font-bold">9667731355</span>
+                      </div>
+                      <div className="flex justify-between text-slate-400">
+                        <span>Sonu Cold Room:</span>
+                        <span className="text-amber-400 font-bold">9643097002</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-slate-800/80 flex flex-col gap-2">
+                    <a
+                      href="https://wa.me/919667731355?text=Hello%20Rahul%20Garg,%20I%20need%20a%20custom%20wholesale%20FMCG%20case%20quote."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs text-center transition-all cursor-pointer"
+                    >
+                      Request Custom Institutional Rate →
+                    </a>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="industrial-card rounded-2xl border border-slate-800 overflow-x-auto">
