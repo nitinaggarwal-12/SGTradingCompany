@@ -97,11 +97,11 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 95,
     lowStockThreshold: 15,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
-    image: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Golden Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
     description:
