@@ -143,9 +143,8 @@ export const CommercialShowcaseCarousel: React.FC = () => {
                   }`}
                 />
 
-                {/* Dark Vignette & Gradient Overlay for Contrast */}
-                <div className="commercial-showcase-photo-gradient absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
-                <div className="commercial-showcase-photo-gradient absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/30 to-transparent" />
+                {/* Subtle soft gradient strictly on the left behind text for crisp legibility without darkening the image */}
+                <div className="commercial-showcase-photo-gradient absolute inset-y-0 left-0 w-full md:w-3/5 bg-gradient-to-r from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none" />
 
                 {/* Content Overlay */}
                 <div className="commercial-showcase-photo-overlay absolute inset-0 p-6 md:p-12 flex flex-col justify-between">
