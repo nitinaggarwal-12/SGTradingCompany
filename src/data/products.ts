@@ -40,7 +40,7 @@ export const TURNKEY_KITCHEN_CONFIGS: TurnkeyConfig[] = [
 ];
 
 export const PRODUCTS_CATALOG: Product[] = [
-  // 1. MCCAIN (HORECA) - French Fries (3 distinct golden fry photos)
+  // 1. MCCAIN (HORECA) - French Fries
   {
     id: "mccain-01",
     sku: "SG-MCC-FF-9MM",
@@ -77,7 +77,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Authorized SG Trading Company Cold Chain Distribution in Delhi NCR",
     ],
   },
-  // 2. MCCAIN - Potato Cheese Balls (3 distinct golden cheese ball photos)
+  // 2. MCCAIN - Potato Cheese Balls (Golden fried cheese croquettes / balls)
   {
     id: "mccain-02",
     sku: "SG-MCC-PCB-1KG",
@@ -97,11 +97,11 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 95,
     lowStockThreshold: 15,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
-    image: "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Golden Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
     description:
@@ -113,7 +113,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 3. ITC MASTER CHEF - Chicken Nuggets (3 distinct golden chicken nugget photos)
+  // 3. ITC MASTER CHEF - Chicken Nuggets (Golden chicken nuggets)
   {
     id: "itc-01",
     sku: "SG-ITC-NUG-1KG",
@@ -138,7 +138,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["ITC Master Chef", "Juicy Chicken Nuggets", "-18°C Cold Chain"],
     description:
@@ -149,7 +149,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Consistent size & shape for accurate cost-per-serving calculations",
     ],
   },
-  // 4. ITC MASTER CHEF - Tomato Makhani Gravy Base (3 distinct Makhani curry photos)
+  // 4. ITC MASTER CHEF - Tomato Makhani Gravy Base (Makhani curry)
   {
     id: "itc-02",
     sku: "SG-ITC-GRV-MAKH",
@@ -173,7 +173,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Makhani Gravy Base", "Zero Preservatives", "Standard Taste"],
     description:
@@ -185,7 +185,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 5. VEEBA FOOD SERVICES - Eggless Mayonnaise (3 distinct white mayo dip photos)
+  // 5. VEEBA FOOD SERVICES - Eggless Mayonnaise (White creamy mayonnaise dip bowl)
   {
     id: "veeba-01",
     sku: "SG-VEB-MAYO-1KG",
@@ -210,7 +210,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Veeba Mayonnaise", "100% Eggless", "High Viscosity"],
     description:
@@ -221,7 +221,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Convenient commercial spout pouch minimizes kitchen waste",
     ],
   },
-  // 6. VEEBA FOOD SERVICES - Gourmet Pizza & Pasta Sauce (3 distinct red pizza sauce photos)
+  // 6. VEEBA FOOD SERVICES - Gourmet Pizza & Pasta Sauce (Red pizza sauce)
   {
     id: "veeba-02",
     sku: "SG-VEB-PIZZ-1KG",
@@ -244,8 +244,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Italian Herb Pizza Sauce", "Pizza Base Spread", "Veeba HORECA"],
     description:
@@ -257,7 +257,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 7. BRITANNIA CHEESE - Diced Mozzarella & Cheddar Blend (3 distinct mozzarella stretch photos)
+  // 7. BRITANNIA CHEESE - Diced Mozzarella & Cheddar Blend (Mozzarella stretch)
   {
     id: "brit-01",
     sku: "SG-BRT-DCD-1KG",
@@ -281,8 +281,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Britannia Mozzarella", "Long Cheese Stretch", "Diced Blend"],
     description:
@@ -293,7 +293,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Trusted by leading pizza chains, hotel kitchens & cafes",
     ],
   },
-  // 8. BRITANNIA CHEESE - Processed Cheese Slices (3 distinct yellow burger cheese slice photos)
+  // 8. BRITANNIA CHEESE - Processed Cheese Slices (Yellow American cheese slice)
   {
     id: "brit-02",
     sku: "SG-BRT-SLC-750G",
@@ -316,8 +316,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["51 Burger Slices", "Instant Melt Cheese", "Britannia Commercial"],
     description:
@@ -329,7 +329,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 9. ISCON BALAJI FOODS - Peri Peri Crinkle Fries (3 distinct Peri Peri fry photos)
+  // 9. ISCON BALAJI FOODS - Peri Peri Crinkle Fries (Seasoned french fries)
   {
     id: "iscon-01",
     sku: "SG-ISC-PERI-2.5KG",
@@ -352,8 +352,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Peri Peri Seasoned Fries", "Crinkle Cut", "High Profit"],
     description:
@@ -365,7 +365,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 10. CHATHA FOODS - Chicken Frankfurter Sausages (3 distinct grilled sausage photos)
+  // 10. CHATHA FOODS - Chicken Frankfurter Sausages (Grilled smoky sausages)
   {
     id: "chatha-01",
     sku: "SG-CHT-FRANK-1KG",
@@ -388,8 +388,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1627054234558-85474d221ff1?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Smoky Frankfurters", "Hotdog Sausages", "Chatha Foods"],
     description:
@@ -401,7 +401,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 11. GO DICED CHEESE - Diced Mozzarella Pizza Cheese (3 distinct white mozzarella photos)
+  // 11. GO DICED CHEESE - Diced Mozzarella Pizza Cheese (Fresh white mozzarella cheese)
   {
     id: "go-01",
     sku: "SG-GO-MOZZ-1KG",
@@ -424,8 +424,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Go Diced Mozzarella", "Pure Dairy Cheese", "Pizza Specialist"],
     description:
@@ -436,7 +436,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Direct SG Trading Company institutional supply in Delhi NCR",
     ],
   },
-  // 12. MILKANA PROFESSIONAL - Gourmet Processed Cheese Spread Tub (3 distinct cheese spread photos)
+  // 12. MILKANA PROFESSIONAL - Gourmet Processed Cheese Spread Tub (Velvety cheese spread)
   {
     id: "milkana-01",
     sku: "SG-MLK-SPD-1KG",
@@ -459,8 +459,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Milkana Cheese Spread", "Velvety Commercial", "Cafe Ready"],
     description:
@@ -472,7 +472,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 13. ANOOP SATTU - Pure Roasted Chana Sattu (3 distinct golden roasted pulse photos)
+  // 13. ANOOP SATTU - Pure Roasted Chana Sattu (Roasted Bengal gram golden pulses)
   {
     id: "anoop-01",
     sku: "SG-ANP-STU-500G",
@@ -496,8 +496,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Anoop Roasted Sattu", "100% Roasted Chana", "GT FMCG Bestseller"],
     description:
@@ -508,7 +508,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Attractive retail margin for GT distributor & Kirana store partners",
     ],
   },
-  // 14. OCEAN WATER - Peach & Passion Fruit Water (3 distinct fruit beverage photos)
+  // 14. OCEAN WATER - Peach & Passion Fruit Water (Peach beverage drink bottle)
   {
     id: "ocean-01",
     sku: "SG-OCN-PEACH-500ML",
@@ -532,8 +532,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Ocean Fruit Water", "Vitamin Enriched", "High Retail Turn"],
     description:
@@ -545,7 +545,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 15. SLEEPY OWL COFFEE - 100% Arabica Instant Coffee (3 distinct Arabica coffee photos)
+  // 15. SLEEPY OWL COFFEE - 100% Arabica Instant Coffee (Arabica coffee glass jar & beans)
   {
     id: "sleepy-01",
     sku: "SG-SLP-INST-100G",
@@ -568,8 +568,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["100% Arabica", "Sleepy Owl Coffee", "Premium Coffee GT"],
     description:
@@ -580,7 +580,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Strong repeat purchase rate across urban modern trade stores",
     ],
   },
-  // 16. LOYKA - Almond Brittle Gourmet Caramel Chocolate Box (3 distinct almond brittle photos)
+  // 16. LOYKA - Almond Brittle Gourmet Caramel Chocolate Box (Almond caramel brittle chocolate)
   {
     id: "loyka-01",
     sku: "SG-LOY-ALM-200G",
@@ -603,8 +603,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Loyka Gourmet Brittle", "Roasted Almonds", "Gift & Impulse GT"],
     description:
