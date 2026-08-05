@@ -72,12 +72,7 @@ export default function HomePage() {
     }
   };
 
-  const viewportContainerClasses =
-    viewportMode === "mobile"
-      ? "max-w-[390px] mx-auto border-4 border-amber-500 rounded-[36px] overflow-hidden shadow-2xl my-6 bg-slate-950"
-      : viewportMode === "tablet"
-      ? "max-w-[834px] mx-auto border-4 border-amber-500 rounded-3xl overflow-hidden shadow-2xl my-6 bg-slate-950"
-      : "flex flex-col flex-1";
+  const viewportContainerClasses = "flex flex-col flex-1 w-full";
 
   return (
     <div
