@@ -38,16 +38,41 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const isLowStock = stock <= threshold && stock > 0;
   const isOutOfStock = stock === 0;
 
+  const galleryImages =
+    product.images && product.images.length > 0
+      ? product.images
+      : [
+          product.image,
+          "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85",
+          "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=85",
+        ];
+
+  const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImgIndex((prev) => (prev + 1) % galleryImages.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [galleryImages.length]);
+
   if (viewMode === "table") {
     return (
       <div className="industrial-card rounded-xl p-4 border border-slate-800 hover:border-amber-500/50 flex flex-wrap items-center justify-between gap-4 transition-all">
         <div className="flex items-center gap-4 min-w-[280px]">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-16 h-16 rounded-lg object-cover border border-slate-700 shrink-0 cursor-pointer"
-            onClick={() => setQuickViewProduct(product)}
-          />
+          <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-700 shrink-0 cursor-pointer">
+            {galleryImages.map((imgUrl, idx) => (
+              <img
+                key={idx}
+                src={imgUrl}
+                alt={product.name}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-in-out ${
+                  idx === currentImgIndex ? "opacity-100" : "opacity-0"
+                }`}
+                onClick={() => setQuickViewProduct(product)}
+              />
+            ))}
+          </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-mono-spec text-amber-400 font-bold">
@@ -130,20 +155,32 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     );
   }
 
-  // Grid View Card
+  // Grid View Card with Slow 1800ms Smooth Multi-Image Auto-Rotation
   return (
     <div className="industrial-card rounded-2xl overflow-hidden border border-slate-800/90 flex flex-col justify-between group">
       <div>
         <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+          {/* SLOW 1800ms MULTI-IMAGE CROSS-FADE GALLERY */}
+          {galleryImages.map((imgUrl, idx) => {
+            const isActive = idx === currentImgIndex;
+            return (
+              <img
+                key={idx}
+                src={imgUrl}
+                alt={`${product.name} View ${idx + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-[1800ms] ease-in-out ${
+                  isActive
+                    ? "opacity-100 scale-105 z-10"
+                    : "opacity-0 scale-100 z-0 pointer-events-none"
+                }`}
+              />
+            );
+          })}
+
+          <div className="commercial-showcase-photo-gradient absolute inset-0 z-20 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-90" />
 
           {/* Top Corner Badges */}
-          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-30">
             <span className="px-2.5 py-1 rounded-md bg-slate-900/95 backdrop-blur-md text-[10px] font-mono-spec font-extrabold text-amber-400 border border-slate-700">
               {product.brand}
             </span>
@@ -161,14 +198,30 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Quick View Button */}
           <button
             onClick={() => setQuickViewProduct(product)}
-            className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-amber-500 text-slate-300 hover:text-slate-950 flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-amber-500 text-slate-300 hover:text-slate-950 flex items-center justify-center transition-colors backdrop-blur-sm z-30"
             title="Inspect Product & Case Specs"
           >
             <Eye className="w-4 h-4" />
           </button>
 
+          {/* Multi-Image Gallery Indicator Dots */}
+          <div className="absolute bottom-9 right-3 z-30 flex items-center gap-1.5">
+            {galleryImages.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentImgIndex(idx)}
+                className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                  idx === currentImgIndex
+                    ? "w-4 bg-amber-400"
+                    : "w-1.5 bg-white/40 hover:bg-white/70"
+                }`}
+                aria-label={`Show photo ${idx + 1}`}
+              />
+            ))}
+          </div>
+
           {/* Bottom Overlay Storage Strip */}
-          <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-mono-spec text-slate-200">
+          <div className="commercial-showcase-photo-overlay absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-mono-spec !text-white z-30">
             <span className="flex items-center gap-1">
               <Snowflake className="w-3 h-3 text-cyan-400" />
               {product.storageCondition}

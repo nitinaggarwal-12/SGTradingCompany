@@ -45,6 +45,7 @@ export interface Product {
   warehouseZone: string;
   isFeatured?: boolean;
   image: string;
+  images?: string[];
   badges: string[];
   description: string;
   highlights: string[];
