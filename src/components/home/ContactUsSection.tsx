@@ -143,11 +143,11 @@ export const ContactUsSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* INTERACTIVE EMBEDDED GOOGLE MAPS IFRAME */}
-              <div className="w-full h-48 rounded-xl overflow-hidden border border-slate-700 relative shadow-inner">
+              {/* INTERACTIVE EMBEDDED GOOGLE MAPS IFRAME WITH WAREHOUSE GPS OVERLAY */}
+              <div className="w-full h-52 rounded-xl overflow-hidden border border-slate-700 relative shadow-inner group">
                 <iframe
                   title="SG Trading Company Mayur Vihar Phase-3 Warehouse Location"
-                  src="https://www.google.com/maps?q=B-577+Shiv+Mandir+Road+GD+Colony+Mayur+Vihar+Phase-3+Delhi+110096&output=embed"
+                  src="https://maps.google.com/maps?width=100%25&height=220&hl=en&q=B-577%20Shiv%20Mandir%20Road%20G.D.%20Colony%20Mayur%20Vihar%20Phase-3%20Delhi%20110096+(SG%20Trading%20Company%20Warehouse)&t=&z=16&ie=UTF-8&iwloc=B&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -156,6 +156,29 @@ export const ContactUsSection: React.FC = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-full grayscale hover:grayscale-0 transition-all duration-300"
                 />
+
+                {/* Instant GPS Quick-Launch Banner */}
+                <div className="absolute bottom-2 left-2 right-2 p-2.5 rounded-lg bg-slate-950/90 backdrop-blur-md border border-slate-700/80 flex items-center justify-between z-10">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+                    <div>
+                      <p className="text-[11px] font-extrabold text-white leading-tight">
+                        Mayur Vihar Phase-3 Cold Room
+                      </p>
+                      <p className="text-[10px] font-mono-spec text-slate-400">
+                        28.6015° N, 77.3328° E • B-577 Shiv Mandir Rd
+                      </p>
+                    </div>
+                  </div>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=B-577+Shiv+Mandir+Road+GD+Colony+Mayur+Vihar+Phase-3+Delhi+110096"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-spec text-[10px] font-black shrink-0 transition-all"
+                  >
+                    Launch GPS →
+                  </a>
+                </div>
               </div>
             </div>
 
