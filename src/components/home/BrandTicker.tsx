@@ -302,13 +302,24 @@ const BRANDS: BrandItem[] = [
 export const BrandTicker: React.FC = () => {
   const [selectedBrandModal, setSelectedBrandModal] = React.useState<BrandItem | null>(null);
   const [cartAddedSkuId, setCartAddedSkuId] = React.useState<string | null>(null);
+  const [skuQuantities, setSkuQuantities] = React.useState<Record<string, number>>({});
 
   // Seamless loop by duplicating the 12 brands twice
   const marqueeItems = [...BRANDS, ...BRANDS];
 
+  const getQuantity = (skuName: string) => skuQuantities[skuName] ?? 1;
+
+  const updateQuantity = (skuName: string, delta: number) => {
+    setSkuQuantities((prev) => {
+      const current = prev[skuName] ?? 1;
+      const next = Math.max(1, current + delta);
+      return { ...prev, [skuName]: next };
+    });
+  };
+
   const handleAddSkuToCart = (brand: BrandItem, sku: BrandSku) => {
-    // Dispatch instant feedback toast via custom event or show inline confirmation
-    setCartAddedSkuId(sku.skuName);
+    const qty = getQuantity(sku.skuName);
+    setCartAddedSkuId(`${sku.skuName} (${qty} Cartons)`);
     setTimeout(() => setCartAddedSkuId(null), 2500);
   };
 
@@ -339,12 +350,12 @@ export const BrandTicker: React.FC = () => {
         <div className="flex items-center gap-2">
           <Award className="w-4 h-4 text-amber-400" />
           <span className="text-xs font-mono-spec font-black uppercase tracking-wider text-amber-400">
-            OFFICIAL AUTHORIZED DISTRIBUTOR AGENCIES (12 BRANDS) • CLICK ANY TILE FOR COMMERCIAL SKUS &amp; ADD TO CART
+            OFFICIAL AUTHORIZED DISTRIBUTOR AGENCIES (12 BRANDS) • HOVER TILE FOR COMMERCIAL SKUS, QUANTITY &amp; PRICING
           </span>
         </div>
         <span className="text-[11px] text-slate-400 font-mono-spec flex items-center gap-1.5">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Click any brand card to view wholesale master case pricing &amp; add to cart • SG Trading Company</span>
+          <span>Hover brand card to adjust quantities &amp; add to cart • SG Trading Company</span>
         </span>
       </div>
 
@@ -462,7 +473,10 @@ export const BrandTicker: React.FC = () => {
               </span>
 
               {selectedBrandModal.skus.map((sku) => {
-                const isAdded = cartAddedSkuId === sku.skuName;
+                const qty = getQuantity(sku.skuName);
+                const totalPrice = sku.wholesaleCartonPrice * qty;
+                const isAdded = cartAddedSkuId?.startsWith(sku.skuName);
+
                 return (
                   <div
                     key={sku.skuName}
@@ -488,10 +502,45 @@ export const BrandTicker: React.FC = () => {
 
                       <div className="text-right">
                         <span className="text-[10px] font-mono-spec text-slate-400 block uppercase">
-                          Wholesale Master Case Price
+                          Wholesale Rate / Carton
                         </span>
-                        <span className="text-xl font-black text-amber-400 font-mono-spec">
+                        <span className="text-lg font-black text-amber-400 font-mono-spec">
                           ₹{sku.wholesaleCartonPrice.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Quantity & Live Calculated Total Price Selector */}
+                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-mono-spec text-slate-300 font-bold">
+                          Select Quantity (Cartons):
+                        </span>
+                        <div className="flex items-center rounded-lg bg-slate-950 border border-slate-700">
+                          <button
+                            onClick={() => updateQuantity(sku.skuName, -1)}
+                            className="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 font-black rounded-l-lg cursor-pointer"
+                          >
+                            -
+                          </button>
+                          <span className="w-10 text-center font-mono-spec font-black text-amber-400 text-sm">
+                            {qty}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(sku.skuName, 1)}
+                            className="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 font-black rounded-r-lg cursor-pointer"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="text-right font-mono-spec">
+                        <span className="text-[10px] text-slate-400 block uppercase font-bold">
+                          Total Price ({qty} {qty === 1 ? "Carton" : "Cartons"}):
+                        </span>
+                        <span className="text-xl font-black text-emerald-400">
+                          ₹{totalPrice.toLocaleString("en-IN")}
                         </span>
                       </div>
                     </div>
@@ -505,7 +554,7 @@ export const BrandTicker: React.FC = () => {
                         <button
                           onClick={() => {
                             const text = encodeURIComponent(
-                              `Hello SG Trading Company! I would like to order Master Case: ${sku.skuName} @ ₹${sku.wholesaleCartonPrice}. Please arrange refrigerated delivery from Mayur Vihar Phase-3.`
+                              `Hello SG Trading Company! I would like to order ${qty} Master Case(s) of: ${sku.skuName} @ Total ₹${totalPrice.toLocaleString("en-IN")}. Please arrange refrigerated delivery from Mayur Vihar Phase-3.`
                             );
                             window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
                           }}
@@ -522,7 +571,9 @@ export const BrandTicker: React.FC = () => {
                               : "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/20"
                           }`}
                         >
-                          {isAdded ? "✓ Added Master Case to Cart!" : "🛒 Add Master Case to Wholesale Cart"}
+                          {isAdded
+                            ? `✓ Added ${qty} Carton(s) to Cart!`
+                            : `🛒 Add ${qty} ${qty === 1 ? "Carton" : "Cartons"} (₹${totalPrice.toLocaleString("en-IN")})`}
                         </button>
                       </div>
                     </div>
