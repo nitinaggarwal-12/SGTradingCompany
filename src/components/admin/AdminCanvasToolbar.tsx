@@ -52,7 +52,7 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
   onViewportChange,
   hasUnsavedChanges,
 }) => {
-  const { showToast } = useApp();
+  const { showToast, openTextInspector, siteContent } = useApp();
   const [showPinModal, setShowPinModal] = useState(false);
   const [showSnapshotsModal, setShowSnapshotsModal] = useState(false);
   const [hasLocalDraft, setHasLocalDraft] = useState(false);
@@ -189,8 +189,16 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
             </div>
           </div>
 
-          {/* Right: Actions (Add SKU, Save Draft, Save & Deploy Live, Exit) */}
+          {/* Right: Actions (Add SKU, Page SEO, Save Draft, Save & Deploy Live, Exit) */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => openTextInspector("pageMeta.title", "Page SEO & Meta Title", siteContent?.pageMeta?.title || "")}
+              className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-sky-500/50 text-sky-400 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+              title="Edit Page SEO Title, Meta Description & OpenGraph Image"
+            >
+              <span>🌐 Page SEO &amp; Meta</span>
+            </button>
+
             <button
               onClick={onAddNewProduct}
               className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
