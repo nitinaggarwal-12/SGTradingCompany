@@ -63,9 +63,14 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   const handleClearCacheAndReload = () => {
     if (typeof window !== "undefined") {
       localStorage.clear();
+      sessionStorage.clear();
       showToast("🔄 Cleared browser cache & reloading fresh!");
       setTimeout(() => {
-        window.location.reload();
+        window.location.href =
+          window.location.origin +
+          window.location.pathname +
+          "?refresh=" +
+          Date.now();
       }, 300);
     }
   };
