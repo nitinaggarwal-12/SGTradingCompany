@@ -26,6 +26,7 @@ import {
   Scale,
   RotateCcw,
   BarChart3,
+  Gift,
 } from "lucide-react";
 import Link from "next/link";
 import { PRODUCTS_CATALOG } from "@/data/products";
@@ -164,6 +165,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     },
   ];
 
+  const [isDealsDropdownOpen, setIsDealsDropdownOpen] = useState(false);
   const [isOperationsDropdownOpen, setIsOperationsDropdownOpen] = useState(false);
 
   return (
@@ -171,6 +173,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
       className="sticky top-0 w-full bg-slate-950 border-b border-slate-800/80 z-50"
       onMouseLeave={() => {
         setIsMegaMenuOpen(false);
+        setIsDealsDropdownOpen(false);
         setIsOperationsDropdownOpen(false);
         setIsSearchFocused(false);
       }}
@@ -201,7 +204,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
           </div>
 
           <nav className="hidden lg:flex items-center gap-2.5 text-xs font-bold uppercase tracking-wider text-slate-300">
-            {/* Sleek Compact All Brands Dropdown Trigger */}
+            {/* GROUP 1: Sleek Compact All Brands Dropdown Trigger */}
             <div
               className="relative"
               onMouseEnter={() => setIsMegaMenuOpen(true)}
@@ -282,25 +285,70 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            {/* Live Offers Link */}
-            <Link
-              href="/offers"
-              className="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold text-xs border border-amber-500/40 transition-all flex items-center gap-1.5 shrink-0"
+            {/* GROUP 2: LOGICAL GROUPING — DEALS, CASHBACK & REWARDS DROPDOWN */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsDealsDropdownOpen(true)}
             >
-              <Flame className="w-3.5 h-3.5" />
-              <span>Live Offers</span>
-            </Link>
+              <button
+                onClick={() => setIsDealsDropdownOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold border border-amber-500/40 transition-all cursor-pointer"
+              >
+                <Flame className="w-3.5 h-3.5" />
+                <span>Deals &amp; Rewards</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform ${
+                    isDealsDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
 
-            {/* Coming Soon Link */}
-            <Link
-              href="/coming-soon"
-              className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-extrabold text-xs border border-emerald-500/40 transition-all flex items-center gap-1.5 shrink-0"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Coming Soon (12)</span>
-            </Link>
+              {isDealsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-76 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs">
+                  <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
+                    Wholesale Savings &amp; VIP Chef Incentives
+                  </div>
 
-            {/* CONSOLIDATED OPERATIONS & INTELLIGENCE SUITE DROPDOWN */}
+                  <Link
+                    href="/offers"
+                    onClick={() => setIsDealsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Flame className="w-4 h-4 text-amber-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Current Offers &amp; Bank Cashback</p>
+                      <p className="text-[10px] text-slate-400 font-sans">HDFC, ICICI, Axis &amp; Paytm UPI Credit</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/offers"
+                    onClick={() => setIsDealsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Gift className="w-4 h-4 text-emerald-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">SG Chef Loyalty &amp; VIP Points</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Earn Points, Free Master Cases &amp; Gifts</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/coming-soon"
+                    onClick={() => setIsDealsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Coming Soon Launch Radar (12 SKUs)</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Chatha Chicken, Britannia &amp; Veeba</p>
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* GROUP 3: LOGICAL GROUPING — OPERATIONS & INTELLIGENCE SUITE DROPDOWN */}
             <div
               className="relative"
               onMouseEnter={() => setIsOperationsDropdownOpen(true)}
@@ -387,9 +435,17 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
+            {/* GROUP 4: Corporate Identity & Account */}
+            <Link
+              href="/#about"
+              className="hover:text-amber-400 font-bold transition-colors px-1"
+            >
+              About
+            </Link>
+
             <Link
               href="/account"
-              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px] px-2"
+              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px] px-1"
               title={currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             >
               {currentUser ? currentUser.companyName : "Account"}
