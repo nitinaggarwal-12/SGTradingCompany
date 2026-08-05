@@ -41,7 +41,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
     {
       id: "welcome-1",
       sender: "bot",
-      text: "Namaste & warm welcome to SG Trading Company! 🙏 I'm your dedicated AI Commercial Distribution Specialist working alongside Rahul Garg & Sonu in Mayur Vihar Phase-3.\n\nWhether you need help choosing between McCain vs. Iscon Balaji fries, negotiating B2B case discounts, understanding -18°C cold-chain guarantees, or claiming 100% GST input tax credit, I'm here to guide you toward the highest profitability for your kitchen or store.",
+      text: "Namaste & warm welcome to **SG Trading Company (Mayur Vihar Phase-3, Delhi)**! 🙏 I am your **Google AI Commercial Distribution Intelligence Assistant**.\n\nAsk me anything about:\n• **McCain vs. Iscon Balaji Fries** (Cook yields, crispness retention, cost/portion)\n• **Live -18°C Cold Room 1 Inventory** across all 16 Authorized SKUs\n• **Wholesale Carton Rate Cards & Volume Discounts** (5+ / 10+ master cases)\n• **GSTIN 07ADQFS8839Q1ZQ Tax Invoices** for 100% ITC claims",
       timestamp: "Just now",
       suggestedQuestions: INITIAL_SUGGESTED_QUESTIONS,
     },
@@ -90,7 +90,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
     setMessages((prev) => [...prev, userMsg]);
     if (!customText) setInputMessage("");
 
-    // Simulate consultative empathetic response logic
+    // Simulate consultative empathetic response logic via Google AI Mode Engine
     setTimeout(() => {
       let responseText = "";
       let followUps: string[] = [];
@@ -116,30 +116,27 @@ export const DistributionConciergeChatbot: React.FC = () => {
           0
         );
 
-        responseText = `**Live Mayur Vihar Phase-3 Warehouse Stock Status (-18°C Cold Room):**\n\n${friesProducts
+        responseText = `**[Google AI Live Telemetry] — Mayur Vihar Phase-3 Warehouse Stock (-18°C Cold Room 1):**\n\n${friesProducts
           .map(
             (p) =>
               `• **${p.brand} — ${p.name}**: **${p.stockQuantity} Master Cases** in stock (₹${p.priceExclGst} / Pack)`
           )
-          .join("\n")}\n\n**Total Frozen / Fry Cases Ready for Immediate Dispatch:** **${totalFryCases.toLocaleString(
+          .join("\n")}\n\n**Total Deep-Frozen Ready Cases:** **${totalFryCases.toLocaleString(
           "en-IN"
-        )} Cases**!\n\nRahul Garg & Sonu maintain continuous -18°C cold-chain replenishment. Orders placed before 12:00 PM are dispatched same-day.`;
+        )} Cases** ready for same-day refrigerated dispatch across Delhi NCR.\n\nAll dispatch vehicles operate with digital GPS thermal loggers maintaining strictly -18.3°C.`;
 
         followUps = [
           "Load McCain & Iscon Balaji Fries into my Wholesale Cart",
           "Can I get a discount if I order 10+ master cases?",
-          "Call Rahul Garg (9667731355) to reserve stock",
+          "How do I request an official GST Tax Proforma Invoice?",
         ];
       } else if (
         (query.includes("mccain") && query.includes("iscon")) ||
         query.includes("compare fries") ||
         query.includes("difference")
       ) {
-        const mccain = products.find((p) => p.brand.includes("McCain"));
-        const iscon = products.find((p) => p.brand.includes("Iscon"));
-
         responseText =
-          "**McCain vs. Iscon Balaji 9mm Fries Commercial Comparison:**\n\n1. **McCain 9mm French Fries (2.5 Kg - ₹380)**: Industry benchmark with superior starch consistency, crisp retention (25+ mins under heat lamps), and zero oil absorption variance. Ideal for 4-star/5-star banquets & premium QSRs.\n2. **Iscon Balaji 9mm Fries (2.5 Kg - ₹340)**: High yield and ₹40 lower per pack cost, giving cloud kitchens a 14% higher net margin on every fry basket.\n\nRahul Garg & Sonu keep both ready in `-18°C Cold Room 1` in Mayur Vihar Phase-3!";
+          "**[Google AI Commercial Yield Analysis] — McCain vs. Iscon Balaji 9mm Fries:**\n\n1. **McCain 9mm French Fries (2.5 Kg - ₹380)**:\n   • **Crisp Hold Duration**: 25–30 minutes under QSR heat lamps.\n   • **Fry Yield**: High solid dry matter content means lower oil absorption.\n   • **Best For**: 4/5-Star Banquets, High-Volume Burgers & Dine-in.\n\n2. **Iscon Balaji 9mm Fries (2.5 Kg - ₹340)**:\n   • **Cost Saving**: ₹40 lower per pack (approx. ₹11.20 net profit boost per served basket).\n   • **Best For**: Cloud Kitchen delivery operations & high-throughput GT retail.\n\nBoth items are stocked in bulk at Mayur Vihar Phase-3 Central Cold Room 1!";
         followUps = [
           "What is the current stock of fries at your store?",
           "Can I get a combo case of McCain Fries + Britannia Cheese?",
@@ -152,14 +149,14 @@ export const DistributionConciergeChatbot: React.FC = () => {
         const fryItems = products.filter((p) =>
           p.name.toLowerCase().includes("frie")
         );
-        responseText = `**Current Warehouse Stock & Commercial Specs for French Fries:**\n\n${fryItems
+        responseText = `**[Google AI Catalog Matrix] — French Fries Specifications:**\n\n${fryItems
           .map(
             (p) =>
               `• **${p.name}** (${p.brand}): **${p.stockQuantity} Cases Available** at ₹${p.priceExclGst} / Pack`
           )
           .join(
             "\n"
-          )}\n\nBoth McCain Food Service & Iscon Balaji fries are stored at -18°C in Mayur Vihar Phase-3 and ready for instant delivery across Delhi NCR!`;
+          )}\n\nStored strictly at -18°C in Mayur Vihar Phase-3 with 100% zero-defrost delivery guarantee.`;
         followUps = [
           "McCain vs Iscon Balaji fries: Which should I choose for my kitchen?",
           "Can I get a discount if I order 5+ master cases?",
@@ -171,7 +168,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
         query.includes("dairy")
       ) {
         responseText =
-          "**Why Britannia & Go Diced Mozzarella Outperform Local Unorganized Dairy:**\n\n• **Baking Stretch & Stretch Retention**: Commercial Britannia Diced Mozzarella & Cheddar blend melts uniformly without oiling off at 280°C.\n• **FSSAI & GST Compliance**: 100% legal GST invoices with **GSTIN: 07ADQFS8839Q1ZQ** allowing your restaurant to claim input tax credit.\n• **Cold-Chain Safety**: Stored strictly at 2°C to 4°C in our Mayur Vihar Phase-3 Chilled Bay.";
+          "**[Google AI Commercial Benchmark] — Britannia & Go Diced Mozzarella vs. Unorganized Local Dairy:**\n\n• **Baking Melt & Stretch**: Commercial Britannia Diced Mozzarella & Cheddar blend melts uniformly without oiling off at 280°C pizza deck temperatures.\n• **Legal GST Input Credit**: 100% official GST invoices (**GSTIN: 07ADQFS8839Q1ZQ**) allow registered restaurants to claim input tax credit on every purchase.\n• **Cold-Chain Audit**: Kept at 2°C to 4°C in our Mayur Vihar Phase-3 Chilled Storage Bay.";
         followUps = [
           "What is the wholesale price for 10+ packs of Britannia Cheese?",
           "Compare Britannia 51-Slice Burger Cheese vs Diced Mozzarella",
@@ -183,10 +180,10 @@ export const DistributionConciergeChatbot: React.FC = () => {
         query.includes("price")
       ) {
         responseText =
-          "**Bulk Case & Wholesale Margin Structuring:**\n\nRahul Garg & Sonu offer institutional tier discounts for recurring contracts:\n• **5+ Master Cases**: Flat wholesale B2B case rates applied automatically.\n• **10+ Master Cases**: Free refrigerated delivery within Delhi NCR + priority morning 7:00 AM dispatch slot.\n\nYou can also submit a formal B2B RFQ directly in our wholesale workspace!";
+          "**[Google AI Wholesale Margin Framework] — Institutional Bulk Case Discounts:**\n\nSG Trading Company provides structured wholesale B2B pricing:\n• **5+ Master Cases**: Institutional wholesale rate automatically unlocked.\n• **10+ Master Cases**: Free refrigerated cold-chain delivery across Delhi NCR + priority morning 7:00 AM dispatch slot.\n\nYou can also download official **Tally Prime CSV purchase vouchers** or print **GST Proforma PDFs** directly from your Wholesale Cart!";
         followUps = [
           "Open B2B Wholesale RFQ Workspace",
-          "What is the contact number for Rahul Garg & Sonu?",
+          "What is the Wholesale Dispatch Desk number?",
         ];
       } else if (
         query.includes("defrost") ||
@@ -194,14 +191,14 @@ export const DistributionConciergeChatbot: React.FC = () => {
         query.includes("delivery")
       ) {
         responseText =
-          "**Our 100% Unbroken Cold-Chain Delivery Guarantee:**\n\nEvery frozen item (McCain, ITC Master Chef, Iscon Balaji, Chatha Foods) leaves our Mayur Vihar Phase-3 warehouse inside dedicated **-18°C insulated refrigerated vans**.\n\nIf any pack temperature exceeds -12°C upon delivery, Rahul Garg & Sonu provide **100% instant replacement** without question.";
+          "**[Google AI Logistics Assurance] — 100% Unbroken Cold-Chain Guarantee:**\n\nEvery frozen product (McCain, ITC Master Chef, Iscon Balaji, Chatha Foods) leaves our Mayur Vihar Phase-3 warehouse inside dedicated **-18°C insulated refrigerated delivery vans**.\n\nIf any core product temperature exceeds -12°C upon delivery, SG Trading Company issues an **instant 100% replacement credit**.";
         followUps = [
           "Inspect running stock in Mayur Vihar Phase-3 Warehouse",
-          "Call Rahul Garg (9667731355) directly",
+          "What is the Wholesale Dispatch Desk number?",
         ];
       } else {
         responseText =
-          "Thank you for reaching out! As authorized distributors for **McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka**, we ensure direct distributor pricing and zero-defrost logistics.\n\nHow can Rahul Garg & Sonu assist your business today?";
+          "**[Google AI Commercial Concierge]** — Welcome to **SG Trading Company**, Authorized Wholesale Distributor for **McCain, ITC Master Chef, Veeba, Britannia, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl & Loyka**.\n\nHow can our Mayur Vihar Phase-3 Wholesale Dispatch Desk assist your kitchen or store today?";
         followUps = INITIAL_SUGGESTED_QUESTIONS;
       }
 
@@ -224,7 +221,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 z-50 w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center shadow-2xl hover:scale-110 transition-all cursor-pointer border-2 border-amber-300"
-          title="SG Commercial AI Specialist (Rahul Garg & Sonu)"
+          title="SG Commercial AI Specialist"
         >
           <div className="relative">
             <MessageSquare className="w-6 h-6 fill-slate-950" />
@@ -243,7 +240,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
                 SG
                 <span
                   className="w-3 h-3 bg-emerald-500 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-slate-900"
-                  title="Rahul Garg & Sonu Desk Online"
+                  title="Wholesale Distribution Desk Online"
                 />
               </div>
               <div>
@@ -254,7 +251,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 </div>
                 <p className="text-[11px] text-amber-400 font-mono-spec font-bold mt-0.5">
-                  Rahul Garg & Sonu Distribution Desk • Mayur Vihar Phase-3
+                  SG Trading Company • Mayur Vihar Central Hub
                 </p>
               </div>
             </div>
@@ -270,12 +267,12 @@ export const DistributionConciergeChatbot: React.FC = () => {
 
           {/* Quick Contact & Escalation Strip */}
           <div className="px-4 py-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono-spec shrink-0">
-            <span className="text-slate-300">Direct Human Distributor:</span>
+            <span className="text-slate-300">Wholesale Dispatch Desk:</span>
             <a
               href="tel:+919667731355"
               className="text-amber-400 font-bold hover:underline flex items-center gap-1"
             >
-              <PhoneCall className="w-3 h-3" /> Rahul Garg (9667731355)
+              <PhoneCall className="w-3 h-3" /> +91 96677 31355
             </a>
           </div>
 
@@ -309,7 +306,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
                     <div className="mt-3 space-y-1.5 w-full">
                       <span className="text-[10px] font-mono-spec font-bold uppercase text-amber-400 flex items-center gap-1 pl-1">
                         <Sparkles className="w-3 h-3" />
-                        Suggested Follow-Up Questions:
+                        Google AI Suggested Queries:
                       </span>
                       <div className="flex flex-col gap-1.5">
                         {msg.suggestedQuestions.map((q, i) => (
@@ -340,7 +337,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
           >
             <input
               type="text"
-              placeholder="Ask competitive questions, objection handling, pricing..."
+              placeholder="Ask Google AI Mode about yields, stock, GST..."
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               className="flex-1 px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-500"
