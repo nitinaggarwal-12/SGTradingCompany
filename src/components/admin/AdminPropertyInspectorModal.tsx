@@ -274,6 +274,68 @@ export const AdminPropertyInspectorModal: React.FC<
                     className="mt-2 w-full h-28 object-cover rounded-xl border border-slate-800"
                   />
                 )}
+
+                {/* Quick Verified Dish Photo Presets */}
+                <div className="mt-3 space-y-1.5">
+                  <span className="text-[10px] text-slate-400 font-mono-spec block">
+                    ⚡ Quick Verified Dish Photo Presets (Click to apply &amp; preview):
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      {
+                        label: "🍟 French Fries",
+                        url: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🧀 Potato Cheese Balls",
+                        url: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🍗 Chicken Nuggets",
+                        url: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🍲 Makhani Gravy",
+                        url: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🥣 Eggless Mayo",
+                        url: "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🍕 Pizza Sauce",
+                        url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🧀 Mozzarella Stretch",
+                        url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🍔 Burger Cheese Slice",
+                        url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
+                      },
+                      {
+                        label: "🌭 Chicken Frankfurters",
+                        url: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
+                      },
+                    ].map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() =>
+                          setEditedProduct({
+                            ...editedProduct,
+                            image: preset.url,
+                            images: [preset.url, preset.url, preset.url],
+                          })
+                        }
+                        className="px-2 py-1 rounded bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-[10px] text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
