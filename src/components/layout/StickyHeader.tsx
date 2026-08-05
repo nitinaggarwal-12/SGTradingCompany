@@ -24,6 +24,7 @@ import {
   PhoneCall,
   Scale,
   RotateCcw,
+  BarChart3,
 } from "lucide-react";
 import Link from "next/link";
 import { PRODUCTS_CATALOG } from "@/data/products";
@@ -195,8 +196,15 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
           </div>
 
-          {/* Center: Desktop Executive Navigation Links (Consolidated for single-row elegance) */}
           <nav className="hidden lg:flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-slate-300">
+            <Link
+              href="/market-intelligence"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold transition-all"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Market Intelligence &amp; SWOT</span>
+            </Link>
+
             {/* Sleek Compact All Brands Dropdown Trigger */}
             <div
               className="relative"
