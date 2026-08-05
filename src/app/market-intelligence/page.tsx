@@ -48,6 +48,8 @@ import {
   Radio,
   Play,
   Pause,
+  FileText,
+  Smartphone,
 } from "lucide-react";
 import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
 
@@ -120,10 +122,15 @@ export default function MarketIntelligenceDashboardPage() {
   const [vanProgress, setVanProgress] = useState<number>(25);
   const [liveTemp, setLiveTemp] = useState<number>(-18.4);
 
+  // PHONE-BASED DRIVER TRACKING & STATUS STATE
+  const [selectedDriverPhone, setSelectedDriverPhone] = useState<string>("+91 9667731355");
+  const [driverMilestone, setDriverMilestone] = useState<"LOADED" | "TRANSIT" | "DOCK" | "DELIVERED">("TRANSIT");
+  const [lastPhonePingSec, setLastPhonePingSec] = useState<number>(12);
+
   const [marketTrends, setMarketTrends] = useState(MARKET_CONFIG_DATA.marketTrends);
   const [customers, setCustomers] = useState(MARKET_CONFIG_DATA.customers);
   const [expandedCustomerIds, setExpandedCustomerIds] = useState<string[]>(["cust-04"]);
-  const [selectedHub, setSelectedHub] = useState<string>("mayur-vihar");
+  const [selectedHub, setSelectedHub] = useState<string>("van-02");
   const [isSyncing, setIsSyncing] = useState(false);
 
   // Live Reefer Van Telemetry Simulation Loop
@@ -478,75 +485,321 @@ export default function MarketIntelligenceDashboardPage() {
           </div>
         </div>
 
-        {/* SECTION 2: LIVE ANIMATED REEFER VAN GPS TELEMETRY MAP VISUALIZER */}
-        <section className="rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 p-6 md:p-8 space-y-6 shadow-2xl">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
+        {/* SECTION 2: TESLA/SPACEX-GRADE MULTI-FLEET GPS TELEMETRY & DISPATCH WAR-ROOM */}
+        <section className="rounded-3xl bg-slate-900/80 backdrop-blur-xl border-2 border-amber-500/60 p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+          {/* Ambient Header Glow */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-5">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
-                <Compass className="w-3.5 h-3.5" />
-                <span>DELHI NCR LOGISTICS TELEMETRY • LIVE ANIMATED DISPATCH TRAJECTORY</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-mono-spec font-black uppercase tracking-wider mb-2">
+                <Radio className="w-3.5 h-3.5 animate-pulse text-amber-400" />
+                <span>DELHI NCR MULTI-FLEET TELEMETRY WAR-ROOM • MAYUR VIHAR PHASE-3 HUB</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Mayur Vihar Phase-3 Warehouse GPS Dispatch Simulation
+              <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">
+                Live Refrigerated Fleet GPS Dispatch &amp; Cold-Chain Surveillance
               </h2>
+              <p className="text-xs md:text-sm text-slate-300 mt-1 max-w-3xl">
+                Real-time multi-vehicle telemetry originating from Rahul Garg &amp; Sonu’s B-577 Mayur Vihar Phase-3 Cold Room 1 across Delhi NCR institutional destinations.
+              </p>
             </div>
 
-            <div className="flex items-center gap-3 font-mono-spec text-xs">
-              <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-emerald-400 font-bold flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                Live Core Reefer Temp: {liveTemp}°C (OK)
-              </span>
+            {/* Active Fleet Selection Tabs */}
+            <div className="flex flex-wrap items-center gap-2 font-mono-spec text-xs">
+              {[
+                {
+                  id: "van-01",
+                  code: "REEFER-01",
+                  dest: "Radisson Blu Kaushambi",
+                  temp: "-18.4°C",
+                  cargo: "35 Cases McCain Fries & Britannia Mozzarella",
+                  eta: "12 mins",
+                },
+                {
+                  id: "van-02",
+                  code: "REEFER-02",
+                  dest: "Noida Sec-62 Burger Singh",
+                  temp: "-18.1°C",
+                  cargo: "45 Cases McCain Fries & Veeba Mayo",
+                  eta: "24 mins",
+                },
+                {
+                  id: "van-03",
+                  code: "REEFER-03",
+                  dest: "Indirapuram EatClub Cloud Hub",
+                  temp: "-18.5°C",
+                  cargo: "40 Cases ITC Master Chef & Cheese Balls",
+                  eta: "16 mins",
+                },
+              ].map((v) => (
+                <button
+                  key={v.id}
+                  onClick={() => setSelectedHub(v.id)}
+                  className={`px-4 py-2.5 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 ${
+                    selectedHub === v.id
+                      ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg font-black"
+                      : "bg-slate-950/90 text-slate-300 border-slate-800 hover:border-slate-700 font-bold"
+                  }`}
+                >
+                  <Truck className="w-4 h-4" />
+                  <div className="text-left">
+                    <span className="block text-[10px] uppercase opacity-80">{v.code} • {v.temp}</span>
+                    <span className="block text-xs truncate max-w-[140px]">{v.dest}</span>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Visual SVG NCR Map with Live Animated Moving Delivery Truck Icon */}
-          <div className="relative rounded-2xl bg-slate-950 border border-slate-800 p-6 overflow-hidden min-h-[260px] flex items-center justify-center">
-            <svg viewBox="0 0 800 240" className="w-full h-auto max-h-[240px]">
-              {/* Grid Map Lines */}
-              <line x1="0" y1="120" x2="800" y2="120" stroke="rgba(255,255,255,0.04)" />
-              <line x1="400" y1="0" x2="400" y2="240" stroke="rgba(255,255,255,0.04)" />
-
-              {/* Vector Delivery Route from Mayur Vihar Central Hub (180, 120) to Noida Sec-62 QSR Cluster (640, 120) */}
-              <line
-                x1="180"
-                y1="120"
-                x2="640"
-                y2="120"
-                stroke="#10B981"
-                strokeWidth="6"
-                strokeLinecap="round"
-                opacity="0.3"
+          {/* Multi-Fleet Telemetry Map + Live Active Vehicle Inspection Cockpit Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Left 8 Cols: High-Resolution Multi-Route GIS Satellite Map */}
+            <div className="lg:col-span-8 rounded-2xl bg-slate-950 border-2 border-slate-800 p-6 relative overflow-hidden min-h-[340px] flex flex-col justify-between">
+              {/* Map GIS Grid Overlay */}
+              <div
+                className="absolute inset-0 opacity-10 pointer-events-none"
+                style={{
+                  backgroundImage: "radial-gradient(#F59E0B 1px, transparent 1px)",
+                  backgroundSize: "28px 28px",
+                }}
               />
 
-              {/* CENTRAL WAREHOUSE NODE (B-577 Mayur Vihar Phase-3) */}
-              <circle cx="180" cy="120" r="24" fill="rgba(245, 158, 11, 0.2)" />
-              <circle cx="180" cy="120" r="14" fill="#F59E0B" />
-              <text x="180" y="165" fill="#F59E0B" fontSize="12" fontWeight="black" textAnchor="middle">
-                🏢 B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE (-18°C)
-              </text>
+              <svg viewBox="0 0 840 300" className="w-full h-auto max-h-[290px] relative z-10">
+                {/* Vector Route 1: Mayur Vihar (220, 150) -> Kaushambi Radisson (130, 60) */}
+                <path
+                  d="M 220 150 L 130 60"
+                  stroke={selectedHub === "van-01" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
+                  strokeWidth={selectedHub === "van-01" ? "5" : "2"}
+                  strokeDasharray="6 4"
+                />
 
-              {/* Destination Noida Sec-62 Burger Singh Cluster Node */}
-              <circle cx="640" cy="120" r="24" fill="rgba(16, 185, 129, 0.2)" />
-              <circle cx="640" cy="120" r="14" fill="#10B981" />
-              <text x="640" y="165" fill="#10B981" fontSize="12" fontWeight="black" textAnchor="middle">
-                🍔 NOIDA SEC-62 QSR HUB (BURGER SINGH)
-              </text>
+                {/* Vector Route 2: Mayur Vihar (220, 150) -> Noida Sec-62 Burger Singh (680, 110) */}
+                <path
+                  d="M 220 150 L 680 110"
+                  stroke={selectedHub === "van-02" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
+                  strokeWidth={selectedHub === "van-02" ? "5" : "2"}
+                  strokeDasharray="6 4"
+                />
 
-              {/* LIVE ANIMATED REEFER TRUCK ICON SLIDING IN REAL TIME */}
-              {(() => {
-                const vanX = 180 + (vanProgress / 100) * (640 - 180);
-                return (
-                  <g transform={`translate(${vanX}, 120)`} className="transition-all duration-1000 ease-linear">
-                    <circle cx="0" cy="0" r="18" fill="#F59E0B" />
-                    <text x="0" y="4" fill="#070A12" fontSize="12" textAnchor="middle">🚚</text>
-                    <rect x="-35" y="-35" width="70" height="18" rx="4" fill="#070A12" stroke="#F59E0B" strokeWidth="1" />
-                    <text x="0" y="-22" fill="#F59E0B" fontSize="9" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                      {liveTemp}°C • {vanProgress}%
-                    </text>
-                  </g>
-                );
-              })()}
-            </svg>
+                {/* Vector Route 3: Mayur Vihar (220, 150) -> Indirapuram EatClub Hub (630, 230) */}
+                <path
+                  d="M 220 150 L 630 230"
+                  stroke={selectedHub === "van-03" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
+                  strokeWidth={selectedHub === "van-03" ? "5" : "2"}
+                  strokeDasharray="6 4"
+                />
+
+                {/* CENTRAL HUB: B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE */}
+                <circle cx="220" cy="150" r="32" fill="rgba(245, 158, 11, 0.15)" />
+                <circle cx="220" cy="150" r="18" fill="#F59E0B" />
+                <circle cx="220" cy="150" r="7" fill="#070A12" />
+                <text x="220" y="198" fill="#F59E0B" fontSize="11" fontWeight="black" textAnchor="middle" fontFamily="monospace">
+                  🏢 B-577 MAYUR VIHAR-3 CENTRAL COLD ROOM (-18°C)
+                </text>
+
+                {/* DESTINATION NODE 1: Radisson Blu Kaushambi */}
+                <circle cx="130" cy="60" r="14" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} />
+                <text x="130" y="38" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                  🏨 Radisson Blu Kaushambi (12m)
+                </text>
+
+                {/* DESTINATION NODE 2: Noida Sec-62 Burger Singh */}
+                <circle cx="680" cy="110" r="14" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} />
+                <text x="680" y="88" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                  🍔 Noida Sec-62 Burger Singh (24m)
+                </text>
+
+                {/* DESTINATION NODE 3: Indirapuram EatClub */}
+                <circle cx="630" cy="230" r="14" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} />
+                <text x="630" y="258" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                  ☁️ Indirapuram EatClub Cloud Hub (16m)
+                </text>
+
+                {/* MOVING VAN 1 (Radisson Route) */}
+                {(() => {
+                  const p = (vanProgress % 100) / 100;
+                  const vx = 220 + (130 - 220) * p;
+                  const vy = 150 + (60 - 150) * p;
+                  return (
+                    <g transform={`translate(${vx}, ${vy})`}>
+                      <circle cx="0" cy="0" r="12" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} />
+                      <text x="0" y="3" fill="#070A12" fontSize="9" textAnchor="middle">🚚</text>
+                    </g>
+                  );
+                })()}
+
+                {/* MOVING VAN 2 (Noida Sec-62 Route) */}
+                {(() => {
+                  const p = ((vanProgress + 35) % 100) / 100;
+                  const vx = 220 + (680 - 220) * p;
+                  const vy = 150 + (110 - 150) * p;
+                  return (
+                    <g transform={`translate(${vx}, ${vy})`}>
+                      <circle cx="0" cy="0" r="14" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} />
+                      <text x="0" y="4" fill="#070A12" fontSize="10" textAnchor="middle">🚛</text>
+                      <rect x="-24" y="-24" width="48" height="13" rx="3" fill="#070A12" stroke="#F59E0B" strokeWidth="1" />
+                      <text x="0" y="-14" fill="#F59E0B" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                        -18.1°C
+                      </text>
+                    </g>
+                  );
+                })()}
+
+                {/* MOVING VAN 3 (Indirapuram Route) */}
+                {(() => {
+                  const p = ((vanProgress + 70) % 100) / 100;
+                  const vx = 220 + (630 - 220) * p;
+                  const vy = 150 + (230 - 150) * p;
+                  return (
+                    <g transform={`translate(${vx}, ${vy})`}>
+                      <circle cx="0" cy="0" r="12" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} />
+                      <text x="0" y="3" fill="#070A12" fontSize="9" textAnchor="middle">🚐</text>
+                    </g>
+                  );
+                })()}
+              </svg>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800 text-[11px] font-mono-spec relative z-10">
+                <span className="text-slate-400">
+                  GPS Telemetry Anchor: <strong className="text-white">28.6015° N, 77.3328° E</strong>
+                </span>
+                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>All 3 Reefer Units Operating Within -18°C Threshold</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Right 4 Cols: Live Active Vehicle & Phone-Based Driver Tracking Inspection Box */}
+            <div className="lg:col-span-4 rounded-2xl bg-slate-950 border-2 border-amber-500/80 p-5 space-y-4 flex flex-col justify-between shadow-xl">
+              <div>
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <div>
+                    <span className="text-[10px] font-mono-spec text-amber-400 font-black uppercase flex items-center gap-1">
+                      <Smartphone className="w-3.5 h-3.5 text-amber-400" />
+                      <span>PHONE-BASED DRIVER GPS TELEMETRY</span>
+                    </span>
+                    <h3 className="text-base font-black text-white mt-0.5">
+                      {selectedHub === "van-01"
+                        ? "REEFER-01 • Radisson Blu Express"
+                        : selectedHub === "van-03"
+                        ? "REEFER-03 • Indirapuram Cloud Express"
+                        : "REEFER-02 • Noida Sec-62 QSR Route"}
+                    </h3>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-black border border-emerald-500/40">
+                    PHONE PING ACTIVE
+                  </span>
+                </div>
+
+                {/* Driver Phone Number Switcher */}
+                <div className="pt-3 space-y-2">
+                  <span className="text-[10px] font-mono-spec text-slate-400 uppercase font-bold block">
+                    Select Driver Phone to Track Progress:
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { phone: "+91 9667731355", name: "Sonu & Ramesh" },
+                      { phone: "+91 9643097002", name: "Rahul Garg Desk" },
+                      { phone: "+91 9811223344", name: "Vikram Logistics" },
+                    ].map((d) => (
+                      <button
+                        key={d.phone}
+                        onClick={() => setSelectedDriverPhone(d.phone)}
+                        className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                          selectedDriverPhone === d.phone
+                            ? "bg-amber-500/20 border-amber-500 text-amber-400 font-extrabold"
+                            : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
+                        }`}
+                      >
+                        <span className="block text-[9px] uppercase font-mono-spec">{d.name}</span>
+                        <span className="block text-xs font-mono-spec">{d.phone}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Driver Phone Live Status Timeline (Mobile Progress Switcher) */}
+                <div className="pt-3 space-y-2">
+                  <div className="flex items-center justify-between text-[10px] font-mono-spec">
+                    <span className="text-slate-400 uppercase font-bold">Driver Phone Status Update:</span>
+                    <span className="text-emerald-400 font-bold">Pinged {lastPhonePingSec}s ago</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 font-mono-spec text-[10px]">
+                    {[
+                      { id: "LOADED", label: "1. 📦 Loaded @ B-577" },
+                      { id: "TRANSIT", label: "2. 🚚 Moving (-18°C)" },
+                      { id: "DOCK", label: "3. 🛑 Arrived Dock" },
+                      { id: "DELIVERED", label: "4. ✅ Signed Delivery" },
+                    ].map((m) => (
+                      <button
+                        key={m.id}
+                        onClick={() => setDriverMilestone(m.id as any)}
+                        className={`py-1.5 px-2 rounded-lg border transition-all cursor-pointer ${
+                          driverMilestone === m.id
+                            ? "bg-emerald-500 text-slate-950 font-black border-emerald-400"
+                            : "bg-slate-900 text-slate-300 border-slate-800 hover:border-slate-700"
+                        }`}
+                      >
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2.5 pt-3 font-mono-spec text-xs">
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">Phone GPS Signal:</span>
+                      <span className="text-sm font-black text-emerald-400">94% Battery • 5G</span>
+                      <span className="text-[9px] text-slate-400 block mt-0.5">Mayur Vihar Cell Hub</span>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                      <span className="text-[10px] text-slate-400 block">Freezer Sensor:</span>
+                      <span className="text-sm font-black text-sky-400">{liveTemp}°C Sync</span>
+                      <span className="text-[9px] text-emerald-400 block mt-0.5">Bluetooth Beacon</span>
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+                    <span className="text-[10px] text-amber-400 uppercase font-bold block">
+                      Active Customer Dispatch Manifest:
+                    </span>
+                    <p className="text-xs text-white font-bold leading-relaxed">
+                      {selectedHub === "van-01"
+                        ? "35 Cases (McCain Fries + Britannia Mozzarella)"
+                        : selectedHub === "van-03"
+                        ? "40 Cases (ITC Master Chef + Potato Cheese Balls)"
+                        : "45 Cases (McCain Fries + Veeba Eggless Mayo)"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2">
+                <button
+                  onClick={() => {
+                    const text = encodeURIComponent(
+                      `Namaste ${selectedDriverPhone}! SG Trading Company Central Command (B-577 Mayur Vihar-3) here.\n\n` +
+                      `Please confirm your live phone GPS status & cold room temp reading for ${selectedHub.toUpperCase()} shipment.\n` +
+                      `GST Invoice: 07ADQFS8839Q1ZQ`
+                    );
+                    window.open(`https://wa.me/${selectedDriverPhone.replace(/[^0-9]/g, "")}?text=${text}`, "_blank");
+                  }}
+                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Ping Driver Phone ({selectedDriverPhone}) via WhatsApp</span>
+                </button>
+
+                <button
+                  onClick={() => alert(`Official GPS Temperature & Driver Phone Location Log Certificate downloaded for ${selectedDriverPhone}.`)}
+                  className="w-full py-2 rounded-xl bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 font-extrabold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Download Phone GPS Audit Log</span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
