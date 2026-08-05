@@ -1,0 +1,90 @@
+{
+  "lastUpdated": "Q3 2026 • Live NCR Survey",
+  "baseMonthlyRevenueLakhs": 48.5,
+  "marketTrends": [
+    {
+      "category": "Ready-to-Cook Indian Retort Gravy Bases (ITC Makhani / Butter Chicken)",
+      "growth": "+58% YoY Surge",
+      "driver": "Cloud kitchens & banquets eliminating kitchen chef prep hours due to labor shortages.",
+      "impact": "High Margin (12% GST) • 9 Months Ambient Shelf Life",
+      "barWidth": "92%",
+      "color": "bg-amber-500"
+    },
+    {
+      "category": "Korean Peri Peri & Spicy Seasoned Crinkle French Fries (Iscon Balaji)",
+      "growth": "+45% YoY Surge",
+      "driver": "Gen-Z QSR burger chains & cafe lounge menus demanding pre-seasoned high-plate-hold fries.",
+      "impact": "Fast Case Turnover • 2.5 Kg Heavy Institutional Pack",
+      "barWidth": "78%",
+      "color": "bg-emerald-500"
+    },
+    {
+      "category": "Commercial High-Viscosity Eggless Mayonnaise (Veeba Food Services)",
+      "growth": "+42% YoY Surge",
+      "driver": "Shawarma rolls, grilled sandwiches, and momo dip stations replacing open jar mayo with spout pouches.",
+      "impact": "100% Vegetarian • Zero patty-thinning under heat",
+      "barWidth": "72%",
+      "color": "bg-sky-500"
+    },
+    {
+      "category": "Pre-Diced Mozzarella & Cheddar Pizza Blend (Britannia & Go Diced)",
+      "growth": "+37% YoY Surge",
+      "driver": "Wood-fired stone oven pizzerias requiring uniform 42cm+ stretch with zero oil blister.",
+      "impact": "High Ticket Value per Case • -18°C / 2°C Cold Chain",
+      "barWidth": "68%",
+      "color": "bg-amber-400"
+    }
+  ],
+  "recommendedAgencies": [
+    {
+      "brand": "HyFun Foods (Institutional Fries & Hashbrowns)",
+      "reason": "Provides competitive alternative to McCain with 8-12% higher distributor margin.",
+      "status": "HIGH PRIORITY TIE-UP",
+      "statusColor": "text-emerald-400 bg-emerald-500/20 border-emerald-500/40"
+    },
+    {
+      "brand": "Godrej Yummiez (Frozen Non-Veg & Veg Appetizers)",
+      "reason": "Fills catalog gap in chicken sausages, patties, and kebabs alongside Chatha Foods.",
+      "status": "RECOMMENDED ACTION",
+      "statusColor": "text-amber-400 bg-amber-500/20 border-amber-500/40"
+    },
+    {
+      "brand": "Dabur Homemade (Commercial Purees, Tomato & Garlic Paste)",
+      "reason": "Pairs with ITC Makhani base for full restaurant kitchen staple supply.",
+      "status": "EASY GT EXPANSION",
+      "statusColor": "text-sky-400 bg-sky-500/20 border-sky-500/40"
+    }
+  ],
+  "competitorBenchmarks": [
+    {
+      "dimension": "Cold-Chain Assurance (-18°C)",
+      "sgTrading": "✅ Guaranteed unbroken -18°C Reefer dispatch from Mayur Vihar Cold Room",
+      "metroReliance": "⚠️ Ambient transport after customer checkout; freezer defrost risk during transit",
+      "mandiWholesalers": "❌ High risk of thawing; uncertain cold chain monitoring"
+    },
+    {
+      "dimension": "Minimum Order Quantity (MOQ)",
+      "sgTrading": "✅ Low MOQ: 1 Master Case (10 Kg) for QSRs & Cafes",
+      "metroReliance": "⚠️ High purchase requirements or self-pickup travel overhead",
+      "mandiWholesalers": "⚠️ Cash-only bulk purchases with unpredictable stock availability"
+    },
+    {
+      "dimension": "Delivery Turnaround Time (Delhi NCR)",
+      "sgTrading": "⚡ Same-Day / Express (2 - 4 Hours) for Mayur Vihar, Noida & East Delhi",
+      "metroReliance": "🕒 Next-Day or 24-48 Hour scheduled delivery windows",
+      "mandiWholesalers": "🕒 Irregular delivery schedules depending on market crowd"
+    },
+    {
+      "dimension": "Authorized Brand Authenticity",
+      "sgTrading": "✅ Direct 100% Factory-Sealed Packs (McCain, ITC, Veeba, Britannia)",
+      "metroReliance": "✅ Authentic institutional packs",
+      "mandiWholesalers": "⚠️ Risk of counterfeit or short-shelf-life clearance batches"
+    },
+    {
+      "dimension": "B2B GST Compliance & Credit",
+      "sgTrading": "✅ Instant B2B GST Credit Invoice (07ADQFS8839Q1ZQ) + Dedicated Account Relationship",
+      "metroReliance": "✅ Standard automated GST invoice via card swipe",
+      "mandiWholesalers": "❌ Often kachha bill / unrecorded cash transactions"
+    }
+  ]
+}

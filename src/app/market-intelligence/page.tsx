@@ -26,7 +26,11 @@ import {
   DollarSign,
   ChevronRight,
   Percent,
+  Edit3,
+  Save,
+  Plus,
 } from "lucide-react";
+import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
 
 // Types for Strategic Scenarios
 interface WhatIfScenario {
@@ -95,9 +99,12 @@ const INITIAL_SCENARIOS: WhatIfScenario[] = [
 
 export default function MarketIntelligenceDashboardPage() {
   const [scenarios, setScenarios] = useState<WhatIfScenario[]>(INITIAL_SCENARIOS);
-  const [customFleetVans, setCustomFleetVans] = useState<number>(3);
-  const [customColdRoomExpansionPct, setCustomColdRoomExpansionPct] = useState<number>(40);
-  const [selectedTab, setSelectedTab] = useState<"overview" | "swot" | "competitors" | "whatif">("overview");
+  const [marketTrends, setMarketTrends] = useState(MARKET_CONFIG_DATA.marketTrends);
+  const [recommendedAgencies, setRecommendedAgencies] = useState(MARKET_CONFIG_DATA.recommendedAgencies);
+  const [competitorBenchmarks, setCompetitorBenchmarks] = useState(MARKET_CONFIG_DATA.competitorBenchmarks);
+  const [isAdminEditorOpen, setIsAdminEditorOpen] = useState(false);
+  const [newAgencyName, setNewAgencyName] = useState("");
+  const [newAgencyReason, setNewAgencyReason] = useState("");
 
   const toggleScenario = (id: string) => {
     setScenarios((prev) =>
@@ -105,9 +112,25 @@ export default function MarketIntelligenceDashboardPage() {
     );
   };
 
+  const handleAddNewAgency = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAgencyName.trim()) return;
+    setRecommendedAgencies([
+      ...recommendedAgencies,
+      {
+        brand: newAgencyName,
+        reason: newAgencyReason || "Identified high-growth institutional agency tie-up.",
+        status: "NEW OPPORTUNITY",
+        statusColor: "text-emerald-400 bg-emerald-500/20 border-emerald-500/40",
+      },
+    ]);
+    setNewAgencyName("");
+    setNewAgencyReason("");
+  };
+
   // Dynamic What-If Calculations
   const activeScenarios = scenarios.filter((s) => s.active);
-  const baseMonthlyRev = 48.5; // Lakhs INR
+  const baseMonthlyRev = MARKET_CONFIG_DATA.baseMonthlyRevenueLakhs;
   const addedRevGain = activeScenarios.reduce((acc, s) => acc + s.projectedRevenueGainLakhs, 0);
   const totalProjectedMonthlyRev = baseMonthlyRev + addedRevGain;
   const totalInvestment = activeScenarios.reduce((acc, s) => acc + s.investmentRequiredLakhs, 0);
@@ -136,7 +159,7 @@ export default function MarketIntelligenceDashboardPage() {
                   EXECUTIVE STRATEGIC INTELLIGENCE SUITE
                 </span>
                 <span className="text-xs text-slate-400 font-mono-spec">
-                  Delhi NCR HORECA &amp; GT Analytics • Q3 2026
+                  {MARKET_CONFIG_DATA.lastUpdated}
                 </span>
               </div>
               <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
@@ -146,20 +169,77 @@ export default function MarketIntelligenceDashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsAdminEditorOpen(!isAdminEditorOpen)}
+              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec font-bold text-xs flex items-center gap-2 border border-amber-500/40 transition-all cursor-pointer"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>{isAdminEditorOpen ? "Close Live Editor" : "Live Add Agency & Trends"}</span>
+            </button>
             <div className="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3 font-mono-spec text-xs">
               <span className="text-slate-400">Current Monthly Base:</span>
-              <span className="text-amber-400 font-extrabold text-sm">₹48.50 Lakhs</span>
+              <span className="text-amber-400 font-extrabold text-sm">₹{baseMonthlyRev.toFixed(2)} Lakhs</span>
             </div>
-            <Link
-              href="/#rfq"
-              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 transition-all shadow-lg"
-            >
-              <span>Download Full B2B Intelligence Report PDF</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </header>
+
+      {/* LIVE ADMIN EDITOR DRAWER (Allow Rahul Garg & Sonu to add new agency targets live) */}
+      {isAdminEditorOpen && (
+        <div className="bg-slate-900 border-b border-amber-500/60 py-5 px-6 md:px-12 animate-in fade-in slide-in-from-top-4">
+          <div className="max-w-8xl mx-auto space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <h3 className="font-mono-spec font-black text-xs text-amber-400 uppercase tracking-wider">
+                  ADMIN LIVE MARKET INTELLIGENCE MANAGER (ADD NEW AGENCIES &amp; OPPORTUNITIES)
+                </h3>
+              </div>
+              <span className="text-xs text-slate-400 font-mono-spec">
+                Changes apply immediately to live strategic projections
+              </span>
+            </div>
+
+            <form onSubmit={handleAddNewAgency} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+              <div className="sm:col-span-4">
+                <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
+                  New FMCG Agency / Brand Name to Target
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Creambell Dairy / Amul Commercial"
+                  value={newAgencyName}
+                  onChange={(e) => setNewAgencyName(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="sm:col-span-6">
+                <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
+                  Strategic Business Rationale / Opportunity Reason
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Capture 35% hotel ice cream & dairy catering volume in East Delhi"
+                  value={newAgencyReason}
+                  onChange={(e) => setNewAgencyReason(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-500"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Agency</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Main Executive Intelligence Container */}
       <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-10">
@@ -233,7 +313,7 @@ export default function MarketIntelligenceDashboardPage() {
               </h2>
             </div>
             <span className="text-xs text-slate-400 font-mono-spec">
-              Based on Mayur Vihar, Noida &amp; South Delhi Cloud Kitchen Field Survey (Aug 2026)
+              Based on Mayur Vihar, Noida &amp; South Delhi Cloud Kitchen Field Survey
             </span>
           </div>
 
@@ -246,40 +326,7 @@ export default function MarketIntelligenceDashboardPage() {
               </h3>
 
               <div className="space-y-4">
-                {[
-                  {
-                    category: "Ready-to-Cook Indian Retort Gravy Bases (ITC Makhani / Butter Chicken)",
-                    growth: "+58% YoY Surge",
-                    driver: "Cloud kitchens & banquets eliminating kitchen chef prep hours due to labor shortages.",
-                    impact: "High Margin (12% GST) • 9 Months Ambient Shelf Life",
-                    barWidth: "92%",
-                    color: "bg-amber-500",
-                  },
-                  {
-                    category: "Korean Peri Peri & Spicy Seasoned Crinkle French Fries (Iscon Balaji)",
-                    growth: "+45% YoY Surge",
-                    driver: "Gen-Z QSR burger chains & cafe lounge menus demanding pre-seasoned high-plate-hold fries.",
-                    impact: "Fast Case Turnover • 2.5 Kg Heavy Institutional Pack",
-                    barWidth: "84%",
-                    color: "bg-emerald-500",
-                  },
-                  {
-                    category: "Commercial High-Viscosity Eggless Mayonnaise (Veeba Food Services)",
-                    growth: "+42% YoY Surge",
-                    driver: "Shawarma rolls, grilled sandwiches, and momo dip stations replacing open jar mayo with spout pouches.",
-                    impact: "100% Vegetarian • Zero patty-thinning under heat",
-                    barWidth: "78%",
-                    color: "bg-sky-500",
-                  },
-                  {
-                    category: "Pre-Diced Mozzarella & Cheddar Pizza Blend (Britannia & Go Diced)",
-                    growth: "+37% YoY Surge",
-                    driver: "Wood-fired stone oven pizzerias requiring uniform 42cm+ stretch with zero oil blister.",
-                    impact: "High Ticket Value per Case • -18°C / 2°C Cold Chain",
-                    barWidth: "71%",
-                    color: "bg-amber-400",
-                  },
-                ].map((item, idx) => (
+                {marketTrends.map((item, idx) => (
                   <div key={idx} className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="font-extrabold text-sm text-white">{item.category}</span>
@@ -301,30 +348,11 @@ export default function MarketIntelligenceDashboardPage() {
             <div className="lg:col-span-5 industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
               <h3 className="text-base font-extrabold text-white flex items-center gap-2">
                 <Target className="w-4 h-4 text-emerald-400" />
-                <span>Top Recommended New FMCG Agencies to Acquire</span>
+                <span>Top Recommended New FMCG Agencies to Acquire ({recommendedAgencies.length})</span>
               </h3>
 
-              <div className="space-y-4">
-                {[
-                  {
-                    brand: "HyFun Foods (Institutional Fries & Hashbrowns)",
-                    reason: "Provides competitive alternative to McCain with 8-12% higher distributor margin.",
-                    status: "HIGH PRIORITY TIE-UP",
-                    statusColor: "text-emerald-400 bg-emerald-500/20 border-emerald-500/40",
-                  },
-                  {
-                    brand: "Godrej Yummiez (Frozen Non-Veg & Veg Appetizers)",
-                    reason: "Fills catalog gap in chicken sausages, patties, and kebabs alongside Chatha Foods.",
-                    status: "RECOMMENDED ACTION",
-                    statusColor: "text-amber-400 bg-amber-500/20 border-amber-500/40",
-                  },
-                  {
-                    brand: "Dabur Homemade (Commercial Purees, Tomato & Garlic Paste)",
-                    reason: "Pairs with ITC Makhani base for full restaurant kitchen staple supply.",
-                    status: "EASY GT EXPANSION",
-                    statusColor: "text-sky-400 bg-sky-500/20 border-sky-500/40",
-                  },
-                ].map((agency, i) => (
+              <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
+                {recommendedAgencies.map((agency, i) => (
                   <div key={i} className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-2.5">
                     <div className="flex items-center justify-between">
                       <span className="font-extrabold text-sm text-white">{agency.brand}</span>
@@ -541,66 +569,16 @@ export default function MarketIntelligenceDashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-xs">
-                <tr>
-                  <td className="p-4 font-bold text-white">Cold-Chain Assurance (-18°C)</td>
-                  <td className="p-4 bg-amber-500/5 font-extrabold text-emerald-400 border-x border-amber-500/30">
-                    ✅ Guaranteed unbroken -18°C Reefer dispatch from Mayur Vihar Cold Room
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    ⚠️ Ambient transport after customer checkout; freezer defrost risk during transit
-                  </td>
-                  <td className="p-4 text-red-400">
-                    ❌ High risk of thawing; uncertain cold chain monitoring
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-white">Minimum Order Quantity (MOQ)</td>
-                  <td className="p-4 bg-amber-500/5 font-extrabold text-amber-400 border-x border-amber-500/30">
-                    ✅ Low MOQ: 1 Master Case (10 Kg) for QSRs &amp; Cafes
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    ⚠️ High purchase requirements or self-pickup travel overhead
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    ⚠️ Cash-only bulk purchases with unpredictable stock availability
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-white">Delivery Turnaround Time (Delhi NCR)</td>
-                  <td className="p-4 bg-amber-500/5 font-extrabold text-emerald-400 border-x border-amber-500/30">
-                    ⚡ Same-Day / Express (2 - 4 Hours) for Mayur Vihar, Noida &amp; East Delhi
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    🕒 Next-Day or 24-48 Hour scheduled delivery windows
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    🕒 Irregular delivery schedules depending on market crowd
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-white">Authorized Brand Authenticity</td>
-                  <td className="p-4 bg-amber-500/5 font-extrabold text-emerald-400 border-x border-amber-500/30">
-                    ✅ Direct 100% Factory-Sealed Packs (McCain, ITC, Veeba, Britannia)
-                  </td>
-                  <td className="p-4 text-emerald-400">
-                    ✅ Authentic institutional packs
-                  </td>
-                  <td className="p-4 text-amber-400">
-                    ⚠️ Risk of counterfeit or short-shelf-life clearance batches
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-white">B2B GST Compliance &amp; Credit</td>
-                  <td className="p-4 bg-amber-500/5 font-extrabold text-amber-400 border-x border-amber-500/30">
-                    ✅ Instant B2B GST Credit Invoice (07ADQFS8839Q1ZQ) + Dedicated Account Relationship
-                  </td>
-                  <td className="p-4 text-slate-300">
-                    ✅ Standard automated GST invoice via card swipe
-                  </td>
-                  <td className="p-4 text-red-400">
-                    ❌ Often kachha bill / unrecorded cash transactions
-                  </td>
-                </tr>
+                {competitorBenchmarks.map((row, idx) => (
+                  <tr key={idx}>
+                    <td className="p-4 font-bold text-white">{row.dimension}</td>
+                    <td className="p-4 bg-amber-500/5 font-extrabold text-emerald-400 border-x border-amber-500/30">
+                      {row.sgTrading}
+                    </td>
+                    <td className="p-4 text-slate-300">{row.metroReliance}</td>
+                    <td className="p-4 text-slate-300">{row.mandiWholesalers}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
