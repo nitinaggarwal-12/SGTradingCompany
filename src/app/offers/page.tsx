@@ -218,191 +218,148 @@ export default function CurrentOffersPage() {
   };
 
   return (
-    <main
-      className="min-h-screen bg-[#060911] text-white"
-      style={{ backgroundColor: "#060911", color: "#FFFFFF" }}
-    >
-      {/* Top Hero Banner */}
-      <section className="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-slate-900 to-[#060911] py-16 md:py-24">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400 text-xs font-mono-spec font-black uppercase">
-                <Flame className="w-4 h-4" />
-                <span>OFFICIAL AUTHORIZED FACTORY WHOLESALE PROMOTIONS &amp; CREDIT CARD CASHBACK • AUGUST 2026</span>
+    <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
+      {/* INTERACTIVE LOYALTY POINTS & REWARD INCENTIVE CALCULATOR */}
+      <section className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8">
+        <div className="p-8 rounded-3xl bg-white border-2 border-amber-500/60 shadow-lg space-y-6">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-200 pb-6">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-mono-spec font-black uppercase">
+                <Gift className="w-3.5 h-3.5 text-amber-600" />
+                <span>SG COLD-CHAIN CHEF REWARDS &amp; VIP INCENTIVE POINT SYSTEM</span>
               </div>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight" style={{ color: "#FFFFFF" }}>
-                Current Offers &amp;{" "}
-                <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-                  Credit Card Cashback.
-                </span>
-              </h1>
-
-              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: "#E2E8F0" }}>
-                Direct factory volume rebates, commercial bank corporate credit card cashback (HDFC, ICICI, Axis), and banquet promotions dispatched from our <strong style={{ color: "#FFFFFF" }}>B-577 Mayur Vihar Phase-3 Central Cold Room 1 Hub</strong> with full GST Input Credit (<strong className="text-amber-400">GSTIN: 07ADQFS8839Q1ZQ</strong>).
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900">
+                More Purchase • More Points • Free Commercial Master Cases &amp; Gifts
+              </h2>
+              <p className="text-xs md:text-sm text-slate-700">
+                Every <strong className="text-amber-800">₹100 spent = 1 SG Wholesale Loyalty Point</strong>. First-time customers get <strong className="text-emerald-700">+250 Instant Welcome Points</strong> + Flat ₹1,000 invoice credit on their first order of ₹25,000+.
               </p>
             </div>
 
-            {/* Quick Promo Summary HUD */}
-            <div
-              className="p-6 rounded-3xl border-2 border-amber-500/60 shadow-2xl space-y-3 shrink-0 md:w-80 font-mono-spec"
-              style={{ backgroundColor: "#0B101D", color: "#FFFFFF" }}
-            >
-              <div className="flex items-center justify-between text-xs text-amber-400 font-black uppercase">
-                <span>ACTIVE PROMO STATUS</span>
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-              </div>
-              <div className="text-3xl font-black" style={{ color: "#FFFFFF" }}>
-                9 Active Deals
-              </div>
-              <p className="text-xs" style={{ color: "#E2E8F0" }}>
-                Guaranteed factory-sealed stock • Next-morning refrigerated delivery across Delhi NCR.
-              </p>
+            <div className="flex items-center gap-3 font-mono-spec text-xs">
+              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 font-bold">
+                🥉 Silver (0-1K)
+              </span>
+              <span className="px-3 py-1.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-900 font-bold">
+                🥈 Gold (1K-3K)
+              </span>
+              <span className="px-3 py-1.5 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold">
+                🥇 Platinum (3K+)
+              </span>
             </div>
           </div>
 
-          {/* INTERACTIVE LOYALTY POINTS & REWARD INCENTIVE CALCULATOR */}
-          <div className="mt-12 p-8 rounded-3xl bg-[#0B101D] text-[#FFFFFF] border-2 border-amber-500/70 shadow-2xl space-y-6">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-700 pb-6">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-[#FBBF24] border border-amber-500/40 text-xs font-mono-spec font-black uppercase">
-                  <Gift className="w-3.5 h-3.5" />
-                  <span>SG COLD-CHAIN CHEF REWARDS &amp; VIP INCENTIVE POINT SYSTEM</span>
-                </div>
-                <h2 className="text-2xl md:text-3xl font-black text-[#FFFFFF]">
-                  More Purchase • More Points • Free Commercial Master Cases &amp; Gifts
-                </h2>
-                <p className="text-xs md:text-sm text-[#F8FAFC]">
-                  Every <strong className="text-[#FBBF24]">₹100 spent = 1 SG Wholesale Loyalty Point</strong>. First-time customers get <strong className="text-[#34D399]">+250 Instant Welcome Points</strong> + Flat ₹1,000 invoice credit on their first order of ₹25,000+.
-                </p>
+          {/* Interactive Points Simulator */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            <div className="space-y-4 lg:col-span-1">
+              <div className="flex items-center justify-between font-mono-spec text-xs">
+                <span className="text-slate-700 uppercase font-bold">Estimated Monthly Spend:</span>
+                <span className="text-lg font-black text-amber-800">
+                  ₹{monthlySpend.toLocaleString("en-IN")} / month
+                </span>
               </div>
 
-              <div className="flex items-center gap-3 font-mono-spec text-xs">
-                <span className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-[#FFFFFF] font-bold">
-                  🥉 Silver (0-1K)
-                </span>
-                <span className="px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/50 text-[#FBBF24] font-bold">
-                  🥈 Gold (1K-3K)
-                </span>
-                <span className="px-3 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-[#34D399] font-bold">
-                  🥇 Platinum (3K+)
-                </span>
+              <input
+                type="range"
+                min={25000}
+                max={500000}
+                step={5000}
+                value={monthlySpend}
+                onChange={(e) => setMonthlySpend(Number(e.target.value))}
+                className="w-full accent-amber-600 cursor-pointer h-2.5 bg-slate-200 rounded-lg"
+              />
+
+              <div className="flex justify-between text-[11px] font-mono-spec text-slate-500">
+                <span>₹25,000/mo</span>
+                <span>₹2.5 Lakh/mo</span>
+                <span>₹5 Lakh/mo</span>
               </div>
             </div>
 
-            {/* Interactive Points Simulator */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-              <div className="space-y-4 lg:col-span-1">
-                <div className="flex items-center justify-between font-mono-spec text-xs">
-                  <span className="text-[#FFFFFF] uppercase font-bold">Estimated Monthly Spend:</span>
-                  <span className="text-lg font-black text-[#FBBF24]">
-                    ₹{monthlySpend.toLocaleString("en-IN")} / month
+            {/* Calculated Results HUD */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:col-span-2 font-mono-spec">
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                <span className="text-[10px] text-slate-600 uppercase block font-bold">Monthly Points</span>
+                <span className="text-2xl font-black text-amber-800">{earnedPoints.toLocaleString()}</span>
+                <span className="text-[10px] text-emerald-700 block mt-1">+250 Welcome Bonus</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                <span className="text-[10px] text-slate-600 uppercase block font-bold">Annual Points</span>
+                <span className="text-2xl font-black text-slate-900">{annualPoints.toLocaleString()}</span>
+                <span className="text-[10px] text-amber-800 block mt-1">Tier: {unlockedTier}</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                <span className="text-[10px] text-slate-600 uppercase block font-bold">Free Master Cases / Yr</span>
+                <span className="text-2xl font-black text-emerald-700">{freeCartonsPerYear} Cases</span>
+                <span className="text-[10px] text-slate-700 block mt-1">McCain / Britannia Free</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                <span className="text-[10px] text-slate-600 uppercase block font-bold">Est. Yearly Benefit</span>
+                <span className="text-2xl font-black text-amber-800">₹{yearlyBenefitValue.toLocaleString()}</span>
+                <span className="text-[10px] text-emerald-700 block mt-1">+ GST Input Savings</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Redeem Reward Catalog Row */}
+          <div className="pt-4 border-t border-slate-200">
+            <span className="text-xs font-mono-spec font-black uppercase text-amber-800 block mb-3">
+              CHEF REWARDS REDEMPTION STORE (REDEEM POINTS FOR FREE PRODUCTS &amp; GIFTS):
+            </span>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-spec text-xs">
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
+                    250 POINTS
                   </span>
+                  <Gift className="w-4 h-4 text-amber-700" />
                 </div>
-
-                <input
-                  type="range"
-                  min={25000}
-                  max={500000}
-                  step={5000}
-                  value={monthlySpend}
-                  onChange={(e) => setMonthlySpend(Number(e.target.value))}
-                  className="w-full accent-amber-500 cursor-pointer h-2.5 bg-slate-800 rounded-lg"
-                />
-
-                <div className="flex justify-between text-[11px] font-mono-spec text-[#E2E8F0]">
-                  <span>₹25,000/mo</span>
-                  <span>₹2.5 Lakh/mo</span>
-                  <span>₹5 Lakh/mo</span>
-                </div>
+                <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Kg Pack McCain Fries or Veeba Mayo</h4>
+                <p className="text-[11px] text-slate-600">Earned immediately upon first order of ₹25,000+.</p>
               </div>
 
-              {/* Calculated Results HUD */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:col-span-2 font-mono-spec">
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 text-[#FFFFFF]">
-                  <span className="text-[10px] text-[#E2E8F0] uppercase block font-bold">Monthly Points</span>
-                  <span className="text-2xl font-black text-[#FBBF24]">{earnedPoints.toLocaleString()}</span>
-                  <span className="text-[10px] text-[#34D399] block mt-1">+250 Welcome Bonus</span>
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
+                    500 POINTS
+                  </span>
+                  <Gift className="w-4 h-4 text-emerald-700" />
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 text-[#FFFFFF]">
-                  <span className="text-[10px] text-[#E2E8F0] uppercase block font-bold">Annual Points</span>
-                  <span className="text-2xl font-black text-[#FFFFFF]">{annualPoints.toLocaleString()}</span>
-                  <span className="text-[10px] text-[#FBBF24] block mt-1">Tier: {unlockedTier}</span>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 text-[#FFFFFF]">
-                  <span className="text-[10px] text-[#E2E8F0] uppercase block font-bold">Free Master Cases / Yr</span>
-                  <span className="text-2xl font-black text-[#34D399]">{freeCartonsPerYear} Cases</span>
-                  <span className="text-[10px] text-[#F8FAFC] block mt-1">McCain / Britannia Free</span>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 text-[#FFFFFF]">
-                  <span className="text-[10px] text-[#E2E8F0] uppercase block font-bold">Est. Yearly Benefit</span>
-                  <span className="text-2xl font-black text-[#FBBF24]">₹{yearlyBenefitValue.toLocaleString()}</span>
-                  <span className="text-[10px] text-[#34D399] block mt-1">+ GST Input Savings</span>
-                </div>
+                <h4 className="font-extrabold text-slate-900 text-sm">Commercial Chef Knife Kit OR Flat ₹750 Invoice Credit</h4>
+                <p className="text-[11px] text-slate-600">Redeemable on next Mayur Vihar cold room order.</p>
               </div>
-            </div>
 
-            {/* Redeem Reward Catalog Row */}
-            <div className="pt-4 border-t border-slate-700">
-              <span className="text-xs font-mono-spec font-black uppercase text-[#FBBF24] block mb-3">
-                CHEF REWARDS REDEMPTION STORE (REDEEM POINTS FOR FREE PRODUCTS &amp; GIFTS):
-              </span>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-spec text-xs">
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 space-y-2 text-[#FFFFFF]">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-[#FBBF24] font-black text-[10px]">
-                      250 POINTS
-                    </span>
-                    <Gift className="w-4 h-4 text-[#FBBF24]" />
-                  </div>
-                  <h4 className="font-extrabold text-[#FFFFFF] text-sm">Free 1 Kg Pack McCain Fries or Veeba Mayo</h4>
-                  <p className="text-[11px] text-[#E2E8F0]">Earned immediately upon first order of ₹25,000+.</p>
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
+                    1,000 POINTS
+                  </span>
+                  <Gift className="w-4 h-4 text-amber-700" />
                 </div>
+                <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Full Master Case McCain 9mm Fries (10 Kg)</h4>
+                <p className="text-[11px] text-slate-600">Worth ₹1,520 + Digital Commercial Kitchen Scale.</p>
+              </div>
 
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 space-y-2 text-[#FFFFFF]">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-[#34D399] font-black text-[10px]">
-                      500 POINTS
-                    </span>
-                    <Gift className="w-4 h-4 text-[#34D399]" />
-                  </div>
-                  <h4 className="font-extrabold text-[#FFFFFF] text-sm">Commercial Chef Knife Kit OR Flat ₹750 Invoice Credit</h4>
-                  <p className="text-[11px] text-[#E2E8F0]">Redeemable on next Mayur Vihar cold room order.</p>
+              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
+                    2,500 POINTS
+                  </span>
+                  <Gift className="w-4 h-4 text-emerald-700" />
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 space-y-2 text-[#FFFFFF]">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-[#FBBF24] font-black text-[10px]">
-                      1,000 POINTS
-                    </span>
-                    <Gift className="w-4 h-4 text-[#FBBF24]" />
-                  </div>
-                  <h4 className="font-extrabold text-[#FFFFFF] text-sm">Free 1 Full Master Case McCain 9mm Fries (10 Kg)</h4>
-                  <p className="text-[11px] text-[#E2E8F0]">Worth ₹1,520 + Digital Commercial Kitchen Scale.</p>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#060911] border-2 border-slate-700 space-y-2 text-[#FFFFFF]">
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-[#34D399] font-black text-[10px]">
-                      2,500 POINTS
-                    </span>
-                    <Gift className="w-4 h-4 text-[#34D399]" />
-                  </div>
-                  <h4 className="font-extrabold text-[#FFFFFF] text-sm">Commercial Heavy-Duty Induction Unit OR ₹4,000 Discount</h4>
-                  <p className="text-[11px] text-[#E2E8F0]">Platinum VIP Institutional Perk + Free Delivery.</p>
-                </div>
+                <h4 className="font-extrabold text-slate-900 text-sm">Commercial Heavy-Duty Induction Unit OR ₹4,000 Discount</h4>
+                <p className="text-[11px] text-slate-600">Platinum VIP Institutional Perk + Free Delivery.</p>
               </div>
             </div>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-8 border-t border-slate-800/80 mt-8">
-            <span className="text-xs font-mono-spec text-[#E2E8F0] uppercase font-bold mr-2">
+          <div className="flex flex-wrap items-center gap-2.5 pt-6 border-t border-slate-200 mt-6">
+            <span className="text-xs font-mono-spec text-slate-600 uppercase font-bold mr-2">
               Filter Promotions:
             </span>
             {categories.map((cat) => (
@@ -412,7 +369,7 @@ export default function CurrentOffersPage() {
                 className={`px-4 py-2 rounded-xl text-xs font-mono-spec font-bold transition-all cursor-pointer border ${
                   selectedFilter === cat
                     ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/20"
-                    : "bg-slate-900/80 text-[#FFFFFF] border-slate-700 hover:border-amber-500/50 hover:text-amber-400"
+                    : "bg-white text-slate-700 border-slate-300 hover:border-amber-500 hover:text-slate-900"
                 }`}
               >
                 {cat}
@@ -423,18 +380,18 @@ export default function CurrentOffersPage() {
       </section>
 
       {/* Promotions Grid Section */}
-      <section className="max-w-[1600px] mx-auto px-6 md:px-12 py-16">
+      <section className="max-w-[1600px] mx-auto px-6 md:px-12 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredOffers.map((deal) => {
             const isCopied = copiedCode === deal.code;
             return (
               <div
                 key={deal.id}
-                className="group rounded-3xl bg-[#0B101D] text-[#FFFFFF] border-2 border-slate-700 hover:border-amber-500/80 overflow-hidden transition-all duration-300 shadow-2xl flex flex-col justify-between"
+                className="group rounded-3xl bg-white text-slate-900 border-2 border-slate-200 hover:border-amber-500 transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col justify-between overflow-hidden"
               >
                 <div>
                   {/* Top Image & Badge Container */}
-                  <div className="relative h-56 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                  <div className="relative h-56 w-full overflow-hidden bg-slate-100 flex items-center justify-center">
                     <img
                       src={deal.imageUrl}
                       alt={deal.title}
@@ -450,60 +407,60 @@ export default function CurrentOffersPage() {
                       {deal.discountBadge}
                     </div>
 
-                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#0B101D] to-transparent z-10" />
+                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-white to-transparent z-10" />
                   </div>
 
                   {/* Deal Content */}
-                  <div className="p-6 space-y-4 text-[#FFFFFF]">
+                  <div className="p-6 space-y-4">
                     <div className="flex items-center justify-between text-xs font-mono-spec">
-                      <span className="text-[#FBBF24] font-bold uppercase">{deal.brand}</span>
-                      <span className="text-[#34D399] font-bold flex items-center gap-1">
+                      <span className="text-amber-700 font-bold uppercase">{deal.brand}</span>
+                      <span className="text-emerald-700 font-bold flex items-center gap-1">
                         <Snowflake className="w-3.5 h-3.5" /> -18°C Ready
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-extrabold text-[#FFFFFF] leading-snug group-hover:text-amber-400 transition-colors">
+                    <h3 className="text-xl font-extrabold text-slate-900 leading-snug group-hover:text-amber-600 transition-colors">
                       {deal.title}
                     </h3>
 
-                    <p className="text-xs text-[#E2E8F0] leading-relaxed">
+                    <p className="text-xs text-slate-600 leading-relaxed">
                       {deal.description}
                     </p>
 
                     {/* Requirements & Savings Box */}
-                    <div className="p-3.5 rounded-2xl bg-[#060911] text-[#FFFFFF] border-2 border-slate-700 space-y-2 font-mono-spec text-xs">
-                      <div className="flex items-center justify-between text-[#E2E8F0]">
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 font-mono-spec text-xs">
+                      <div className="flex items-center justify-between text-slate-700">
                         <span>Min Requirement:</span>
-                        <strong className="text-[#FFFFFF]">{deal.minOrderRequirement}</strong>
+                        <strong className="text-slate-900">{deal.minOrderRequirement}</strong>
                       </div>
-                      <div className="flex items-center justify-between text-[#34D399] font-bold pt-1 border-t border-slate-700">
+                      <div className="flex items-center justify-between text-emerald-700 font-bold pt-1 border-t border-slate-200">
                         <span>Estimated Value:</span>
                         <span>{deal.estimatedSavings}</span>
                       </div>
                     </div>
 
                     {/* Promo Code Box */}
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#060911] text-[#FFFFFF] border-2 border-slate-700">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-100 border border-slate-200">
                       <div>
-                        <span className="text-[10px] font-mono-spec text-[#CBD5E1] block uppercase font-bold">
+                        <span className="text-[10px] font-mono-spec text-slate-500 block uppercase font-bold">
                           Official Promo Code:
                         </span>
-                        <span className="text-sm font-mono-spec font-black text-[#FBBF24] tracking-wider">
+                        <span className="text-sm font-mono-spec font-black text-amber-700 tracking-wider">
                           {deal.code}
                         </span>
                       </div>
                       <button
                         onClick={() => handleCopyCode(deal.code)}
-                        className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono-spec font-bold flex items-center gap-1.5 transition-colors cursor-pointer text-[#FFFFFF]"
+                        className="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-200 text-slate-900 border border-slate-300 text-xs font-mono-spec font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
                         {isCopied ? (
                           <>
-                            <Check className="w-3.5 h-3.5 text-[#34D399]" />
-                            <span className="text-[#34D399]">Copied!</span>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="text-emerald-600">Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-3.5 h-3.5 text-[#E2E8F0]" />
+                            <Copy className="w-3.5 h-3.5 text-slate-600" />
                             <span>Copy</span>
                           </>
                         )}
@@ -522,7 +479,7 @@ export default function CurrentOffersPage() {
                     <ArrowRight className="w-4 h-4" />
                   </button>
 
-                  <p className="text-[10px] text-center text-[#E2E8F0] font-mono-spec">
+                  <p className="text-[10px] text-center text-slate-500 font-mono-spec">
                     {deal.validity}
                   </p>
                 </div>
@@ -534,16 +491,16 @@ export default function CurrentOffersPage() {
 
       {/* Custom Volume Quote Banner */}
       <section className="max-w-[1600px] mx-auto px-6 md:px-12 pb-20">
-        <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/40 border-2 border-amber-500/50 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="p-8 md:p-12 rounded-3xl bg-white border-2 border-amber-500/50 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-mono-spec font-bold">
               <Award className="w-3.5 h-3.5" />
               <span>CUSTOM WHOLESALE INSTITUTIONAL CONTRACTS</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white">
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900">
               Need Annual Institutional Contract Pricing for 50+ Hotel &amp; QSR Outlets?
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm text-slate-700 leading-relaxed">
               Our Mayur Vihar Phase-3 procurement team negotiates custom factory-direct volume rates for multi-unit QSR franchises, 5-star hotel groups, and regional catering businesses.
             </p>
           </div>
