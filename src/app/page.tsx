@@ -20,6 +20,7 @@ import { DistributionConciergeChatbot } from "@/components/chat/DistributionConc
 import { MobileCommercialAppView } from "@/components/mobile/MobileCommercialAppView";
 import { ColdChain3DVisualizer } from "@/components/home/ColdChain3DVisualizer";
 import { CommercialShowcaseCarousel } from "@/components/home/CommercialShowcaseCarousel";
+import { B2BGrowthAndSalesSuite } from "@/components/home/B2BGrowthAndSalesSuite";
 import {
   CheckCircle2,
   ArrowUp,
@@ -117,6 +118,9 @@ export default function HomePage() {
               onCategoryChange={(cat) => setSelectedCategory(cat)}
             />
           </div>
+
+          {/* INSTITUTIONAL B2B GROWTH, SALES, CREDIT & VOLUME TIER SUITE */}
+          <B2BGrowthAndSalesSuite />
 
           {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
           <HeroSection onExploreCatalog={scrollToCatalog} />
