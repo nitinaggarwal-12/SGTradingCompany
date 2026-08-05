@@ -100,12 +100,6 @@ export default function HomePage() {
 
       {/* DESKTOP WEB PORTAL VERSION & RESPONSIVE VIEWPORT SIMULATOR FRAME */}
       <div className={`hidden md:flex flex-col flex-1 ${viewportContainerClasses}`}>
-        {/* Edge-to-Edge Sticky Navigation Header */}
-        <StickyHeader
-          onSelectCategory={(cat) => setSelectedCategory(cat)}
-          onScrollToCatalog={scrollToCatalog}
-        />
-
         {/* Main Content Area */}
         <main className="flex-1 space-y-4">
           {/* 1. Commercial Quality Visual Showcase Carousel */}

@@ -251,11 +251,6 @@ export default function ComingSoonLaunchPage() {
 
   return (
     <div className="min-h-screen bg-[#060911] text-white font-sans selection:bg-amber-500 selection:text-slate-950">
-      <StickyHeader
-        onSelectCategory={() => {}}
-        onScrollToCatalog={() => {}}
-      />
-
       {/* TOP LAUNCH RADAR HERO */}
       <section className="relative overflow-hidden py-16 md:py-24 border-b border-slate-800/80 bg-gradient-to-b from-[#0A0F1D] via-[#060911] to-[#060911]">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 space-y-8">

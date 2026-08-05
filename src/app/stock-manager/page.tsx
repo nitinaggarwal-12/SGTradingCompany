@@ -47,8 +47,6 @@ export default function StockManagerPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-white">
-      <StickyHeader />
-
       <main className="flex-1 py-10">
         <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12 space-y-8">
           {/* Top Page Breadcrumb & Title */}

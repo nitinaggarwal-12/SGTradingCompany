@@ -423,17 +423,18 @@ export const BrandTicker: React.FC = () => {
       {selectedBrandModal && (
         <div
           onClick={() => setSelectedBrandModal(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#060911]/75 backdrop-blur-sm transition-all duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all duration-200"
         >
           <div
             onClick={(e) => e.stopPropagation()}
             onMouseLeave={() => setSelectedBrandModal(null)}
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#0B101D] text-white border-2 border-amber-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-6 md:p-8 space-y-6"
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-2 border-amber-500 shadow-2xl p-6 md:p-8 space-y-6"
+            style={{ backgroundColor: "#FFFFFF", color: "#0F172A" }}
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-slate-200 pb-4">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-amber-500 shrink-0 bg-slate-950 shadow-lg">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-amber-500 shrink-0 bg-slate-100 shadow-lg">
                   <img
                     src={selectedBrandModal.logoUrl}
                     alt={selectedBrandModal.name}
@@ -442,25 +443,29 @@ export const BrandTicker: React.FC = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-mono-spec font-black uppercase">
+                    <span className="px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-mono-spec font-black uppercase">
                       OFFICIAL AUTHORIZED FACTORY DISTRIBUTOR
                     </span>
-                    <span className="text-xs text-emerald-400 font-mono-spec font-bold">
+                    <span className="text-xs text-emerald-700 font-mono-spec font-bold">
                       ● MAYUR VIHAR COLD ROOM 1 READY
                     </span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-black text-white mt-1">
+                  <h3
+                    className="text-xl md:text-2xl font-black mt-1"
+                    style={{ color: "#0F172A" }}
+                  >
                     {selectedBrandModal.name}
                   </h3>
-                  <p className="text-xs text-slate-300 font-mono-spec">
-                    {selectedBrandModal.tag} • GSTIN: <strong className="text-amber-400">07ADQFS8839Q1ZQ</strong>
+                  <p className="text-xs font-mono-spec mt-0.5" style={{ color: "#475569" }}>
+                    {selectedBrandModal.tag} • GSTIN:{" "}
+                    <strong style={{ color: "#D97706" }}>07ADQFS8839Q1ZQ</strong>
                   </p>
                 </div>
               </div>
 
               <button
                 onClick={() => setSelectedBrandModal(null)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white cursor-pointer"
+                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer font-bold"
               >
                 ✕
               </button>
@@ -468,7 +473,7 @@ export const BrandTicker: React.FC = () => {
 
             {/* Commercial Master Case SKU List with Add to Cart Buttons */}
             <div className="space-y-4">
-              <span className="text-xs font-mono-spec font-black uppercase text-amber-400 block">
+              <span className="text-xs font-mono-spec font-black uppercase block" style={{ color: "#D97706" }}>
                 AUTHORIZED WHOLESALE MASTER CASE SKUS ({selectedBrandModal.skus.length} AVAILABLE):
               </span>
 
@@ -480,55 +485,58 @@ export const BrandTicker: React.FC = () => {
                 return (
                   <div
                     key={sku.skuName}
-                    className="p-4 rounded-2xl bg-slate-950/90 border-2 border-slate-800 hover:border-amber-500/60 transition-all space-y-3"
+                    className="p-4 rounded-2xl border-2 border-slate-200 transition-all space-y-3"
+                    style={{ backgroundColor: "#F8FAFC", color: "#0F172A" }}
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 text-[10px] font-mono-spec font-bold">
+                          <span className="px-2 py-0.5 rounded bg-sky-100 text-sky-800 text-[10px] font-mono-spec font-bold">
                             {sku.tempClass}
                           </span>
-                          <span className="text-xs font-mono-spec text-slate-400 font-bold">
+                          <span className="text-xs font-mono-spec font-bold" style={{ color: "#0F172A" }}>
                             {sku.packWeight}
                           </span>
                         </div>
-                        <h4 className="text-base font-extrabold text-white">
+                        <h4 className="text-base font-extrabold" style={{ color: "#0F172A" }}>
                           {sku.skuName}
                         </h4>
-                        <p className="text-xs text-slate-300 font-mono-spec mt-0.5">
-                          Unit Rate Breakdown: <strong className="text-amber-400">{sku.perUnitRate}</strong>
+                        <p className="text-xs font-mono-spec mt-0.5" style={{ color: "#475569" }}>
+                          Unit Rate Breakdown: <strong style={{ color: "#D97706" }}>{sku.perUnitRate}</strong>
                         </p>
                       </div>
 
                       <div className="text-right">
-                        <span className="text-[10px] font-mono-spec text-slate-400 block uppercase">
+                        <span className="text-[10px] font-mono-spec uppercase block font-bold" style={{ color: "#475569" }}>
                           Wholesale Rate / Carton
                         </span>
-                        <span className="text-lg font-black text-amber-400 font-mono-spec">
+                        <span className="text-lg font-black font-mono-spec" style={{ color: "#D97706" }}>
                           ₹{sku.wholesaleCartonPrice.toLocaleString("en-IN")}
                         </span>
                       </div>
                     </div>
 
                     {/* Quantity & Live Calculated Total Price Selector */}
-                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div className="p-3 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3" style={{ backgroundColor: "#FFFFFF" }}>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-mono-spec text-slate-300 font-bold">
+                        <span className="text-xs font-mono-spec font-bold" style={{ color: "#0F172A" }}>
                           Select Quantity (Cartons):
                         </span>
-                        <div className="flex items-center rounded-lg bg-slate-950 border border-slate-700">
+                        <div className="flex items-center rounded-lg border border-slate-300 overflow-hidden font-mono-spec">
                           <button
                             onClick={() => updateQuantity(sku.skuName, -1)}
-                            className="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 font-black rounded-l-lg cursor-pointer"
+                            className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 font-black rounded-l-lg cursor-pointer"
+                            style={{ color: "#0F172A" }}
                           >
                             -
                           </button>
-                          <span className="w-10 text-center font-mono-spec font-black text-amber-400 text-sm">
+                          <span className="w-10 text-center font-mono-spec font-black text-sm" style={{ color: "#0F172A" }}>
                             {qty}
                           </span>
                           <button
                             onClick={() => updateQuantity(sku.skuName, 1)}
-                            className="w-8 h-8 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 font-black rounded-r-lg cursor-pointer"
+                            className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 font-black rounded-r-lg cursor-pointer"
+                            style={{ color: "#0F172A" }}
                           >
                             +
                           </button>
@@ -536,17 +544,17 @@ export const BrandTicker: React.FC = () => {
                       </div>
 
                       <div className="text-right font-mono-spec">
-                        <span className="text-[10px] text-slate-400 block uppercase font-bold">
+                        <span className="text-[10px] uppercase block font-bold" style={{ color: "#475569" }}>
                           Total Price ({qty} {qty === 1 ? "Carton" : "Cartons"}):
                         </span>
-                        <span className="text-xl font-black text-emerald-400">
+                        <span className="text-xl font-black" style={{ color: "#059669" }}>
                           ₹{totalPrice.toLocaleString("en-IN")}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
-                      <span className="text-[11px] font-mono-spec text-emerald-400 font-bold">
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200">
+                      <span className="text-[11px] font-mono-spec font-bold" style={{ color: "#059669" }}>
                         ✓ 100% Factory Sealed • Full GST Input Tax Credit
                       </span>
 
@@ -558,7 +566,8 @@ export const BrandTicker: React.FC = () => {
                             );
                             window.open(`https://wa.me/919667731355?text=${text}`, "_blank");
                           }}
-                          className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono-spec font-bold text-xs cursor-pointer"
+                          className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 font-mono-spec font-bold text-xs cursor-pointer"
+                          style={{ color: "#0F172A" }}
                         >
                           WhatsApp Quote
                         </button>
@@ -567,7 +576,7 @@ export const BrandTicker: React.FC = () => {
                           onClick={() => handleAddSkuToCart(selectedBrandModal, sku)}
                           className={`px-5 py-2.5 rounded-xl font-mono-spec font-black text-xs transition-all cursor-pointer shadow-md ${
                             isAdded
-                              ? "bg-emerald-500 text-slate-950 shadow-emerald-500/20"
+                              ? "bg-emerald-600 text-white shadow-emerald-500/20"
                               : "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/20"
                           }`}
                         >
@@ -583,11 +592,11 @@ export const BrandTicker: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between pt-3 border-t border-slate-800 text-xs font-mono-spec text-slate-400">
-              <span>Mayur Vihar Phase-3 Central Cold Room 1 Hub</span>
+            <div className="flex items-center justify-between pt-3 border-t border-slate-200 text-xs font-mono-spec">
+              <span style={{ color: "#475569" }}>Mayur Vihar Phase-3 Central Cold Room 1 Hub</span>
               <button
                 onClick={() => setSelectedBrandModal(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-white font-bold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white font-bold cursor-pointer transition-all"
               >
                 Close Showcase
               </button>
