@@ -143,7 +143,7 @@ export const BrandTicker: React.FC = () => {
         .animate-brand-marquee {
           display: flex;
           width: max-content;
-          animation: brandMarquee 38s linear infinite;
+          animation: brandMarquee 65s linear infinite;
         }
         .animate-brand-marquee:hover {
           animation-play-state: paused;
