@@ -21,6 +21,7 @@ interface ChatMessage {
   sender: "user" | "bot";
   text: string;
   timestamp: string;
+  sourceType?: "PORTAL" | "GOOGLE_AI";
   suggestedQuestions?: string[];
   actionType?: "CALL" | "CART" | "RFQS";
 }
@@ -308,7 +309,21 @@ export const DistributionConciergeChatbot: React.FC = () => {
                   }`}
                 >
                   {msg.sender === "bot" ? (
-                    renderFormattedText(msg.text)
+                    <>
+                      <div className="mb-2.5 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+                        {msg.sourceType === "PORTAL" ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[9px] font-mono-spec font-black uppercase border border-emerald-500/40">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            🟢 SOURCE: VERIFIED PORTAL DIRECTORY DATA
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-sky-500/20 text-sky-400 text-[9px] font-mono-spec font-black uppercase border border-sky-500/40">
+                            🌐 SOURCE: GOOGLE AI COMMERCIAL KNOWLEDGE
+                          </span>
+                        )}
+                      </div>
+                      {renderFormattedText(msg.text)}
+                    </>
                   ) : (
                     <p className="leading-relaxed">{msg.text}</p>
                   )}
