@@ -137,7 +137,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["ITC Master Chef", "Juicy Chicken Nuggets", "-18°C Cold Chain"],
     description:
@@ -208,7 +208,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1585325701165-351af916e581?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1585325701165-351af916e581?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Veeba Mayonnaise", "100% Eggless", "High Viscosity"],
     description:
@@ -242,7 +242,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Italian Herb Pizza Sauce", "Pizza Base Spread", "Veeba HORECA"],
     description:
@@ -279,7 +279,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Britannia Mozzarella", "Long Cheese Stretch", "Diced Blend"],
     description:
@@ -313,7 +313,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["51 Burger Slices", "Instant Melt Cheese", "Britannia Commercial"],
     description:
@@ -349,7 +349,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Peri Peri Seasoned Fries", "Crinkle Cut", "High Profit"],
     description:
@@ -385,7 +385,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1627054234558-85474d221ff1?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Smoky Frankfurters", "Hotdog Sausages", "Chatha Foods"],
     description:
@@ -421,7 +421,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Go Diced Mozzarella", "Pure Dairy Cheese", "Pizza Specialist"],
     description:
@@ -455,7 +455,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Milkana Cheese Spread", "Velvety Commercial", "Cafe Ready"],
     description:
@@ -492,7 +492,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Anoop Roasted Sattu", "100% Roasted Chana", "GT FMCG Bestseller"],
     description:
@@ -527,7 +527,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Ocean Fruit Water", "Vitamin Enriched", "High Retail Turn"],
     description:
@@ -561,7 +561,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["100% Arabica", "Sleepy Owl Coffee", "Premium Coffee GT"],
     description:
@@ -595,7 +595,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Loyka Gourmet Brittle", "Roasted Almonds", "Gift & Impulse GT"],
     description:
