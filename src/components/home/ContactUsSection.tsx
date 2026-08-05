@@ -55,9 +55,9 @@ export const ContactUsSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Direct Contact Cards & Warehouse Address (5 Cols) */}
+          {/* Left Direct Contact Cards & Warehouse Address (5 Cols - 3 Cards) */}
           <div className="lg:col-span-5 space-y-4">
-            {/* Rahul Garg & Sonu Direct Contact Card */}
+            {/* 1. Rahul Garg & Sonu Direct Contact Card */}
             <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono-spec font-bold uppercase text-amber-400">
@@ -113,10 +113,7 @@ export const ContactUsSection: React.FC = () => {
               </div>
             </div>
 
-            {/* OFFICIAL AUTHENTIC SG TRADING COMPANY PAYTM UPI STANDEE */}
-            <PaytmMerchantQRStandee />
-
-            {/* Mayur Vihar Phase-3 Warehouse Location Card with Embedded Google Maps */}
+            {/* 2. Mayur Vihar Phase-3 Warehouse Location Card with Embedded Google Maps */}
             <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-mono-spec font-bold text-sky-400 uppercase">
@@ -182,7 +179,7 @@ export const ContactUsSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Cold Chain Guarantee Card */}
+            {/* 3. Cold Chain Guarantee Card */}
             <div className="industrial-card rounded-2xl p-5 border border-slate-800 flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                 <Clock className="w-6 h-6" />
@@ -198,8 +195,11 @@ export const ContactUsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Direct Commercial Inquiry Form & HORECA Institutional SLA Panel (7 Cols) */}
+          {/* Right Column: Authentic Paytm UPI QR Standee + Commercial Inquiry Form + SLA & FAQ (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
+            {/* OFFICIAL AUTHENTIC SG TRADING COMPANY PAYTM UPI STANDEE (TOP OF RIGHT COLUMN) */}
+            <PaytmMerchantQRStandee />
+
             <div className="industrial-card rounded-2xl p-6 md:p-8 border border-slate-800">
               {formSubmitted ? (
                 <div className="p-8 text-center space-y-4">
