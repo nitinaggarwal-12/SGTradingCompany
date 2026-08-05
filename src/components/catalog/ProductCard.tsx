@@ -41,11 +41,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const galleryImages =
     product.images && product.images.length > 0
       ? product.images
-      : [
-          product.image,
-          "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85",
-          "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=85",
-        ];
+      : [product.image];
 
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
 
