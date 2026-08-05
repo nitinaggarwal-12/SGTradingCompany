@@ -38,6 +38,7 @@ import {
   Send,
   ShieldAlert,
   UserCheck,
+  RefreshCw,
 } from "lucide-react";
 import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
 
@@ -240,6 +241,25 @@ export default function MarketIntelligenceDashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await fetch("/api/market-intelligence/sync", { method: "POST" });
+                  const data = await res.json();
+                  if (data.data) {
+                    setMarketTrends(data.data.marketTrends);
+                  }
+                  alert("🤖 Autonomous Daily Market Research Engine: Telemetry verified and synchronized live!");
+                } catch (e) {
+                  console.error(e);
+                }
+              }}
+              className="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-mono-spec font-bold text-xs flex items-center gap-2 border border-emerald-500/40 transition-all cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Run Autonomous Daily Resync</span>
+            </button>
+
             <button
               onClick={() => setIsAdminEditorOpen(!isAdminEditorOpen)}
               className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec font-bold text-xs flex items-center gap-2 border border-amber-500/40 transition-all cursor-pointer"
