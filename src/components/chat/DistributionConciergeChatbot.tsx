@@ -97,13 +97,29 @@ export const DistributionConciergeChatbot: React.FC = () => {
 
       const query = textToSend.toLowerCase();
 
-      // Check if user is asking about live stock / inventory
+      // 1. DISCOUNT / BULK CASE / WHOLESALE PRICING INTENT (Checked FIRST so 'cases' in bulk questions doesn't trigger stock counts)
       if (
-        query.includes("stock") ||
-        query.includes("inventory") ||
-        query.includes("available") ||
-        query.includes("how many") ||
-        query.includes("cases")
+        query.includes("discount") ||
+        query.includes("5+") ||
+        query.includes("10+") ||
+        query.includes("master case") ||
+        query.includes("bulk") ||
+        query.includes("wholesale price") ||
+        query.includes("cheaper") ||
+        query.includes("price")
+      ) {
+        responseText =
+          "**[Google AI Wholesale Margin & Volume Discount Structure]**\n\nYes! **SG Trading Company** offers tiered wholesale B2B discounts for Hotels, Restaurants, QSRs & Retailers:\n\n1. **5+ Master Cases Order**:\n   • **Extra 6% B2B Wholesale Case Discount** applied automatically on billing.\n   • Saves approx. **₹180–₹320 per master case** across McCain, Britannia & Veeba.\n\n2. **10+ Master Cases Order**:\n   • **Extra 10% Enterprise Tier Discount**.\n   • **FREE Same-Day Refrigerated (-18°C) Delivery** anywhere in Delhi NCR.\n   • **Priority 7:00 AM Cold-Chain Dispatch Slot** from Mayur Vihar Phase-3.\n\n3. **100% Legal GST Credit**:\n   • Complete **GSTIN 07ADQFS8839Q1ZQ** tax invoices with HSN/SAC codes for instant ITC input claims.";
+        followUps = [
+          "Download Official GST Tax Proforma Invoice PDF",
+          "What is the current stock of fries at your store?",
+          "What is the Wholesale Dispatch Desk number?",
+        ];
+      } else if (
+        query.includes("stock level") ||
+        query.includes("how many in stock") ||
+        query.includes("inventory level") ||
+        query.includes("available now")
       ) {
         const friesProducts = products.filter(
           (p) =>
@@ -126,8 +142,7 @@ export const DistributionConciergeChatbot: React.FC = () => {
         )} Cases** ready for same-day refrigerated dispatch across Delhi NCR.\n\nAll dispatch vehicles operate with digital GPS thermal loggers maintaining strictly -18.3°C.`;
 
         followUps = [
-          "Load McCain & Iscon Balaji Fries into my Wholesale Cart",
-          "Can I get a discount if I order 10+ master cases?",
+          "Can I get a discount if I order 5+ master cases?",
           "How do I request an official GST Tax Proforma Invoice?",
         ];
       } else if (
