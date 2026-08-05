@@ -486,13 +486,17 @@ export default function MarketIntelligenceDashboardPage() {
         </div>
 
         {/* SECTION 2: TESLA/SPACEX-GRADE MULTI-FLEET GPS TELEMETRY & DISPATCH WAR-ROOM */}
-        <section className="rounded-3xl bg-slate-900/80 backdrop-blur-xl border-2 border-amber-500/60 p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden">
-          {/* Ambient Header Glow */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-5">
+        <section className="rounded-3xl bg-slate-950/90 backdrop-blur-2xl border-2 border-amber-500/60 p-6 md:p-8 space-y-6 shadow-[0_0_50px_rgba(245,158,11,0.12)] relative overflow-hidden">
+          {/* Ambient Cyberpunk Background Radial Glows */}
+          <div className="pointer-events-none absolute -top-24 left-1/3 w-96 h-96 rounded-full bg-amber-500/15 blur-[120px]" />
+          <div className="pointer-events-none absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-emerald-500/15 blur-[120px]" />
+
+          {/* Ambient Header Bar */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-5 relative z-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 text-xs font-mono-spec font-black uppercase tracking-wider mb-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-xs font-mono-spec font-black uppercase tracking-wider mb-2 shadow-[0_0_15px_rgba(245,158,11,0.3)]">
                 <Radio className="w-3.5 h-3.5 animate-pulse text-amber-400" />
-                <span>DELHI NCR MULTI-FLEET TELEMETRY WAR-ROOM • MAYUR VIHAR PHASE-3 HUB</span>
+                <span>MULTIDIMENSIONAL HOLOGRAPHIC TELEMETRY GRID • MAYUR VIHAR PHASE-3 HUB</span>
               </div>
               <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">
                 Live Refrigerated Fleet GPS Dispatch &amp; Cold-Chain Surveillance
@@ -535,8 +539,8 @@ export default function MarketIntelligenceDashboardPage() {
                   onClick={() => setSelectedHub(v.id)}
                   className={`px-4 py-2.5 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-2.5 ${
                     selectedHub === v.id
-                      ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg font-black"
-                      : "bg-slate-950/90 text-slate-300 border-slate-800 hover:border-slate-700 font-bold"
+                      ? "bg-amber-500 text-slate-950 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.5)] font-black"
+                      : "bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700 font-bold"
                   }`}
                 >
                   <Truck className="w-4 h-4" />
@@ -550,126 +554,249 @@ export default function MarketIntelligenceDashboardPage() {
           </div>
 
           {/* Multi-Fleet Telemetry Map + Live Active Vehicle Inspection Cockpit Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            {/* Left 8 Cols: High-Resolution Multi-Route GIS Satellite Map */}
-            <div className="lg:col-span-8 rounded-2xl bg-slate-950 border-2 border-slate-800 p-6 relative overflow-hidden min-h-[340px] flex flex-col justify-between">
-              {/* Map GIS Grid Overlay */}
-              <div
-                className="absolute inset-0 opacity-10 pointer-events-none"
-                style={{
-                  backgroundImage: "radial-gradient(#F59E0B 1px, transparent 1px)",
-                  backgroundSize: "28px 28px",
-                }}
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch relative z-10">
+            {/* Left 8 Cols: FUTURISTIC MULTI-DIMENSIONAL GLASSMORPHIC HOLOGRAPHIC GIS MAP */}
+            <div className="lg:col-span-8 rounded-3xl bg-[#060911] border-2 border-slate-800/90 p-6 relative overflow-hidden min-h-[380px] flex flex-col justify-between shadow-[inset_0_0_60px_rgba(0,0,0,0.8)]">
+              {/* Holographic Isometric Perspective Container */}
+              <div className="relative w-full flex-1 flex items-center justify-center py-4">
+                <svg
+                  viewBox="0 0 880 320"
+                  className="w-full h-auto max-h-[310px] relative z-10"
+                  style={{
+                    filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.8))",
+                  }}
+                >
+                  <defs>
+                    {/* Glowing Laser Vectors Gradients */}
+                    <linearGradient id="laserGold" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#10B981" stopOpacity="0.4" />
+                    </linearGradient>
+                    <linearGradient id="laserEmerald" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#10B981" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.3" />
+                    </linearGradient>
+                    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
 
-              <svg viewBox="0 0 840 300" className="w-full h-auto max-h-[290px] relative z-10">
-                {/* Vector Route 1: Mayur Vihar (220, 150) -> Kaushambi Radisson (130, 60) */}
-                <path
-                  d="M 220 150 L 130 60"
-                  stroke={selectedHub === "van-01" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
-                  strokeWidth={selectedHub === "van-01" ? "5" : "2"}
-                  strokeDasharray="6 4"
-                />
+                  {/* Cyberpunk Holographic Grid Lines */}
+                  <g opacity="0.18">
+                    {Array.from({ length: 15 }).map((_, i) => (
+                      <line
+                        key={`h-${i}`}
+                        x1="0"
+                        y1={i * 22}
+                        x2="880"
+                        y2={i * 22}
+                        stroke="#38BDF8"
+                        strokeWidth="1"
+                        strokeDasharray="4 6"
+                      />
+                    ))}
+                    {Array.from({ length: 25 }).map((_, i) => (
+                      <line
+                        key={`v-${i}`}
+                        x1={i * 36}
+                        y1="0"
+                        x2={i * 36}
+                        y2="320"
+                        stroke="#38BDF8"
+                        strokeWidth="1"
+                        strokeDasharray="4 6"
+                      />
+                    ))}
+                  </g>
 
-                {/* Vector Route 2: Mayur Vihar (220, 150) -> Noida Sec-62 Burger Singh (680, 110) */}
-                <path
-                  d="M 220 150 L 680 110"
-                  stroke={selectedHub === "van-02" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
-                  strokeWidth={selectedHub === "van-02" ? "5" : "2"}
-                  strokeDasharray="6 4"
-                />
+                  {/* Concentric Cell-Tower GPS Triangulation Rings around Driver Phone Pings */}
+                  <circle
+                    cx="220"
+                    cy="160"
+                    r="80"
+                    fill="none"
+                    stroke="#F59E0B"
+                    strokeWidth="1"
+                    opacity="0.18"
+                    strokeDasharray="8 6"
+                  />
+                  <circle
+                    cx="220"
+                    cy="160"
+                    r="140"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="1"
+                    opacity="0.12"
+                  />
 
-                {/* Vector Route 3: Mayur Vihar (220, 150) -> Indirapuram EatClub Hub (630, 230) */}
-                <path
-                  d="M 220 150 L 630 230"
-                  stroke={selectedHub === "van-03" ? "#F59E0B" : "rgba(16, 185, 129, 0.35)"}
-                  strokeWidth={selectedHub === "van-03" ? "5" : "2"}
-                  strokeDasharray="6 4"
-                />
+                  {/* VECTOR LASER BEAM ROUTE 1: Mayur Vihar (220, 160) -> Kaushambi Radisson (130, 65) */}
+                  <path
+                    d="M 220 160 L 130 65"
+                    stroke={selectedHub === "van-01" ? "#F59E0B" : "rgba(16, 185, 129, 0.45)"}
+                    strokeWidth={selectedHub === "van-01" ? "6" : "2.5"}
+                    filter="url(#neonGlow)"
+                    strokeDasharray="8 4"
+                  />
 
-                {/* CENTRAL HUB: B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE */}
-                <circle cx="220" cy="150" r="32" fill="rgba(245, 158, 11, 0.15)" />
-                <circle cx="220" cy="150" r="18" fill="#F59E0B" />
-                <circle cx="220" cy="150" r="7" fill="#070A12" />
-                <text x="220" y="198" fill="#F59E0B" fontSize="11" fontWeight="black" textAnchor="middle" fontFamily="monospace">
-                  🏢 B-577 MAYUR VIHAR-3 CENTRAL COLD ROOM (-18°C)
-                </text>
+                  {/* VECTOR LASER BEAM ROUTE 2: Mayur Vihar (220, 160) -> Noida Sec-62 Burger Singh (710, 120) */}
+                  <path
+                    d="M 220 160 L 710 120"
+                    stroke={selectedHub === "van-02" ? "#F59E0B" : "rgba(16, 185, 129, 0.45)"}
+                    strokeWidth={selectedHub === "van-02" ? "6" : "2.5"}
+                    filter="url(#neonGlow)"
+                    strokeDasharray="8 4"
+                  />
 
-                {/* DESTINATION NODE 1: Radisson Blu Kaushambi */}
-                <circle cx="130" cy="60" r="14" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} />
-                <text x="130" y="38" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                  🏨 Radisson Blu Kaushambi (12m)
-                </text>
+                  {/* VECTOR LASER BEAM ROUTE 3: Mayur Vihar (220, 160) -> Indirapuram EatClub Hub (650, 245) */}
+                  <path
+                    d="M 220 160 L 650 245"
+                    stroke={selectedHub === "van-03" ? "#F59E0B" : "rgba(16, 185, 129, 0.45)"}
+                    strokeWidth={selectedHub === "van-03" ? "6" : "2.5"}
+                    filter="url(#neonGlow)"
+                    strokeDasharray="8 4"
+                  />
 
-                {/* DESTINATION NODE 2: Noida Sec-62 Burger Singh */}
-                <circle cx="680" cy="110" r="14" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} />
-                <text x="680" y="88" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                  🍔 Noida Sec-62 Burger Singh (24m)
-                </text>
+                  {/* CENTRAL VOLUMETRIC WAREHOUSE PILLAR: B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE */}
+                  <ellipse cx="220" cy="160" rx="42" ry="20" fill="rgba(245, 158, 11, 0.22)" />
+                  <ellipse cx="220" cy="160" rx="26" ry="12" fill="rgba(245, 158, 11, 0.4)" />
+                  <circle cx="220" cy="160" r="16" fill="#F59E0B" filter="url(#neonGlow)" />
+                  <circle cx="220" cy="160" r="6" fill="#060911" />
+                  <text
+                    x="220"
+                    y="212"
+                    fill="#F59E0B"
+                    fontSize="11"
+                    fontWeight="black"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                    letterSpacing="1"
+                  >
+                    🏢 B-577 MAYUR VIHAR-3 CENTRAL COLD ROOM (-18°C)
+                  </text>
 
-                {/* DESTINATION NODE 3: Indirapuram EatClub */}
-                <circle cx="630" cy="230" r="14" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} />
-                <text x="630" y="258" fill="#CBD5E1" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                  ☁️ Indirapuram EatClub Cloud Hub (16m)
-                </text>
+                  {/* DESTINATION NODE 1: Radisson Blu Kaushambi */}
+                  <circle cx="130" cy="65" r="16" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                  <text
+                    x="130"
+                    y="42"
+                    fill="#E2E8F0"
+                    fontSize="10"
+                    fontWeight="black"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                  >
+                    🏨 RADISSON BLU KAUSHAMBI (12m)
+                  </text>
 
-                {/* MOVING VAN 1 (Radisson Route) */}
-                {(() => {
-                  const p = (vanProgress % 100) / 100;
-                  const vx = 220 + (130 - 220) * p;
-                  const vy = 150 + (60 - 150) * p;
-                  return (
-                    <g transform={`translate(${vx}, ${vy})`}>
-                      <circle cx="0" cy="0" r="12" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} />
-                      <text x="0" y="3" fill="#070A12" fontSize="9" textAnchor="middle">🚚</text>
-                    </g>
-                  );
-                })()}
+                  {/* DESTINATION NODE 2: Noida Sec-62 Burger Singh */}
+                  <circle cx="710" cy="120" r="16" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                  <text
+                    x="710"
+                    y="96"
+                    fill="#E2E8F0"
+                    fontSize="10"
+                    fontWeight="black"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                  >
+                    🍔 NOIDA SEC-62 BURGER SINGH (24m)
+                  </text>
 
-                {/* MOVING VAN 2 (Noida Sec-62 Route) */}
-                {(() => {
-                  const p = ((vanProgress + 35) % 100) / 100;
-                  const vx = 220 + (680 - 220) * p;
-                  const vy = 150 + (110 - 150) * p;
-                  return (
-                    <g transform={`translate(${vx}, ${vy})`}>
-                      <circle cx="0" cy="0" r="14" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} />
-                      <text x="0" y="4" fill="#070A12" fontSize="10" textAnchor="middle">🚛</text>
-                      <rect x="-24" y="-24" width="48" height="13" rx="3" fill="#070A12" stroke="#F59E0B" strokeWidth="1" />
-                      <text x="0" y="-14" fill="#F59E0B" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
-                        -18.1°C
-                      </text>
-                    </g>
-                  );
-                })()}
+                  {/* DESTINATION NODE 3: Indirapuram EatClub */}
+                  <circle cx="650" cy="245" r="16" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                  <text
+                    x="650"
+                    y="275"
+                    fill="#E2E8F0"
+                    fontSize="10"
+                    fontWeight="black"
+                    textAnchor="middle"
+                    fontFamily="monospace"
+                  >
+                    ☁️ INDIRAPURAM EATCLUB CLOUD HUB (16m)
+                  </text>
 
-                {/* MOVING VAN 3 (Indirapuram Route) */}
-                {(() => {
-                  const p = ((vanProgress + 70) % 100) / 100;
-                  const vx = 220 + (630 - 220) * p;
-                  const vy = 150 + (230 - 150) * p;
-                  return (
-                    <g transform={`translate(${vx}, ${vy})`}>
-                      <circle cx="0" cy="0" r="12" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} />
-                      <text x="0" y="3" fill="#070A12" fontSize="9" textAnchor="middle">🚐</text>
-                    </g>
-                  );
-                })()}
-              </svg>
+                  {/* HOLOGRAPHIC MOVING REEFER VAN 1 (Radisson Route) */}
+                  {(() => {
+                    const p = (vanProgress % 100) / 100;
+                    const vx = 220 + (130 - 220) * p;
+                    const vy = 160 + (65 - 160) * p;
+                    return (
+                      <g transform={`translate(${vx}, ${vy})`}>
+                        <circle cx="0" cy="0" r="16" fill={selectedHub === "van-01" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                        <text x="0" y="4" fill="#060911" fontSize="11" textAnchor="middle">🚚</text>
+                      </g>
+                    );
+                  })()}
 
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800 text-[11px] font-mono-spec relative z-10">
-                <span className="text-slate-400">
-                  GPS Telemetry Anchor: <strong className="text-white">28.6015° N, 77.3328° E</strong>
-                </span>
-                <span className="text-emerald-400 font-bold flex items-center gap-1">
+                  {/* HOLOGRAPHIC MOVING REEFER VAN 2 (Noida Sec-62 Route) */}
+                  {(() => {
+                    const p = ((vanProgress + 35) % 100) / 100;
+                    const vx = 220 + (710 - 220) * p;
+                    const vy = 160 + (120 - 160) * p;
+                    return (
+                      <g transform={`translate(${vx}, ${vy})`}>
+                        <circle cx="0" cy="0" r="18" fill={selectedHub === "van-02" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                        <text x="0" y="5" fill="#060911" fontSize="12" textAnchor="middle">🚛</text>
+                        <rect
+                          x="-32"
+                          y="-32"
+                          width="64"
+                          height="16"
+                          rx="4"
+                          fill="#060911"
+                          stroke="#F59E0B"
+                          strokeWidth="1.5"
+                        />
+                        <text
+                          x="0"
+                          y="-20"
+                          fill="#F59E0B"
+                          fontSize="9"
+                          fontWeight="black"
+                          textAnchor="middle"
+                          fontFamily="monospace"
+                        >
+                          {liveTemp}°C • {vanProgress}%
+                        </text>
+                      </g>
+                    );
+                  })()}
+
+                  {/* HOLOGRAPHIC MOVING REEFER VAN 3 (Indirapuram Route) */}
+                  {(() => {
+                    const p = ((vanProgress + 70) % 100) / 100;
+                    const vx = 220 + (650 - 220) * p;
+                    const vy = 160 + (245 - 160) * p;
+                    return (
+                      <g transform={`translate(${vx}, ${vy})`}>
+                        <circle cx="0" cy="0" r="16" fill={selectedHub === "van-03" ? "#F59E0B" : "#10B981"} filter="url(#neonGlow)" />
+                        <text x="0" y="4" fill="#060911" fontSize="11" textAnchor="middle">🚐</text>
+                      </g>
+                    );
+                  })()}
+                </svg>
+              </div>
+
+              {/* Bottom Holographic HUD Glass Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80 text-[11px] font-mono-spec relative z-10">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-slate-300">
+                    GPS Telemetry Anchor: <strong className="text-amber-400">28.6015° N, 77.3328° E</strong>
+                  </span>
+                </div>
+                <span className="text-emerald-400 font-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>All 3 Reefer Units Operating Within -18°C Threshold</span>
+                  <span>3D ISOMETRIC COLD-CHAIN TELEMETRY GRID UNBROKEN (-18°C OK)</span>
                 </span>
               </div>
             </div>
 
             {/* Right 4 Cols: Live Active Vehicle & Phone-Based Driver Tracking Inspection Box */}
-            <div className="lg:col-span-4 rounded-2xl bg-slate-950 border-2 border-amber-500/80 p-5 space-y-4 flex flex-col justify-between shadow-xl">
+            <div className="lg:col-span-4 rounded-3xl bg-slate-900/90 backdrop-blur-2xl border-2 border-amber-500/80 p-5 space-y-4 flex flex-col justify-between shadow-2xl">
               <div>
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <div>
