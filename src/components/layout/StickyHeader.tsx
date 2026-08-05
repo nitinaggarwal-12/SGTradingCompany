@@ -46,12 +46,40 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     toggleTheme,
     currentUser,
     setActiveCategoryFilter,
+    isCanvasMode,
+    setIsCanvasMode,
+    showToast,
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAdminPinModal, setShowAdminPinModal] = useState(false);
+  const [adminPinInput, setAdminPinInput] = useState("");
+  const [adminPinError, setAdminPinError] = useState(false);
+
+  const handleAdminCanvasToggle = () => {
+    if (isCanvasMode) {
+      setIsCanvasMode(false);
+      showToast("Visual Canvas Edit Mode Deactivated.");
+    } else {
+      setShowAdminPinModal(true);
+      setAdminPinInput("");
+      setAdminPinError(false);
+    }
+  };
+
+  const handleVerifyAdminPin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminPinInput === "2026" || adminPinInput === "9667731355") {
+      setShowAdminPinModal(false);
+      setIsCanvasMode(true);
+      showToast("🎨 Visual Canvas Edit Mode Activated from Top-Right Corner!");
+    } else {
+      setAdminPinError(true);
+    }
+  };
 
   const handleCategoryClick = (catTitle: string) => {
     setActiveCategoryFilter(catTitle);
@@ -278,21 +306,8 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
           </nav>
 
-          {/* Right: Search Bar, Actions & Responsive Mobile Trigger */}
+          {/* Right: Consolidated Search, Wholesale Cart/Compare, Theme & TOP-RIGHT CORNER ADMIN CANVAS EDIT */}
           <div className="flex items-center gap-2">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
-              title={`Switch to ${theme === "dark" ? "Light Commercial" : "Dark Executive"} Theme`}
-            >
-              {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-sky-600" />
-              )}
-            </button>
-
             {/* Instant Search Bar (Responsive Width) */}
             <div className="relative">
               <div className="relative">
@@ -345,16 +360,64 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            {/* Wholesale Cart Link */}
-            <Link
-              href="/cart"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white transition-all cursor-pointer"
-            >
-              <ShoppingCart className="w-4 h-4 text-amber-400" />
-              <span className="text-xs font-bold font-mono-spec">
-                ({totalCartItems})
-              </span>
-            </Link>
+            {/* Logical Wholesale Actions Group: Cart & Compare */}
+            <div className="flex items-center gap-1.5">
+              {/* Compare Specs Button */}
+              <Link
+                href="/#compare"
+                className="hidden sm:flex p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer relative"
+                title="Compare Distribution Specs"
+              >
+                <Scale className="w-4 h-4" />
+                {compareList.length > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-sky-500 text-slate-950 text-[9px] font-black flex items-center justify-center">
+                    {compareList.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Wholesale Cart Link */}
+              <Link
+                href="/cart"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white transition-all cursor-pointer"
+              >
+                <ShoppingCart className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-bold font-mono-spec">
+                  ({totalCartItems})
+                </span>
+              </Link>
+            </div>
+
+            {/* Consolidated Theme & TOP-RIGHT CORNER ADMIN CANVAS EDIT CONTROLLER */}
+            <div className="flex items-center gap-1.5 pl-2 border-l border-slate-800">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
+                title={`Switch to ${theme === "dark" ? "Light Commercial" : "Dark Executive"} Theme`}
+              >
+                {theme === "dark" ? (
+                  <Sun className="w-4 h-4 text-amber-400" />
+                ) : (
+                  <Moon className="w-4 h-4 text-sky-600" />
+                )}
+              </button>
+
+              {/* TOP RIGHT CORNER ADMIN CANVAS EDIT BUTTON */}
+              <button
+                onClick={handleAdminCanvasToggle}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono-spec text-xs font-black transition-all cursor-pointer ${
+                  isCanvasMode
+                    ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/25"
+                    : "bg-slate-900 hover:bg-slate-800 text-amber-400 border-amber-500/50"
+                }`}
+                title="Admin Visual Canvas Editing & Page Builder (Top-Right Corner)"
+              >
+                <Sparkles className={`w-3.5 h-3.5 ${isCanvasMode ? "animate-spin" : ""}`} />
+                <span className="hidden sm:inline">
+                  {isCanvasMode ? "CANVAS: ON" : "ADMIN EDIT"}
+                </span>
+              </button>
+            </div>
 
             {/* MOBILE MENU TOGGLE BUTTON (Visible on < xl screens) */}
             <button
@@ -370,6 +433,64 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </button>
           </div>
         </div>
+
+        {/* TOP-RIGHT ADMIN CANVAS PIN AUTHENTICATION MODAL */}
+        {showAdminPinModal && (
+          <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+            <div className="industrial-card w-full max-w-sm rounded-2xl bg-slate-900 border-2 border-amber-500/60 shadow-2xl p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-amber-400" />
+                  <h3 className="text-sm font-extrabold text-white">
+                    Rahul Garg &amp; Sonu — Admin Canvas Auth
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowAdminPinModal(false)}
+                  className="text-slate-400 hover:text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <p className="text-xs text-slate-300">
+                Enter Admin Security PIN to activate In-Place Visual Canvas Edit Mode for SG Trading Company portal.
+              </p>
+
+              <form onSubmit={handleVerifyAdminPin} className="space-y-3">
+                <div>
+                  <label className="text-[10px] font-mono-spec text-slate-400 block mb-1">
+                    ENTER ADMIN SECURITY PIN (Default: 2026)
+                  </label>
+                  <input
+                    type="password"
+                    autoFocus
+                    placeholder="••••"
+                    value={adminPinInput}
+                    onChange={(e) => {
+                      setAdminPinInput(e.target.value);
+                      setAdminPinError(false);
+                    }}
+                    className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm font-mono-spec font-bold text-center text-amber-400 tracking-widest focus:outline-none focus:border-amber-500"
+                  />
+                  {adminPinError && (
+                    <p className="text-[11px] text-rose-400 font-mono-spec mt-1">
+                      Incorrect PIN. Try 2026 or Rahul Garg phone number.
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Unlock Top-Right Visual Canvas Mode</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* TOUCH-FRIENDLY RESPONSIVE MOBILE NAVIGATION DRAWER */}
         {isMobileMenuOpen && (
