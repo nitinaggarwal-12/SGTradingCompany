@@ -25,6 +25,183 @@ export const CartDrawer: React.FC = () => {
   const [gstType, setGstType] = useState<"intrastate" | "interstate">("intrastate");
   const [isPaymentGatewayOpen, setIsPaymentGatewayOpen] = useState(false);
 
+  const handleDownloadTallyCsv = () => {
+    const today = new Date().toISOString().split("T")[0];
+    const csvRows = [
+      [
+        "Date",
+        "VoucherType",
+        "VoucherNo",
+        "SupplierName",
+        "SupplierGSTIN",
+        "ItemName",
+        "Category",
+        "Quantity",
+        "RateExclGST",
+        "CGST_Amount",
+        "SGST_Amount",
+        "TotalAmount",
+      ],
+    ];
+
+    cart.forEach((item, idx) => {
+      const itemSubtotal = item.product.priceExclGst * item.quantity;
+      const cgst = Math.round((itemSubtotal * 2.5) / 100);
+      const sgst = Math.round((itemSubtotal * 2.5) / 100);
+      const total = itemSubtotal + cgst + sgst;
+
+      csvRows.push([
+        today,
+        "Purchase Voucher",
+        `PUR-SG-2026-${String(idx + 1).padStart(3, "0")}`,
+        "SG Trading Company (Mayur Vihar Phase-3)",
+        "07ADQFS8839Q1ZQ",
+        `"${item.product.name}"`,
+        `"${item.product.category}"`,
+        String(item.quantity),
+        String(item.product.priceExclGst),
+        String(cgst),
+        String(sgst),
+        String(total),
+      ]);
+    });
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      csvRows.map((r) => r.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute(
+      "download",
+      `SG_Trading_Tally_Purchase_Voucher_${today}.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handlePrintGstProforma = () => {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
+
+    const today = new Date().toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+
+    const itemsHtml = cart
+      .map(
+        (item, index) => `
+      <tr style="border-bottom: 1px solid #E2E8F0;">
+        <td style="padding: 10px; font-size: 12px; font-weight: bold;">${index + 1}</td>
+        <td style="padding: 10px;">
+          <div style="font-size: 13px; font-weight: 800; color: #0F172A;">${item.product.name}</div>
+          <div style="font-size: 11px; color: #64748B;">Brand: ${item.product.brand} • Authorized Case</div>
+        </td>
+        <td style="padding: 10px; font-size: 12px; text-align: center; font-weight: bold;">${item.quantity} Cases</td>
+        <td style="padding: 10px; font-size: 12px; text-align: right;">₹${item.product.priceExclGst.toLocaleString("en-IN")}</td>
+        <td style="padding: 10px; font-size: 12px; text-align: right;">₹${(item.product.priceExclGst * item.quantity).toLocaleString("en-IN")}</td>
+      </tr>
+    `
+      )
+      .join("");
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Official GST Proforma Invoice - SG Trading Company</title>
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #0F172A; margin: 0; padding: 24px; background: #FFFFFF; }
+          .header { border-bottom: 3px solid #D97706; padding-bottom: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+          .title { font-size: 24px; font-weight: 900; color: #0F172A; }
+          .badge { background: #FEF3C7; color: #92400E; padding: 4px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; display: inline-block; }
+          table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+          th { background: #F8FAFC; color: #475569; font-size: 11px; text-transform: uppercase; padding: 10px; text-align: left; border-bottom: 2px solid #E2E8F0; }
+          .totals { margin-top: 24px; float: right; width: 320px; font-size: 13px; }
+          .totals-row { display: flex; justify-content: space-between; padding: 6px 0; }
+          .totals-grand { font-size: 16px; font-weight: 900; color: #D97706; border-top: 2px solid #0F172A; padding-top: 8px; }
+          .footer { clear: both; margin-top: 60px; padding-top: 16px; border-top: 1px solid #E2E8F0; font-size: 11px; color: #64748B; }
+          @media print {
+            .no-print { display: none; }
+          }
+        </style>
+      </head>
+      <body>
+        <div className="no-print" style="margin-bottom: 20px;">
+          <button onclick="window.print()" style="background: #D97706; color: #FFFFFF; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+            🖨️ Print / Save Official GST Tax Proforma PDF
+          </button>
+        </div>
+
+        <div class="header">
+          <div>
+            <div class="title">SG TRADING COMPANY</div>
+            <div class="badge">OFFICIAL AUTHORIZED FACTORY DISTRIBUTOR • MAYUR VIHAR PHASE-3</div>
+            <p style="font-size: 12px; margin: 6px 0 0 0; color: #475569;">
+              Central Cold Room 1 Hub: B-377, Shiv Mandir Road, Mayur Vihar Phase-3, Delhi-110096<br/>
+              GSTIN: <strong>07ADQFS8839Q1ZQ</strong> • FSSAI License: <strong>13324008000192</strong><br/>
+              Wholesale Helpline: +91 96677 31355 / 9643097002
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <h3 style="margin: 0; font-size: 18px; color: #D97706;">GST PROFORMA INVOICE</h3>
+            <p style="font-size: 12px; color: #475569; margin: 4px 0 0 0;">
+              Date: <strong>${today}</strong><br/>
+              Invoice Ref: <strong>SG-PROFORMA-${Date.now().toString().slice(-6)}</strong><br/>
+              Cold Room Status: <strong style="color: #059669;">-18.3°C READY</strong>
+            </p>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Commercial Product SKU &amp; Brand</th>
+              <th style="text-align: center;">Quantity</th>
+              <th style="text-align: right;">Rate / Case (Excl. GST)</th>
+              <th style="text-align: right;">Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+
+        <div class="totals">
+          <div class="totals-row">
+            <span>Products Subtotal (Excl. GST):</span>
+            <strong>₹${subtotalExclGst.toLocaleString("en-IN")}</strong>
+          </div>
+          <div class="totals-row">
+            <span>CGST (2.5%) + SGST (2.5%):</span>
+            <strong>₹${gstAmount.toLocaleString("en-IN")}</strong>
+          </div>
+          <div class="totals-row">
+            <span>Cold-Chain Reefer Logistics:</span>
+            <strong>₹${deliveryFreight}</strong>
+          </div>
+          <div class="totals-row totals-grand">
+            <span>TOTAL AMOUNT PAYABLE:</span>
+            <span>₹${totalInclGst.toLocaleString("en-IN")}</span>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p><strong>Bank &amp; Payment Details for Instant Dispatch:</strong></p>
+          <p>Bank: HDFC Bank Commercial • Account Name: SG Trading Company • A/C No: 50200088921102 • IFSC: HDFC0001402<br/>
+          Paytm Merchant UPI ID: <strong>paytmqr69pf0i@ptys</strong> (WhatsApp Helpline: +91 96677 31355)</p>
+          <p style="margin-top: 12px; font-size: 10px;">* Certified factory-sealed cargo. Full GST Input Tax Credit (ITC) compliant under CGST/SGST/IGST Act.</p>
+        </div>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
   if (!isCartOpen) return null;
 
   const subtotalExclGst = cart.reduce(
@@ -211,6 +388,25 @@ export const CartDrawer: React.FC = () => {
                       ₹{totalInclGst.toLocaleString("en-IN")}
                     </span>
                   </div>
+                </div>
+
+                {/* INSTITUTIONAL B2B GST PROFORMA & TALLY CSV EXPORT ACTIONS */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    onClick={handlePrintGstProforma}
+                    className="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-mono-spec font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 transition-all cursor-pointer"
+                    title="Print or Save Official GST Tax Proforma PDF"
+                  >
+                    <span>📄 GST Proforma PDF</span>
+                  </button>
+
+                  <button
+                    onClick={handleDownloadTallyCsv}
+                    className="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 font-mono-spec font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 transition-all cursor-pointer"
+                    title="Download Purchase Voucher formatted for Tally Prime & Busy Accounting"
+                  >
+                    <span>📊 Tally Prime CSV</span>
+                  </button>
                 </div>
 
                 {/* Proceed to Payment Gateway Button */}
