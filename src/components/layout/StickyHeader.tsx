@@ -172,7 +172,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium truncate max-w-[240px] sm:max-w-none">
-                  Rahul Garg &amp; Sonu • Mayur Vihar Phase-3, Delhi •{" "}
+                  Mayur Vihar Phase-3, Delhi •{" "}
                   <span className="text-amber-400">9667731355</span>
                 </p>
               </div>
