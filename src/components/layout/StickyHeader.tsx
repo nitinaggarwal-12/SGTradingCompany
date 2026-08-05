@@ -313,7 +313,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   </div>
 
                   <Link
-                    href="/offers"
+                    href="/offers?tab=offers"
                     onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
@@ -325,7 +325,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   </Link>
 
                   <Link
-                    href="/offers"
+                    href="/offers?tab=loyalty"
                     onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >

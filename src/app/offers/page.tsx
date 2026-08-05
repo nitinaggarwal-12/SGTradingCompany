@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { StickyHeader } from "@/components/layout/StickyHeader";
+import { useSearchParams } from "next/navigation";
 import {
   Tag,
   Flame,
@@ -18,6 +18,8 @@ import {
   Award,
   CreditCard,
   Building,
+  Crown,
+  Calculator,
 } from "lucide-react";
 
 interface OfferDeal {
@@ -174,10 +176,22 @@ const LIVE_OFFERS: OfferDeal[] = [
   },
 ];
 
-export default function CurrentOffersPage() {
+export default function OffersPage() {
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") === "loyalty" ? "loyalty" : "offers";
+  const [activeTab, setActiveTab] = useState<"offers" | "loyalty">(initialTab);
   const [selectedFilter, setSelectedFilter] = useState<string>("All Live Offers");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [monthlySpend, setMonthlySpend] = useState<number>(75000);
+
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (tabParam === "loyalty") {
+      setActiveTab("loyalty");
+    } else if (tabParam === "offers") {
+      setActiveTab("offers");
+    }
+  }, [searchParams]);
 
   // Loyalty calculations: Every ₹100 spent = 1 point + 250 First-Time Customer Welcome Bonus
   const earnedPoints = Math.floor(monthlySpend / 100);
@@ -220,165 +234,208 @@ export default function CurrentOffersPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      {/* INTERACTIVE LOYALTY POINTS & REWARD INCENTIVE CALCULATOR */}
+      {/* EXECUTIVE VIEW SWITCHER TABS */}
       <section className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8">
-        <div className="p-8 rounded-3xl bg-white border-2 border-amber-500/60 shadow-lg space-y-6">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-200 pb-6">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-mono-spec font-black uppercase">
-                <Gift className="w-3.5 h-3.5 text-amber-600" />
-                <span>SG COLD-CHAIN CHEF REWARDS &amp; VIP INCENTIVE POINT SYSTEM</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900">
-                More Purchase • More Points • Free Commercial Master Cases &amp; Gifts
-              </h2>
-              <p className="text-xs md:text-sm text-slate-700">
-                Every <strong className="text-amber-800">₹100 spent = 1 SG Wholesale Loyalty Point</strong>. First-time customers get <strong className="text-emerald-700">+250 Instant Welcome Points</strong> + Flat ₹1,000 invoice credit on their first order of ₹25,000+.
-              </p>
-            </div>
+        <div className="flex flex-wrap items-center justify-between gap-4 p-3 rounded-2xl bg-white border-2 border-amber-500/60 shadow-md">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setActiveTab("offers")}
+              className={`px-5 py-3 rounded-xl text-xs font-mono-spec font-black uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                activeTab === "offers"
+                  ? "bg-amber-500 text-slate-950 shadow-lg"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              <Flame className="w-4 h-4" />
+              <span>1. Current Offers &amp; Bank Cashback</span>
+            </button>
 
-            <div className="flex items-center gap-3 font-mono-spec text-xs">
-              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 font-bold">
-                🥉 Silver (0-1K)
-              </span>
-              <span className="px-3 py-1.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-900 font-bold">
-                🥈 Gold (1K-3K)
-              </span>
-              <span className="px-3 py-1.5 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold">
-                🥇 Platinum (3K+)
-              </span>
-            </div>
+            <button
+              onClick={() => setActiveTab("loyalty")}
+              className={`px-5 py-3 rounded-xl text-xs font-mono-spec font-black uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                activeTab === "loyalty"
+                  ? "bg-amber-500 text-slate-950 shadow-lg"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              <Crown className="w-4 h-4" />
+              <span>2. SG Chef Loyalty &amp; VIP Points Program</span>
+            </button>
           </div>
 
-          {/* Interactive Points Simulator */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <div className="space-y-4 lg:col-span-1">
-              <div className="flex items-center justify-between font-mono-spec text-xs">
-                <span className="text-slate-700 uppercase font-bold">Estimated Monthly Spend:</span>
-                <span className="text-lg font-black text-amber-800">
-                  ₹{monthlySpend.toLocaleString("en-IN")} / month
-                </span>
-              </div>
-
-              <input
-                type="range"
-                min={25000}
-                max={500000}
-                step={5000}
-                value={monthlySpend}
-                onChange={(e) => setMonthlySpend(Number(e.target.value))}
-                className="w-full accent-amber-600 cursor-pointer h-2.5 bg-slate-200 rounded-lg"
-              />
-
-              <div className="flex justify-between text-[11px] font-mono-spec text-slate-500">
-                <span>₹25,000/mo</span>
-                <span>₹2.5 Lakh/mo</span>
-                <span>₹5 Lakh/mo</span>
-              </div>
-            </div>
-
-            {/* Calculated Results HUD */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:col-span-2 font-mono-spec">
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
-                <span className="text-[10px] text-slate-600 uppercase block font-bold">Monthly Points</span>
-                <span className="text-2xl font-black text-amber-800">{earnedPoints.toLocaleString()}</span>
-                <span className="text-[10px] text-emerald-700 block mt-1">+250 Welcome Bonus</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
-                <span className="text-[10px] text-slate-600 uppercase block font-bold">Annual Points</span>
-                <span className="text-2xl font-black text-slate-900">{annualPoints.toLocaleString()}</span>
-                <span className="text-[10px] text-amber-800 block mt-1">Tier: {unlockedTier}</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
-                <span className="text-[10px] text-slate-600 uppercase block font-bold">Free Master Cases / Yr</span>
-                <span className="text-2xl font-black text-emerald-700">{freeCartonsPerYear} Cases</span>
-                <span className="text-[10px] text-slate-700 block mt-1">McCain / Britannia Free</span>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
-                <span className="text-[10px] text-slate-600 uppercase block font-bold">Est. Yearly Benefit</span>
-                <span className="text-2xl font-black text-amber-800">₹{yearlyBenefitValue.toLocaleString()}</span>
-                <span className="text-[10px] text-emerald-700 block mt-1">+ GST Input Savings</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Redeem Reward Catalog Row */}
-          <div className="pt-4 border-t border-slate-200">
-            <span className="text-xs font-mono-spec font-black uppercase text-amber-800 block mb-3">
-              CHEF REWARDS REDEMPTION STORE (REDEEM POINTS FOR FREE PRODUCTS &amp; GIFTS):
-            </span>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-spec text-xs">
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
-                    250 POINTS
-                  </span>
-                  <Gift className="w-4 h-4 text-amber-700" />
-                </div>
-                <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Kg Pack McCain Fries or Veeba Mayo</h4>
-                <p className="text-[11px] text-slate-600">Earned immediately upon first order of ₹25,000+.</p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
-                    500 POINTS
-                  </span>
-                  <Gift className="w-4 h-4 text-emerald-700" />
-                </div>
-                <h4 className="font-extrabold text-slate-900 text-sm">Commercial Chef Knife Kit OR Flat ₹750 Invoice Credit</h4>
-                <p className="text-[11px] text-slate-600">Redeemable on next Mayur Vihar cold room order.</p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
-                    1,000 POINTS
-                  </span>
-                  <Gift className="w-4 h-4 text-amber-700" />
-                </div>
-                <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Full Master Case McCain 9mm Fries (10 Kg)</h4>
-                <p className="text-[11px] text-slate-600">Worth ₹1,520 + Digital Commercial Kitchen Scale.</p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
-                    2,500 POINTS
-                  </span>
-                  <Gift className="w-4 h-4 text-emerald-700" />
-                </div>
-                <h4 className="font-extrabold text-slate-900 text-sm">Commercial Heavy-Duty Induction Unit OR ₹4,000 Discount</h4>
-                <p className="text-[11px] text-slate-600">Platinum VIP Institutional Perk + Free Delivery.</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-6 border-t border-slate-200 mt-6">
-            <span className="text-xs font-mono-spec text-slate-600 uppercase font-bold mr-2">
-              Filter Promotions:
-            </span>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedFilter(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-mono-spec font-bold transition-all cursor-pointer border ${
-                  selectedFilter === cat
-                    ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/20"
-                    : "bg-white text-slate-700 border-slate-300 hover:border-amber-500 hover:text-slate-900"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          <span className="text-xs font-mono-spec font-bold text-slate-600 hidden md:inline-block">
+            Mayur Vihar Phase-3 Central Cold Room 1 Billing Desk
+          </span>
         </div>
       </section>
+
+      {/* TAB 2: SG CHEF VIP LOYALTY PROGRAM & POINTS CALCULATOR */}
+      {activeTab === "loyalty" && (
+        <section className="max-w-[1600px] mx-auto px-6 md:px-12 pt-6">
+          <div className="p-8 rounded-3xl bg-white border-2 border-amber-500/60 shadow-lg space-y-6">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-200 pb-6">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-mono-spec font-black uppercase">
+                  <Crown className="w-3.5 h-3.5 text-amber-600" />
+                  <span>SG COLD-CHAIN CHEF REWARDS &amp; VIP INCENTIVE POINT SYSTEM</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900">
+                  SG Chef Loyalty Program • More Purchase • Free Commercial Master Cases &amp; Gifts
+                </h2>
+                <p className="text-xs md:text-sm text-slate-700">
+                  Every <strong className="text-amber-800">₹100 spent = 1 SG Wholesale Loyalty Point</strong>. First-time customers get <strong className="text-emerald-700">+250 Instant Welcome Points</strong> + Flat ₹1,000 invoice credit on their first order of ₹25,000+.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 font-mono-spec text-xs">
+                <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 font-bold">
+                  🥉 Silver (0-1K)
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-900 font-bold">
+                  🥈 Gold (1K-3K)
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 font-bold">
+                  🥇 Platinum (3K+)
+                </span>
+              </div>
+            </div>
+
+            {/* Interactive Points Simulator */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div className="space-y-4 lg:col-span-1">
+                <div className="flex items-center justify-between font-mono-spec text-xs">
+                  <span className="text-slate-700 uppercase font-bold">Estimated Monthly Spend:</span>
+                  <span className="text-lg font-black text-amber-800">
+                    ₹{monthlySpend.toLocaleString("en-IN")} / month
+                  </span>
+                </div>
+
+                <input
+                  type="range"
+                  min={25000}
+                  max={500000}
+                  step={5000}
+                  value={monthlySpend}
+                  onChange={(e) => setMonthlySpend(Number(e.target.value))}
+                  className="w-full accent-amber-600 cursor-pointer h-2.5 bg-slate-200 rounded-lg"
+                />
+
+                <div className="flex justify-between text-[11px] font-mono-spec text-slate-500">
+                  <span>₹25,000/mo</span>
+                  <span>₹2.5 Lakh/mo</span>
+                  <span>₹5 Lakh/mo</span>
+                </div>
+              </div>
+
+              {/* Calculated Results HUD */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:col-span-2 font-mono-spec">
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                  <span className="text-[10px] text-slate-600 uppercase block font-bold">Monthly Points</span>
+                  <span className="text-2xl font-black text-amber-800">{earnedPoints.toLocaleString()}</span>
+                  <span className="text-[10px] text-emerald-700 block mt-1">+250 Welcome Bonus</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                  <span className="text-[10px] text-slate-600 uppercase block font-bold">Annual Points</span>
+                  <span className="text-2xl font-black text-slate-900">{annualPoints.toLocaleString()}</span>
+                  <span className="text-[10px] text-amber-800 block mt-1">Tier: {unlockedTier}</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                  <span className="text-[10px] text-slate-600 uppercase block font-bold">Free Master Cases / Yr</span>
+                  <span className="text-2xl font-black text-emerald-700">{freeCartonsPerYear} Cases</span>
+                  <span className="text-[10px] text-slate-700 block mt-1">McCain / Britannia Free</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200">
+                  <span className="text-[10px] text-slate-600 uppercase block font-bold">Est. Yearly Benefit</span>
+                  <span className="text-2xl font-black text-amber-800">₹{yearlyBenefitValue.toLocaleString()}</span>
+                  <span className="text-[10px] text-emerald-700 block mt-1">+ GST Input Savings</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Redeem Reward Catalog Row */}
+            <div className="pt-4 border-t border-slate-200">
+              <span className="text-xs font-mono-spec font-black uppercase text-amber-800 block mb-3">
+                CHEF REWARDS REDEMPTION STORE (REDEEM POINTS FOR FREE PRODUCTS &amp; GIFTS):
+              </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-spec text-xs">
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
+                      250 POINTS
+                    </span>
+                    <Gift className="w-4 h-4 text-amber-700" />
+                  </div>
+                  <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Kg Pack McCain Fries or Veeba Mayo</h4>
+                  <p className="text-[11px] text-slate-600">Earned immediately upon first order of ₹25,000+.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
+                      500 POINTS
+                    </span>
+                    <Gift className="w-4 h-4 text-emerald-700" />
+                  </div>
+                  <h4 className="font-extrabold text-slate-900 text-sm">Commercial Chef Knife Kit OR Flat ₹750 Invoice Credit</h4>
+                  <p className="text-[11px] text-slate-600">Redeemable on next Mayur Vihar cold room order.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-black text-[10px]">
+                      1,000 POINTS
+                    </span>
+                    <Gift className="w-4 h-4 text-amber-700" />
+                  </div>
+                  <h4 className="font-extrabold text-slate-900 text-sm">Free 1 Full Master Case McCain 9mm Fries (10 Kg)</h4>
+                  <p className="text-[11px] text-slate-600">Worth ₹1,520 + Digital Commercial Kitchen Scale.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-black text-[10px]">
+                      2,500 POINTS
+                    </span>
+                    <Gift className="w-4 h-4 text-emerald-700" />
+                  </div>
+                  <h4 className="font-extrabold text-slate-900 text-sm">Commercial Heavy-Duty Induction Unit OR ₹4,000 Discount</h4>
+                  <p className="text-[11px] text-slate-600">Platinum VIP Institutional Perk + Free Delivery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* TAB 1: BANK OFFERS & PROMOTIONS */}
+      {activeTab === "offers" && (
+        <>
+          <section className="max-w-[1600px] mx-auto px-6 md:px-12 pt-6">
+            <div className="flex flex-wrap items-center gap-2.5 p-4 rounded-2xl bg-white border border-slate-200">
+              <span className="text-xs font-mono-spec text-slate-600 uppercase font-bold mr-2">
+                Filter Promotions:
+              </span>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedFilter(cat)}
+                  className={`px-4 py-2 rounded-xl text-xs font-mono-spec font-bold transition-all cursor-pointer border ${
+                    selectedFilter === cat
+                      ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/20"
+                      : "bg-white text-slate-700 border-slate-300 hover:border-amber-500 hover:text-slate-900"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* Promotions Grid Section */}
       <section className="max-w-[1600px] mx-auto px-6 md:px-12 py-12">
