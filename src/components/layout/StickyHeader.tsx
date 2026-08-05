@@ -179,16 +179,16 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
           </div>
 
-          {/* Center: Desktop Executive Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-5 text-xs font-bold uppercase tracking-wider text-slate-300">
-            {/* Sleek Compact Single Dropdown Trigger */}
+          {/* Center: Desktop Executive Navigation Links (Consolidated for single-row elegance) */}
+          <nav className="hidden lg:flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-slate-300">
+            {/* Sleek Compact All Brands Dropdown Trigger */}
             <div
               className="relative"
               onMouseEnter={() => setIsMegaMenuOpen(true)}
             >
               <button
                 onClick={() => setIsMegaMenuOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-extrabold transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-extrabold transition-all cursor-pointer"
               >
                 <span>All 12 Brands</span>
                 <ChevronDown
@@ -262,16 +262,10 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            <Link
-              href="/#catalog"
-              className="hover:text-amber-400 transition-colors"
-            >
-              Brand Catalog
-            </Link>
-
+            {/* Warehouse Stock & O2C Status Combined Link */}
             <Link
               href="/stock-manager"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-400 font-bold hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 font-bold hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
             >
               <Boxes className="w-3.5 h-3.5" />
               <span>Stock ({totalStockCount})</span>
@@ -279,30 +273,17 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
             <Link
               href="/order-to-cash"
-              className="hover:text-amber-400 text-amber-400 font-bold transition-colors flex items-center gap-1"
+              className="hover:text-amber-400 text-slate-300 font-bold transition-colors flex items-center gap-1 px-2"
             >
-              <span>📋 Orders &amp; Delivery Status</span>
+              <span>Orders &amp; O2C</span>
             </Link>
 
             <Link
               href="/account"
-              className="hover:text-amber-400 font-bold transition-colors"
+              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px]"
+              title={currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             >
-              {currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
-            </Link>
-
-            <Link
-              href="/#about"
-              className="hover:text-amber-400 transition-colors"
-            >
-              About Us
-            </Link>
-
-            <Link
-              href="/#contact"
-              className="hover:text-amber-400 transition-colors"
-            >
-              Contact Us
+              {currentUser ? currentUser.companyName : "Account"}
             </Link>
           </nav>
 
