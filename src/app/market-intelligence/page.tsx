@@ -43,6 +43,9 @@ import {
   RefreshCw,
   Flame,
   Star,
+  Activity,
+  Compass,
+  Radio,
 } from "lucide-react";
 import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
 
@@ -110,19 +113,72 @@ const INITIAL_SCENARIOS: WhatIfScenario[] = [
   },
 ];
 
+// Circular SVG Progress Ring Component
+const CircularProgressRing: React.FC<{
+  percentage: number;
+  size?: number;
+  strokeWidth?: number;
+  color?: string;
+  label?: string;
+  valueText?: string;
+}> = ({
+  percentage,
+  size = 72,
+  strokeWidth = 6,
+  color = "#10B981",
+  label,
+  valueText,
+}) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+        <svg width={size} height={size} className="transform -rotate-90">
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="rgba(255,255,255,0.08)"
+            strokeWidth={strokeWidth}
+            fill="transparent"
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            fill="transparent"
+            className="transition-all duration-1000 ease-out"
+          />
+        </svg>
+        <span className="absolute text-xs font-black font-mono-spec text-white">
+          {valueText || `${percentage}%`}
+        </span>
+      </div>
+      {label && (
+        <span className="text-[10px] font-mono-spec text-slate-400 uppercase mt-1 text-center font-bold">
+          {label}
+        </span>
+      )}
+    </div>
+  );
+};
+
 export default function MarketIntelligenceDashboardPage() {
   const [scenarios, setScenarios] = useState<WhatIfScenario[]>(INITIAL_SCENARIOS);
   const [marketTrends, setMarketTrends] = useState(MARKET_CONFIG_DATA.marketTrends);
   const [recommendedAgencies, setRecommendedAgencies] = useState(MARKET_CONFIG_DATA.recommendedAgencies);
   const [customers, setCustomers] = useState(MARKET_CONFIG_DATA.customers);
   const [expandedCustomerIds, setExpandedCustomerIds] = useState<string[]>(["cust-04"]);
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("All");
-  const [selectedCustomerRiskFilter, setSelectedCustomerRiskFilter] = useState<string>("all");
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState<string[]>([]);
-  const [isAdminEditorOpen, setIsAdminEditorOpen] = useState(false);
+  const [selectedHub, setSelectedHub] = useState<string>("mayur-vihar");
   const [isSyncing, setIsSyncing] = useState(false);
-  const [newAgencyName, setNewAgencyName] = useState("");
-  const [newAgencyReason, setNewAgencyReason] = useState("");
 
   const toggleCustomerAccordion = (id: string) => {
     setExpandedCustomerIds((prev) =>
@@ -133,12 +189,6 @@ export default function MarketIntelligenceDashboardPage() {
   const toggleScenario = (id: string) => {
     setScenarios((prev) =>
       prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
-    );
-  };
-
-  const toggleSelectCustomer = (id: string) => {
-    setSelectedCustomerIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
@@ -157,16 +207,6 @@ export default function MarketIntelligenceDashboardPage() {
     }
   };
 
-  const handleSendWhatsApp = (cust: typeof customers[0]) => {
-    const text = encodeURIComponent(
-      `Namaste ${cust.contactPerson}! SG Trading Company (Rahul Garg & Sonu, Mayur Vihar Phase-3) here.\n\n` +
-      `Fresh -18°C cold chain stock of McCain 9mm Fries, Britannia Diced Mozzarella & Veeba Mayo is ready for express dispatch today to ${cust.name}.\n\n` +
-      `📦 Direct Wholesale Rates & GST Input (07ADQFS8839Q1ZQ) Guaranteed.\n` +
-      `📞 Call/WhatsApp: 9667731355 / 9643097002`
-    );
-    window.open(`https://wa.me/${cust.phone.replace(/[^0-9]/g, "")}?text=${text}`, "_blank");
-  };
-
   const activeScenarios = scenarios.filter((s) => s.active);
   const baseMonthlyRev = MARKET_CONFIG_DATA.baseMonthlyRevenueLakhs;
   const addedRevGain = activeScenarios.reduce((acc, s) => acc + s.projectedRevenueGainLakhs, 0);
@@ -175,695 +215,446 @@ export default function MarketIntelligenceDashboardPage() {
   const avgMarginLift = activeScenarios.length > 0
     ? (activeScenarios.reduce((acc, s) => acc + s.projectedMarginImpactPct, 0) / activeScenarios.length).toFixed(1)
     : "0.0";
-  const annualRevGain = (addedRevGain * 12).toFixed(1);
-
-  const filteredCustomers = customers.filter((c) => {
-    if (selectedCustomerRiskFilter === "safe") return c.paymentRiskPct <= 6;
-    if (selectedCustomerRiskFilter === "moderate") return c.paymentRiskPct > 6 && c.paymentRiskPct <= 12;
-    return true;
-  });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pb-24">
-      {/* Top Sticky Header Bar */}
-      <header className="sticky top-0 z-50 w-full bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
-        <div className="max-w-8xl mx-auto px-6 md:px-12 py-3.5 flex flex-wrap items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#070A12] text-white pb-28 relative overflow-hidden">
+      {/* Ambient Neon Background Glows */}
+      <div className="pointer-events-none fixed -top-40 left-1/4 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[140px]" />
+      <div className="pointer-events-none fixed top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[140px]" />
+      <div className="pointer-events-none fixed bottom-0 left-1/3 w-[700px] h-[400px] rounded-full bg-sky-500/10 blur-[160px]" />
+
+      {/* Futuristic Glass Command Header */}
+      <header className="sticky top-0 z-50 w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+        <div className="max-w-8xl mx-auto px-6 md:px-12 py-4 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-mono-spec font-bold flex items-center gap-2 border border-slate-700 transition-all"
+              className="px-4 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-xs font-mono-spec font-black flex items-center gap-2 border border-slate-800 transition-all shadow-lg"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Wholesale Catalog</span>
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[10px] font-mono-spec font-black uppercase border border-amber-500/40">
-                  VISUAL STRATEGIC COMMAND CENTER
+                <span className="px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-[10px] font-mono-spec font-black uppercase shadow-md">
+                  COMMAND CENTER 2.0 • PALANTIR TERMINAL
                 </span>
-                <span className="text-xs text-emerald-400 font-mono-spec font-bold flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Live NCR Telemetry Verified
+                <span className="text-xs text-emerald-400 font-mono-spec font-bold flex items-center gap-1.5">
+                  <Radio className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
+                  <span>B-577 Mayur Vihar-3 Live Telemetry Active</span>
                 </span>
               </div>
-              <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
-                SG Trading Company • Market Intelligence &amp; Customer Growth Hub
+              <h1 className="text-xl md:text-3xl font-black text-white tracking-tight mt-0.5">
+                SG Trading Company • Executive Growth &amp; Intelligence War Room
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <button
               onClick={handleRunAutonomousMarketScan}
               disabled={isSyncing}
-              className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-mono-spec font-bold text-xs flex items-center gap-2 border border-emerald-500/40 transition-all cursor-pointer shadow-lg"
+              className="px-4 py-2.5 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-mono-spec font-black text-xs flex items-center gap-2 border border-emerald-500/40 transition-all cursor-pointer shadow-lg"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? "animate-spin" : ""}`} />
-              <span>{isSyncing ? "Auto-Scanning..." : "Run Autonomous Daily Resync"}</span>
-            </button>
-
-            <button
-              onClick={() => setIsAdminEditorOpen(!isAdminEditorOpen)}
-              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec font-bold text-xs flex items-center gap-2 border border-amber-500/40 transition-all cursor-pointer"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>{isAdminEditorOpen ? "Close Live Editor" : "+ Add Agency Target"}</span>
+              <RefreshCw className={`w-4 h-4 ${isSyncing ? "animate-spin" : ""}`} />
+              <span>{isSyncing ? "Auto-Scanning Market..." : "Run Autonomous Daily Resync"}</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-12">
-        {/* EXECUTIVE VISUAL KPI CONSOLE */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="industrial-card p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/40 border-2 border-amber-500/60 shadow-xl space-y-3 relative overflow-hidden">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono-spec text-amber-400 font-bold uppercase">
-                PROJECTED MONTHLY REVENUE
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black">
-                +{((addedRevGain / baseMonthlyRev) * 100).toFixed(1)}% UP
-              </span>
-            </div>
-            <div className="text-4xl font-black text-white font-mono-spec tracking-tight">
-              ₹{totalProjectedMonthlyRev.toFixed(2)} <span className="text-sm font-normal text-slate-400">L/mo</span>
-            </div>
-            {/* Visual Progress Trajectory Bar */}
-            <div className="w-full bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800">
-              <div
-                className="h-full bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-700"
-                style={{ width: `${Math.min((totalProjectedMonthlyRev / 100) * 100, 100)}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-[11px] font-mono-spec text-slate-400">
-              <span>Base: ₹{baseMonthlyRev.toFixed(2)}L</span>
-              <span className="text-emerald-400 font-bold">Gain: +₹{addedRevGain.toFixed(2)}L</span>
-            </div>
-          </div>
-
-          <div className="industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-sky-500/50 transition-all space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono-spec text-slate-400">
-              <span>ANNUAL REVENUE OPPORTUNITY</span>
-              <span className="text-sky-400 font-bold">FY2026-27</span>
-            </div>
-            <div className="text-4xl font-black text-sky-400 font-mono-spec">
-              +₹{annualRevGain} <span className="text-sm font-normal text-slate-400">Lakhs/yr</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300">
-              📈 Incremental volume from new agencies &amp; cold room expansion.
-            </div>
-          </div>
-
-          <div className="industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/50 transition-all space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono-spec text-slate-400">
-              <span>GROSS MARGIN ENHANCEMENT</span>
-              <span className="text-amber-400 font-bold">BLENDED LIFT</span>
-            </div>
-            <div className="text-4xl font-black text-amber-400 font-mono-spec">
-              +{avgMarginLift}% <span className="text-sm font-normal text-slate-400">Margin</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300">
-              🧀 High-margin commercial cheese stretch &amp; direct agency rebates.
-            </div>
-          </div>
-
-          <div className="industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 transition-all space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono-spec text-slate-400">
-              <span>ACTIVE STRATEGIC SCENARIOS</span>
-              <span className="text-emerald-400 font-bold">{activeScenarios.length} / {scenarios.length} ON</span>
-            </div>
-            <div className="text-4xl font-black text-emerald-400 font-mono-spec">
-              ₹{totalInvestment.toFixed(1)} <span className="text-sm font-normal text-slate-400">L CAPEX</span>
-            </div>
-            <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300">
-              ⏱️ Average Payback Horizon: <strong className="text-white">3.8 Months</strong>
-            </div>
-          </div>
-        </div>
-
-        {/* VISUAL CHART 1: INTERACTIVE MARKET DEMAND VELOCITY HORIZONTAL BAR CHART */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
-                <BarChart3 className="w-3.5 h-3.5" />
-                <span>VISUAL ANALYTICS • REAL-TIME PRODUCT DEMAND VELOCITY METER</span>
+      <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-12 relative z-10">
+        {/* HERO STRATEGIC DASHBOARD COCKPIT ROW */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Left 8 Cols: Interactive Animated Strategic Trajectory & Live Scenario Cockpit */}
+          <div className="lg:col-span-8 rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 hover:border-amber-500/50 p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+              <div>
+                <span className="text-xs font-mono-spec text-amber-400 font-black uppercase tracking-wider block">
+                  REAL-TIME ADOPTION TRAJECTORY ENGINE
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mt-0.5">
+                  Monthly Revenue Simulation Cockpit
+                </h2>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Fastest-Growing HORECA &amp; GT Categories (Delhi NCR Field Survey)
-              </h2>
+
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-black border border-emerald-500/40">
+                  +{((addedRevGain / baseMonthlyRev) * 100).toFixed(1)}% REVENUE LIFT
+                </span>
+              </div>
             </div>
 
-            {/* Interactive Category Filter Dropdown */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-mono-spec text-slate-400">Filter Segment:</span>
-              <select
-                value={selectedCategoryFilter}
-                onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono-spec font-bold text-amber-400 focus:outline-none focus:border-amber-500 cursor-pointer"
-              >
-                <option value="All">All High-Demand Categories (4)</option>
-                <option value="HORECA Frozen">HORECA Frozen &amp; Retort Gravies</option>
-                <option value="Dairy Cheese">Commercial Cheese Stretch</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Visual Animated Horizontal Bar Chart Cards */}
-            <div className="lg:col-span-7 space-y-4">
-              {marketTrends.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="industrial-card p-5 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/60 transition-all space-y-3 group"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-xs font-mono-spec">
-                        #{idx + 1}
-                      </div>
-                      <span className="font-extrabold text-sm text-white group-hover:text-amber-400 transition-colors">
-                        {item.category}
-                      </span>
-                    </div>
-
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-black border border-emerald-500/40">
-                      {item.growth}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed pl-10">
-                    {item.driver}
-                  </p>
-
-                  {/* Visual Progress Bar Gauge */}
-                  <div className="pl-10 space-y-1">
-                    <div className="w-full bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800/80">
-                      <div
-                        className={`h-full ${item.color} transition-all duration-1000 group-hover:brightness-125`}
-                        style={{ width: item.barWidth }}
-                      />
-                    </div>
-                    <div className="flex justify-between items-center text-[11px] font-mono-spec text-slate-400">
-                      <span>{item.impact}</span>
-                      <span className="text-amber-400 font-bold">Demand Surge Score: {item.barWidth}</span>
-                    </div>
-                  </div>
+            {/* Glowing Trajectory Progress Visualization */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-1">
+                <span className="text-[11px] font-mono-spec text-slate-400 uppercase">Current Base Run-Rate</span>
+                <div className="text-2xl font-black text-slate-300 font-mono-spec">
+                  ₹{baseMonthlyRev.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
                 </div>
-              ))}
-            </div>
+                <span className="text-[10px] text-slate-500 font-mono-spec block">12 Authorized Brands Baseline</span>
+              </div>
 
-            {/* Right Side: Recommended New FMCG Agency Acquisition Cards */}
-            <div className="lg:col-span-5 industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-extrabold text-white flex items-center gap-2">
-                  <Target className="w-4 h-4 text-emerald-400" />
-                  <span>Top Recommended New Agencies to Tie Up With</span>
-                </h3>
-                <span className="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-bold">
-                  {recommendedAgencies.length} Targets
+              <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 space-y-1">
+                <span className="text-[11px] font-mono-spec text-emerald-400 uppercase font-bold">Projected Active Gain</span>
+                <div className="text-2xl font-black text-emerald-400 font-mono-spec">
+                  +₹{addedRevGain.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+                </div>
+                <span className="text-[10px] text-emerald-400/80 font-mono-spec block">
+                  {activeScenarios.length} Strategic Scenarios Active
                 </span>
               </div>
 
-              <div className="space-y-3">
-                {recommendedAgencies.map((agency, i) => (
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-amber-600/10 border-2 border-amber-500 space-y-1">
+                <span className="text-[11px] font-mono-spec text-amber-400 font-black uppercase">Simulated Total Target</span>
+                <div className="text-3xl font-black text-white font-mono-spec">
+                  ₹{totalProjectedMonthlyRev.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+                </div>
+                <span className="text-[10px] text-amber-400 font-mono-spec block font-bold">
+                  Annualized: ₹{(totalProjectedMonthlyRev * 12).toFixed(1)} Lakhs/yr
+                </span>
+              </div>
+            </div>
+
+            {/* Interactive Scenario Cards Stack */}
+            <div className="space-y-3 pt-2">
+              <span className="text-xs font-mono-spec text-slate-400 uppercase block font-bold">
+                Toggle Scenarios below to simulate immediate financial impact:
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {scenarios.map((sc) => (
                   <div
-                    key={i}
-                    className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/50 transition-all space-y-2.5"
+                    key={sc.id}
+                    onClick={() => toggleScenario(sc.id)}
+                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                      sc.active
+                        ? "bg-slate-950 border-amber-500 shadow-lg shadow-amber-500/10"
+                        : "bg-slate-950/50 border-slate-800/80 opacity-60 hover:opacity-100"
+                    }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-sm text-white">{agency.brand}</span>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-mono-spec font-black border ${agency.statusColor}`}>
-                        {agency.status}
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[9px] font-mono-spec uppercase">
+                          {sc.category}
+                        </span>
+                        {sc.active && (
+                          <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-mono-spec font-black">
+                            ● ON
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="text-xs font-extrabold text-white line-clamp-1">{sc.name}</h4>
+                    </div>
+
+                    <div className="text-right shrink-0 font-mono-spec">
+                      <span className="text-sm font-black text-emerald-400 block">
+                        +₹{sc.projectedRevenueGainLakhs.toFixed(1)}L
+                      </span>
+                      <span className="text-[10px] text-slate-400 block">
+                        ROI: {sc.paybackMonths}m
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300">{agency.reason}</p>
-                    <button
-                      onClick={() => alert(`Initiating distribution partnership workflow for ${agency.brand}`)}
-                      className="w-full py-2 rounded-lg bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-xs font-mono-spec font-bold transition-all text-center cursor-pointer flex items-center justify-center gap-1.5"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Initiate Agency Partnership Inquiry</span>
-                    </button>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </section>
 
-        {/* SECTION 05: COLLAPSIBLE VISUAL CUSTOMER CRM & CREDIT RISK ACCORDIONS */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
-                <Users className="w-3.5 h-3.5" />
-                <span>VISUAL CUSTOMER CRM • COLLAPSIBLE ACCORDION PROFILES &amp; OUTREACH</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Target Accounts, Payment Risk % &amp; Interactive Dropdown Profiles
-              </h2>
-              <p className="text-xs text-slate-400 mt-1">
-                Click any customer card accordion dropdown to inspect full operational background, why he is a good customer, and step-by-step acquisition recommendations.
+          {/* Right 4 Cols: Interactive SVG Radar Spider Chart (SG Trading vs Metro vs Mandi) */}
+          <div className="lg:col-span-4 rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 p-6 flex flex-col justify-between shadow-2xl">
+            <div className="space-y-1">
+              <span className="text-xs font-mono-spec text-emerald-400 font-black uppercase">
+                STRATEGIC COMPETITIVE RADAR
+              </span>
+              <h3 className="text-lg font-black text-white">
+                Multi-Axis Dominance Scorecard
+              </h3>
+              <p className="text-xs text-slate-400">
+                SG Trading Company (Gold) vs. Metro Cash &amp; Carry (Sky Blue) vs. Mandi Wholesalers (Red).
               </p>
             </div>
 
-            {/* Interactive Risk Filter Toolbar */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <div className="flex items-center rounded-xl bg-slate-900 border border-slate-800 p-1 text-xs font-mono-spec">
-                <button
-                  onClick={() => setSelectedCustomerRiskFilter("all")}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    selectedCustomerRiskFilter === "all"
-                      ? "bg-amber-500 text-slate-950 font-bold"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  All Accounts ({customers.length})
-                </button>
-                <button
-                  onClick={() => setSelectedCustomerRiskFilter("safe")}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    selectedCustomerRiskFilter === "safe"
-                      ? "bg-emerald-500 text-slate-950 font-bold"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  Ultra-Safe (≤6% Risk)
-                </button>
-              </div>
+            {/* Glowing SVG Radar Chart */}
+            <div className="relative py-4 flex items-center justify-center">
+              <svg viewBox="0 0 300 280" className="w-full max-w-[260px] h-auto">
+                {/* Concentric Polygons */}
+                <polygon
+                  points="150,20 270,105 225,245 75,245 30,105"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth="1.5"
+                />
+                <polygon
+                  points="150,55 235,115 203,215 97,215 65,115"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth="1.5"
+                />
+                <polygon
+                  points="150,90 200,125 180,185 120,185 100,125"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth="1.5"
+                />
 
-              <button
-                onClick={() => {
-                  if (expandedCustomerIds.length === customers.length) {
-                    setExpandedCustomerIds([]);
-                  } else {
-                    setExpandedCustomerIds(customers.map((c) => c.id));
-                  }
-                }}
-                className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono-spec font-bold flex items-center gap-1.5 border border-slate-700 cursor-pointer"
-              >
-                <ChevronDown className="w-4 h-4" />
-                <span>{expandedCustomerIds.length === customers.length ? "Collapse All Details" : "Expand All Dropdowns"}</span>
-              </button>
+                {/* Radar Axis Lines */}
+                <line x1="150" y1="150" x2="150" y2="20" stroke="rgba(255,255,255,0.12)" />
+                <line x1="150" y1="150" x2="270" y2="105" stroke="rgba(255,255,255,0.12)" />
+                <line x1="150" y1="150" x2="225" y2="245" stroke="rgba(255,255,255,0.12)" />
+                <line x1="150" y1="150" x2="75" y2="245" stroke="rgba(255,255,255,0.12)" />
+                <line x1="150" y1="150" x2="30" y2="105" stroke="rgba(255,255,255,0.12)" />
+
+                {/* Mandi Wholesalers (Red Polygon - Low Scores) */}
+                <polygon
+                  points="150,110 180,135 150,195 110,205 70,135"
+                  fill="rgba(239, 68, 68, 0.15)"
+                  stroke="#EF4444"
+                  strokeWidth="2"
+                />
+
+                {/* Metro Cash & Carry (Sky Blue Polygon - Mid Scores) */}
+                <polygon
+                  points="150,55 220,115 190,215 110,215 80,115"
+                  fill="rgba(56, 189, 248, 0.15)"
+                  stroke="#38BDF8"
+                  strokeWidth="2"
+                />
+
+                {/* SG Trading Company (Amber/Gold Polygon - Dominant 98/100) */}
+                <polygon
+                  points="150,24 265,108 220,242 78,242 34,108"
+                  fill="rgba(245, 158, 11, 0.25)"
+                  stroke="#F59E0B"
+                  strokeWidth="3"
+                />
+
+                {/* Axis Labels */}
+                <text x="150" y="14" fill="#F59E0B" fontSize="10" fontWeight="bold" textAnchor="middle">-18°C COLD CHAIN</text>
+                <text x="275" y="110" fill="#CBD5E1" fontSize="9" textAnchor="start">EXPRESS DISPATCH</text>
+                <text x="228" y="260" fill="#CBD5E1" fontSize="9" textAnchor="middle">LOW MOQ FLEX</text>
+                <text x="72" y="260" fill="#CBD5E1" fontSize="9" textAnchor="middle">GST B2B CREDIT</text>
+                <text x="25" y="110" fill="#CBD5E1" fontSize="9" textAnchor="end">AUTH. FACTORY SEAL</text>
+              </svg>
+            </div>
+
+            {/* Radar Legend */}
+            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/80 font-mono-spec text-[10px]">
+              <div className="flex items-center gap-1.5 text-amber-400 font-extrabold">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                <span>SG (98/100)</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-sky-400 font-bold">
+                <span className="w-2.5 h-2.5 rounded-full bg-sky-400" />
+                <span>Metro (74/100)</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-red-400 font-bold">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                <span>Mandi (45/100)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* INTERACTIVE DELHI NCR COLD-CHAIN TELEMETRY WAR-ROOM MAP VISUALIZER */}
+        <section className="rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 p-6 md:p-8 space-y-6 shadow-2xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
+                <Compass className="w-3.5 h-3.5" />
+                <span>DELHI NCR LOGISTICS COMMAND • INTERACTIVE GPS TELEMETRY MAP</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                Mayur Vihar Phase-3 Central Warehouse &amp; Express NCR Dispatch Hubs
+              </h2>
+            </div>
+
+            <div className="flex flex-wrap gap-2 text-xs font-mono-spec">
+              {[
+                { id: "mayur-vihar", label: "🏢 B-577 Mayur Vihar-3 Central Warehouse (Hub)" },
+                { id: "radisson", label: "🏨 Kaushambi / East Delhi (Radisson Blu Hub)" },
+                { id: "noida", label: "🍔 Noida Sector-62 QSR Cluster (Burger Singh)" },
+                { id: "indirapuram", label: "☁️ Indirapuram Cloud Kitchen Hub (EatClub)" },
+              ].map((hub) => (
+                <button
+                  key={hub.id}
+                  onClick={() => setSelectedHub(hub.id)}
+                  className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
+                    selectedHub === hub.id
+                      ? "bg-amber-500 text-slate-950 font-black border-amber-400"
+                      : "bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700"
+                  }`}
+                >
+                  {hub.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Collapsible Customer Cards Accordion Grid */}
+          {/* Visual SVG NCR Map with Telemetry Vectors */}
+          <div className="relative rounded-2xl bg-slate-950 border border-slate-800 p-6 overflow-hidden min-h-[280px] flex items-center justify-center">
+            <svg viewBox="0 0 800 260" className="w-full h-auto max-h-[260px]">
+              {/* Subtle Grid Map Lines */}
+              <line x1="0" y1="60" x2="800" y2="60" stroke="rgba(255,255,255,0.04)" />
+              <line x1="0" y1="130" x2="800" y2="130" stroke="rgba(255,255,255,0.04)" />
+              <line x1="0" y1="200" x2="800" y2="200" stroke="rgba(255,255,255,0.04)" />
+              <line x1="200" y1="0" x2="200" y2="260" stroke="rgba(255,255,255,0.04)" />
+              <line x1="400" y1="0" x2="400" y2="260" stroke="rgba(255,255,255,0.04)" />
+              <line x1="600" y1="0" x2="600" y2="260" stroke="rgba(255,255,255,0.04)" />
+
+              {/* Pulsing Animated Delivery Routes from Mayur Vihar Central Hub (Center 400, 130) */}
+              <path
+                d="M 400 130 L 180 80"
+                stroke={selectedHub === "radisson" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
+                strokeWidth={selectedHub === "radisson" ? "4" : "2"}
+                strokeDasharray="6 4"
+              />
+              <path
+                d="M 400 130 L 630 75"
+                stroke={selectedHub === "noida" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
+                strokeWidth={selectedHub === "noida" ? "4" : "2"}
+                strokeDasharray="6 4"
+              />
+              <path
+                d="M 400 130 L 590 195"
+                stroke={selectedHub === "indirapuram" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
+                strokeWidth={selectedHub === "indirapuram" ? "4" : "2"}
+                strokeDasharray="6 4"
+              />
+
+              {/* CENTRAL WAREHOUSE NODE (B-577 Mayur Vihar Phase-3) */}
+              <circle cx="400" cy="130" r="28" fill="rgba(245, 158, 11, 0.2)" />
+              <circle cx="400" cy="130" r="16" fill="#F59E0B" />
+              <circle cx="400" cy="130" r="6" fill="#070A12" />
+              <text x="400" y="175" fill="#F59E0B" fontSize="12" fontWeight="black" textAnchor="middle">
+                B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE (-18°C)
+              </text>
+
+              {/* Kaushambi Radisson Blu Hub Node */}
+              <circle cx="180" cy="80" r="12" fill={selectedHub === "radisson" ? "#F59E0B" : "#10B981"} />
+              <text x="180" y="60" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
+                Kaushambi / Radisson Blu (3.5 Km • 15 mins)
+              </text>
+
+              {/* Noida Sec-62 Burger Singh Cluster Node */}
+              <circle cx="630" cy="75" r="12" fill={selectedHub === "noida" ? "#F59E0B" : "#10B981"} />
+              <text x="630" y="55" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
+                Noida Sec-62 QSR Hub (8.2 Km • 22 mins)
+              </text>
+
+              {/* Indirapuram EatClub Cloud Kitchen Node */}
+              <circle cx="590" cy="195" r="12" fill={selectedHub === "indirapuram" ? "#F59E0B" : "#10B981"} />
+              <text x="590" y="220" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
+                Indirapuram Cloud Kitchen (6.4 Km • 18 mins)
+              </text>
+            </svg>
+          </div>
+        </section>
+
+        {/* CUSTOMER CRM VISUAL RADIAL GAUGE ACCORDIONS SECTION */}
+        <section className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
+                <Users className="w-3.5 h-3.5" />
+                <span>VISUAL CUSTOMER CRM • RADIAL SVG RING GAUGES &amp; STRATEGY CARDS</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                Target Account Profiles with Visual Risk &amp; Win Probability Rings
+              </h2>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredCustomers.map((cust) => {
+            {customers.map((cust) => {
               const isExpanded = expandedCustomerIds.includes(cust.id);
-              const isSelected = selectedCustomerIds.includes(cust.id);
               return (
                 <div
                   key={cust.id}
-                  className={`industrial-card rounded-2xl overflow-hidden border-2 transition-all ${
-                    isSelected
-                      ? "bg-slate-900 border-amber-400 shadow-xl"
-                      : "bg-slate-900/90 border-slate-800 hover:border-slate-700"
-                  }`}
+                  className="rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 hover:border-amber-500/50 p-6 space-y-5 transition-all shadow-2xl"
                 >
-                  {/* Card Visible Summary Header */}
-                  <div className="p-5 space-y-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-start gap-3">
-                        <button
-                          onClick={() => toggleSelectCustomer(cust.id)}
-                          className="mt-1 text-slate-400 hover:text-amber-400 cursor-pointer"
-                        >
-                          {isSelected ? (
-                            <CheckSquare className="w-5 h-5 text-amber-400" />
-                          ) : (
-                            <Square className="w-5 h-5 text-slate-500" />
-                          )}
-                        </button>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono-spec font-bold uppercase">
-                              {cust.segment}
-                            </span>
-                            <span className="text-[11px] text-amber-400 font-mono-spec font-bold">
-                              • {cust.monthlyCaseVolume}
-                            </span>
-                          </div>
-                          <h3 className="text-base font-extrabold text-white mt-1">
-                            {cust.name}
-                          </h3>
-                        </div>
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-amber-400 text-[10px] font-mono-spec font-black uppercase">
+                          {cust.segment}
+                        </span>
+                        <span className="text-xs font-mono-spec text-slate-400">
+                          {cust.monthlyCaseVolume}
+                        </span>
                       </div>
-
-                      {/* Visual Circular/Horizontal Meters */}
-                      <div className="flex items-center gap-2 shrink-0">
-                        <div className="text-right font-mono-spec">
-                          <span className="text-[9px] text-slate-400 uppercase block">Payment Risk</span>
-                          <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-black text-xs border border-emerald-500/40">
-                            {cust.paymentRiskPct}% RISK
-                          </span>
-                        </div>
-                        <div className="text-right font-mono-spec">
-                          <span className="text-[9px] text-slate-400 uppercase block">Acceptance</span>
-                          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-black text-xs border border-amber-500/40">
-                            {cust.acceptanceRatePct}% WIN
-                          </span>
-                        </div>
-                      </div>
+                      <h3 className="text-lg font-black text-white">{cust.name}</h3>
+                      <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
+                        <MapPin className="w-3.5 h-3.5 text-sky-400" />
+                        <span>{cust.location}</span>
+                      </p>
                     </div>
 
-                    {/* Quick Visual Progress Bars for Risk & Acceptance */}
-                    <div className="grid grid-cols-2 gap-3 pt-1">
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
-                          <span>Credit Safety Gauge:</span>
-                          <span className="text-emerald-400 font-bold">{100 - cust.paymentRiskPct}% Safe</span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                          <div className="h-full bg-emerald-400" style={{ width: `${100 - cust.paymentRiskPct}%` }} />
-                        </div>
-                      </div>
-
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
-                          <span>Acquisition Probability:</span>
-                          <span className="text-amber-400 font-bold">{cust.acceptanceRatePct}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                          <div className="h-full bg-amber-400" style={{ width: `${cust.acceptanceRatePct}%` }} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Decision Maker & Quick CTAs */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
-                      <div className="flex items-center gap-2 text-xs text-slate-300">
-                        <UserCheck className="w-4 h-4 text-amber-400" />
-                        <span>Contact: <strong>{cust.contactPerson}</strong></span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleSendWhatsApp(cust)}
-                          className="px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 border border-emerald-500/40 font-mono-spec text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-                        >
-                          <MessageSquare className="w-3.5 h-3.5" />
-                          <span>WhatsApp Quote</span>
-                        </button>
-
-                        {/* INTERACTIVE DROPDOWN ACCORDION BUTTON */}
-                        <button
-                          onClick={() => toggleCustomerAccordion(cust.id)}
-                          className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-white font-mono-spec text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-                        >
-                          <span>{isExpanded ? "Hide Background" : "Full Profile & Strategy"}</span>
-                          {isExpanded ? (
-                            <ChevronUp className="w-4 h-4" />
-                          ) : (
-                            <ChevronDown className="w-4 h-4" />
-                          )}
-                        </button>
-                      </div>
+                    {/* Circular Visual SVG Gauge Rings */}
+                    <div className="flex items-center gap-5">
+                      <CircularProgressRing
+                        percentage={100 - cust.paymentRiskPct}
+                        color={cust.paymentRiskPct <= 6 ? "#10B981" : "#F59E0B"}
+                        valueText={`${cust.paymentRiskPct}%`}
+                        label="PAYMENT RISK"
+                      />
+                      <CircularProgressRing
+                        percentage={cust.acceptanceRatePct}
+                        color="#F59E0B"
+                        valueText={`${cust.acceptanceRatePct}%`}
+                        label="WIN PROBABILITY"
+                      />
                     </div>
                   </div>
 
-                  {/* COLLAPSIBLE INTERACTIVE DROPDOWN DETAILS AREA */}
-                  {isExpanded && (
-                    <div className="p-5 bg-slate-950 border-t-2 border-slate-800 space-y-4 animate-in fade-in duration-300">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
-                          <span className="text-[10px] font-mono-spec font-bold text-amber-400 uppercase block">
-                            ⭐ WHY HE IS A GOOD CUSTOMER:
-                          </span>
-                          <p className="text-xs text-slate-200 font-medium leading-relaxed">
-                            {cust.whyGoodCustomer}
-                          </p>
-                        </div>
+                  {/* Why He Is a Good Customer Card */}
+                  <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 space-y-2">
+                    <span className="text-xs font-mono-spec font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                      <span>WHY HE IS A GOOD CUSTOMER &amp; LONG-TERM EVALUATION:</span>
+                    </span>
+                    <p className="text-xs text-slate-200 font-medium leading-relaxed">
+                      {cust.whyGoodCustomer}
+                    </p>
+                    <p className="text-[11px] text-slate-400 leading-relaxed pt-1 border-t border-slate-800/60">
+                      {cust.longTermEvaluation}
+                    </p>
+                  </div>
 
-                        <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
-                          <span className="text-[10px] font-mono-spec font-bold text-slate-400 uppercase block">
-                            📋 LONG-TERM RUN &amp; PAYMENT EVALUATION:
-                          </span>
-                          <p className="text-xs text-slate-300 leading-relaxed">
-                            {cust.longTermEvaluation}
-                          </p>
-                        </div>
-                      </div>
+                  {/* Expandable Actionable Customer Acquisition Recommendations */}
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                    <div className="flex items-center gap-2 text-xs text-slate-300">
+                      <UserCheck className="w-4 h-4 text-amber-400" />
+                      <span>Contact: <strong>{cust.contactPerson}</strong></span>
+                    </div>
 
-                      {/* Actionable Step-by-Step Acquisition Plan */}
-                      {cust.acquisitionRecommendations && (
-                        <div className="p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500/40 space-y-2">
-                          <span className="text-xs font-mono-spec font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <Target className="w-4 h-4" />
-                            <span>CUSTOMIZED ACQUISITION RECOMMENDATIONS (HOW TO WIN THIS ACCOUNT):</span>
-                          </span>
-                          <ul className="space-y-1.5 text-xs text-slate-200 font-medium">
-                            {cust.acquisitionRecommendations.map((rec, rIdx) => (
-                              <li key={rIdx} className="flex items-start gap-2">
-                                <span className="text-amber-400 font-bold">•</span>
-                                <span>{rec}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                    <button
+                      onClick={() => toggleCustomerAccordion(cust.id)}
+                      className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <span>{isExpanded ? "Hide Acquisition Plan" : "Show Acquisition Plan"}</span>
+                      {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  {isExpanded && cust.acquisitionRecommendations && (
+                    <div className="p-4 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 space-y-2 animate-in fade-in duration-300">
+                      <span className="text-xs font-mono-spec font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <Target className="w-4 h-4" />
+                        <span>CUSTOMIZED ACQUISITION ACTION RECOMMENDATIONS:</span>
+                      </span>
+                      <ul className="space-y-1.5 text-xs text-slate-200 font-medium">
+                        {cust.acquisitionRecommendations.map((rec, rIdx) => (
+                          <li key={rIdx} className="flex items-start gap-2">
+                            <span className="text-amber-400 font-bold">•</span>
+                            <span>{rec}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </div>
               );
             })}
-          </div>
-        </section>
-
-        {/* VISUAL CHART 2: REGIONAL COMPETITOR VISUAL PERFORMANCE SCORECARD */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
-                <Award className="w-3.5 h-3.5" />
-                <span>VISUAL BENCHMARKS • COMPETITOR SCORECARD METERS</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Where SG Trading Company Dominates vs. Regional Competitors
-              </h2>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* SG Trading Company Scorecard */}
-            <div className="industrial-card p-6 rounded-2xl bg-gradient-to-b from-slate-900 via-slate-900 to-amber-950/40 border-2 border-amber-500 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div>
-                  <span className="px-2.5 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-mono-spec font-black uppercase">
-                    OUR OVERALL SCORE: 98/100
-                  </span>
-                  <h3 className="text-lg font-black text-white mt-1">
-                    🏆 SG Trading Company (Mayur Vihar-3)
-                  </h3>
-                </div>
-                <Flame className="w-6 h-6 text-amber-400" />
-              </div>
-
-              <div className="space-y-3 font-mono-spec text-xs">
-                <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
-                    <span>-18°C Cold Chain Assurance:</span>
-                    <span className="text-emerald-400 font-bold">100% Verified</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-400 w-full" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
-                    <span>Delivery Speed (East Delhi/Noida):</span>
-                    <span className="text-amber-400 font-bold">2 - 4 Hours</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-400 w-11/12" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-slate-300 mb-1">
-                    <span>Low MOQ Flexibility:</span>
-                    <span className="text-emerald-400 font-bold">1 Master Case</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-emerald-400 w-full" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Metro Cash & Carry Scorecard */}
-            <div className="industrial-card p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div>
-                  <span className="px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono-spec font-bold uppercase">
-                    COMPETITOR SCORE: 74/100
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-200 mt-1">
-                    Metro Cash &amp; Carry / Reliance B2B
-                  </h3>
-                </div>
-              </div>
-
-              <div className="space-y-3 font-mono-spec text-xs">
-                <div>
-                  <div className="flex justify-between text-slate-400 mb-1">
-                    <span>-18°C Cold Chain Assurance:</span>
-                    <span className="text-amber-400 font-bold">70% (Defrost Risk)</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 w-7/10" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-slate-400 mb-1">
-                    <span>Delivery Speed:</span>
-                    <span className="text-slate-300 font-bold">24 - 48 Hours</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-slate-600 w-1/2" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mandi Wholesalers Scorecard */}
-            <div className="industrial-card p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div>
-                  <span className="px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono-spec font-bold uppercase">
-                    UNORGANIZED SCORE: 45/100
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-200 mt-1">
-                    Ghazipur / Mandi Cash Traders
-                  </h3>
-                </div>
-              </div>
-
-              <div className="space-y-3 font-mono-spec text-xs">
-                <div>
-                  <div className="flex justify-between text-slate-400 mb-1">
-                    <span>-18°C Cold Chain Assurance:</span>
-                    <span className="text-red-400 font-bold">30% (High Defrost)</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-red-500 w-3/10" />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-slate-400 mb-1">
-                    <span>GST B2B Compliance:</span>
-                    <span className="text-red-400 font-bold">Uncertain Kachha Bill</span>
-                  </div>
-                  <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                    <div className="h-full bg-red-500 w-2/10" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 4: INTERACTIVE WHAT-IF SCENARIO MANAGER & LIVE SLIDER SIMULATOR */}
-        <section id="whatif-simulator" className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
-                <Sliders className="w-3.5 h-3.5" />
-                <span>INTERACTIVE WHAT-IF SCENARIO MANAGER &amp; LIVE ADOPTION SIMULATOR</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Simulate Strategic Growth Moves Live
-              </h2>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-7 space-y-4">
-              {scenarios.map((sc) => (
-                <div
-                  key={sc.id}
-                  onClick={() => toggleScenario(sc.id)}
-                  className={`p-5 rounded-2xl border-2 transition-all cursor-pointer ${
-                    sc.active
-                      ? "bg-slate-900 border-amber-500 shadow-xl shadow-amber-500/10"
-                      : "bg-slate-950/70 border-slate-800 opacity-70 hover:opacity-100"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono-spec uppercase">
-                          {sc.category}
-                        </span>
-                        {sc.active && (
-                          <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono-spec font-black">
-                            ● SCENARIO ACTIVE IN PROJECTION
-                          </span>
-                        )}
-                      </div>
-                      <h4 className="text-base font-extrabold text-white">{sc.name}</h4>
-                      <p className="text-xs text-slate-300">{sc.description}</p>
-                    </div>
-
-                    <div className="text-right font-mono-spec shrink-0">
-                      <span className="text-xs text-slate-400 block">Monthly Lift</span>
-                      <span className="text-lg font-black text-emerald-400">
-                        +₹{sc.projectedRevenueGainLakhs.toFixed(1)} L/mo
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="lg:col-span-5 industrial-card p-6 sm:p-8 rounded-2xl bg-slate-900 border-2 border-amber-500 space-y-6 sticky top-24">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div>
-                  <span className="text-xs font-mono-spec text-amber-400 font-extrabold uppercase block">
-                    LIVE PROJECTION CONSOLE
-                  </span>
-                  <h3 className="text-lg font-black text-white">
-                    Combined Adoption Projection Summary
-                  </h3>
-                </div>
-                <BarChart3 className="w-6 h-6 text-amber-400" />
-              </div>
-
-              <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                  <span className="text-xs text-slate-400 font-mono-spec">Current Monthly Base Revenue:</span>
-                  <div className="text-xl font-bold text-slate-300 font-mono-spec">
-                    ₹{baseMonthlyRev.toFixed(2)} Lakhs / month
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 space-y-1">
-                  <span className="text-xs text-emerald-400 font-mono-spec font-bold">
-                    + Projected Monthly Lift (Active Scenarios):
-                  </span>
-                  <div className="text-2xl font-black text-emerald-400 font-mono-spec">
-                    +₹{addedRevGain.toFixed(2)} Lakhs / month
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-amber-500/10 border-2 border-amber-500 space-y-1">
-                  <span className="text-xs text-amber-400 font-mono-spec font-extrabold uppercase">
-                    = Total Projected Monthly Revenue Run-Rate:
-                  </span>
-                  <div className="text-3xl font-black text-white font-mono-spec">
-                    ₹{totalProjectedMonthlyRev.toFixed(2)} Lakhs
-                  </div>
-                  <span className="text-xs text-slate-400 block pt-1">
-                    Annualized Run-Rate: <strong className="text-amber-400">₹{(totalProjectedMonthlyRev * 12).toFixed(1)} Lakhs/yr</strong>
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </main>
