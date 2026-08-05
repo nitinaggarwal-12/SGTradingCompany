@@ -165,16 +165,13 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     },
   ];
 
-  const [isDealsDropdownOpen, setIsDealsDropdownOpen] = useState(false);
-  const [isOperationsDropdownOpen, setIsOperationsDropdownOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<"mega" | "deals" | "operations" | null>(null);
 
   return (
     <header
       className="sticky top-0 w-full bg-slate-950 border-b border-slate-800/80 z-50"
       onMouseLeave={() => {
-        setIsMegaMenuOpen(false);
-        setIsDealsDropdownOpen(false);
-        setIsOperationsDropdownOpen(false);
+        setActiveMenu(null);
         setIsSearchFocused(false);
       }}
     >
@@ -207,27 +204,30 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             {/* GROUP 1: Sleek Compact All Brands Dropdown Trigger */}
             <div
               className="relative"
-              onMouseEnter={() => setIsMegaMenuOpen(true)}
+              onMouseEnter={() => setActiveMenu("mega")}
             >
               <button
-                onClick={() => setIsMegaMenuOpen((prev) => !prev)}
+                onClick={() => setActiveMenu(activeMenu === "mega" ? null : "mega")}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-extrabold transition-all cursor-pointer"
               >
                 <span>All 12 Brands</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 text-amber-400 transition-transform ${
-                    isMegaMenuOpen ? "rotate-180" : ""
+                    activeMenu === "mega" ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
               {/* COMPACT SINGLE VERTICAL DROPDOWN MENU */}
-              {isMegaMenuOpen && (
-                <div className="absolute top-full left-0 mt-2 w-80 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2.5 space-y-1.5 z-50 animate-in fade-in slide-in-from-top-2">
+              {activeMenu === "mega" && (
+                <div
+                  onMouseEnter={() => setActiveMenu("mega")}
+                  className="absolute top-full left-0 mt-2 w-80 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2.5 space-y-1.5 z-50 animate-in fade-in slide-in-from-top-2"
+                >
                   <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] font-mono-spec text-amber-400 uppercase font-bold">
                     <span>Authorized Distribution Directory</span>
                     <button
-                      onClick={() => setIsMegaMenuOpen(false)}
+                      onClick={() => setActiveMenu(null)}
                       className="text-slate-400 hover:text-white"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -288,30 +288,33 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             {/* GROUP 2: LOGICAL GROUPING — DEALS, CASHBACK & REWARDS DROPDOWN */}
             <div
               className="relative"
-              onMouseEnter={() => setIsDealsDropdownOpen(true)}
+              onMouseEnter={() => setActiveMenu("deals")}
             >
               <button
-                onClick={() => setIsDealsDropdownOpen((prev) => !prev)}
+                onClick={() => setActiveMenu(activeMenu === "deals" ? null : "deals")}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold border border-amber-500/40 transition-all cursor-pointer"
               >
                 <Flame className="w-3.5 h-3.5" />
                 <span>Deals &amp; Rewards</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform ${
-                    isDealsDropdownOpen ? "rotate-180" : ""
+                    activeMenu === "deals" ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
-              {isDealsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-76 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs">
+              {activeMenu === "deals" && (
+                <div
+                  onMouseEnter={() => setActiveMenu("deals")}
+                  className="absolute top-full left-0 mt-2 w-76 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                >
                   <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
                     Wholesale Savings &amp; VIP Chef Incentives
                   </div>
 
                   <Link
                     href="/offers"
-                    onClick={() => setIsDealsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Flame className="w-4 h-4 text-amber-400" />
@@ -323,7 +326,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/offers"
-                    onClick={() => setIsDealsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Gift className="w-4 h-4 text-emerald-400" />
@@ -335,7 +338,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/coming-soon"
-                    onClick={() => setIsDealsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -351,30 +354,35 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             {/* GROUP 3: LOGICAL GROUPING — OPERATIONS & INTELLIGENCE SUITE DROPDOWN */}
             <div
               className="relative"
-              onMouseEnter={() => setIsOperationsDropdownOpen(true)}
+              onMouseEnter={() => setActiveMenu("operations")}
             >
               <button
-                onClick={() => setIsOperationsDropdownOpen((prev) => !prev)}
+                onClick={() =>
+                  setActiveMenu(activeMenu === "operations" ? null : "operations")
+                }
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-200 hover:text-white font-extrabold transition-all cursor-pointer"
               >
                 <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
                 <span>Operations &amp; Intelligence</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 text-amber-400 transition-transform ${
-                    isOperationsDropdownOpen ? "rotate-180" : ""
+                    activeMenu === "operations" ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
-              {isOperationsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-72 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs">
+              {activeMenu === "operations" && (
+                <div
+                  onMouseEnter={() => setActiveMenu("operations")}
+                  className="absolute top-full right-0 mt-2 w-72 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                >
                   <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
                     Wholesale B2B Operations &amp; Intelligence
                   </div>
 
                   <Link
                     href="/market-intelligence"
-                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <BarChart3 className="w-4 h-4 text-amber-400" />
@@ -386,7 +394,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/stock-manager"
-                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Boxes className="w-4 h-4 text-emerald-400" />
@@ -398,7 +406,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/order-to-cash"
-                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <FileText className="w-4 h-4 text-sky-400" />
@@ -410,7 +418,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/rfq-workspace"
-                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Scale className="w-4 h-4 text-amber-400" />
@@ -422,7 +430,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <Link
                     href="/#about"
-                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    onClick={() => setActiveMenu(null)}
                     className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
                   >
                     <Building2 className="w-4 h-4 text-amber-400" />
