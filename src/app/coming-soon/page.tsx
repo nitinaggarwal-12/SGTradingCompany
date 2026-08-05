@@ -175,6 +175,34 @@ const UPCOMING_PRODUCTS: UpcomingProduct[] = [
     eoiCount: 153,
     featured: true,
   },
+  {
+    id: "veeba-white-garlic-mayo-5kg",
+    brand: "Veeba Food Services",
+    brandCategory: "Commercial Sauces & Puree",
+    name: "Veeba Commercial White Garlic & Tandoori Mayonnaise Bucket",
+    packSize: "5 Kg Commercial Heavy-Duty Pail",
+    teaserImage: "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=800&q=85",
+    expectedLaunch: "Q3 2026 • Mayur Vihar Phase-3 Hub",
+    estimatedWholesalePrice: "₹680 / 5 Kg Bucket",
+    description: "Velvety heat-stable white garlic & eggless tandoori mayo pails engineered for rolls, momos, shawarmas, and burger finishing.",
+    chefBenefit: "Zero emulsion separation even when spread on sizzling griddle wraps.",
+    eoiCount: 204,
+    featured: true,
+  },
+  {
+    id: "iscon-balaji-super-crunch-fries",
+    brand: "Iscon Balaji Frozen",
+    brandCategory: "Frozen Potato & Snacks",
+    name: "Iscon Balaji 9mm Coated Super-Crunch Shoestring Fries",
+    packSize: "4 x 2.5 Kg Master Carton (10 Kg)",
+    teaserImage: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=800&q=85",
+    expectedLaunch: "Q3 2026 • Mayur Vihar Cold Room 1",
+    estimatedWholesalePrice: "₹340 / 2.5 Kg Pack (₹1,360 / Master Case)",
+    description: "High-yield Indian-grown coated potato fries with 25-minute delivery crunch retention at ₹40 lower per pack cost.",
+    chefBenefit: "Increases cloud kitchen net margin per fry basket by 14%.",
+    eoiCount: 188,
+    featured: true,
+  },
 ];
 
 export default function ComingSoonLaunchPage() {
@@ -282,6 +310,8 @@ export default function ComingSoonLaunchPage() {
               "ITC Master Chef Retort",
               "Britannia Commercial Cheese",
               "Sleepy Owl GT Beverage",
+              "Veeba Food Services",
+              "Iscon Balaji Frozen",
             ].map((brand) => (
               <button
                 key={brand}
