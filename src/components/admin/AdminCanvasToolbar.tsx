@@ -8,18 +8,31 @@ import {
   Save,
   Plus,
   RotateCcw,
-  CheckCircle2,
-  Sparkles,
-  Edit3,
+  Undo2,
+  Redo2,
+  Monitor,
+  Tablet,
+  Smartphone,
+  History,
+  FileEdit,
   X,
+  Sparkles,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import { ViewportMode } from "@/types/layout";
 
 interface AdminCanvasToolbarProps {
   isCanvasMode: boolean;
   onToggleCanvasMode: (enabled: boolean) => void;
   onAddNewProduct: () => void;
   onSaveCanvasLive: () => Promise<void>;
+  onSaveAsDraft: () => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  viewportMode: ViewportMode;
+  onViewportChange: (mode: ViewportMode) => void;
   hasUnsavedChanges: boolean;
 }
 
@@ -28,10 +41,18 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
   onToggleCanvasMode,
   onAddNewProduct,
   onSaveCanvasLive,
+  onSaveAsDraft,
+  onUndo,
+  onRedo,
+  canUndo,
+  canRedo,
+  viewportMode,
+  onViewportChange,
   hasUnsavedChanges,
 }) => {
   const { showToast } = useApp();
   const [showPinModal, setShowPinModal] = useState(false);
+  const [showSnapshotModal, setShowSnapshotModal] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -52,7 +73,7 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
     if (pinInput === "2026" || pinInput === "9667731355") {
       setShowPinModal(false);
       onToggleCanvasMode(true);
-      showToast("🎨 Visual Canvas Edit Mode Activated! Click any amber field to edit.");
+      showToast("🎨 Visual Canvas Edit Mode Activated!");
     } else {
       setPinError(true);
     }
@@ -66,26 +87,93 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
 
   return (
     <>
-      {/* Top Sticky Canvas Control Ribbon when Edit Mode is Active */}
+      {/* Top Sticky Canvas Control Ribbon (Phase 2 & Phase 9) */}
       {isCanvasMode && (
-        <div className="fixed top-0 inset-x-0 z-[90] bg-gradient-to-r from-slate-950 via-amber-950/90 to-slate-950 border-b-2 border-amber-500 shadow-2xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-0 inset-x-0 z-[90] bg-slate-950/95 backdrop-blur-md border-b-2 border-amber-500 shadow-2xl px-4 py-2 flex flex-wrap items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300">
+          {/* Left: Active Status & Add Item */}
           <div className="flex items-center gap-3">
             <span className="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-mono-spec text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow">
-              <Edit3 className="w-3.5 h-3.5" />
-              <span>VISUAL CANVAS EDIT MODE ACTIVE</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>VISUAL CANVAS MODE</span>
             </span>
-            <span className="text-xs text-amber-200 font-mono-spec hidden sm:inline">
-              Hover &amp; click any highlighted element to edit text, prices, stock or photos.
-            </span>
+
+            {/* Undo / Redo Stack (Phase 9) */}
+            <div className="flex items-center gap-1 border-l border-r border-slate-800 px-2">
+              <button
+                onClick={onUndo}
+                disabled={!canUndo}
+                className="p-1.5 rounded-lg hover:bg-slate-800 disabled:opacity-30 text-slate-300 transition-all cursor-pointer"
+                title="Undo (Ctrl+Z)"
+              >
+                <Undo2 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={onRedo}
+                disabled={!canRedo}
+                className="p-1.5 rounded-lg hover:bg-slate-800 disabled:opacity-30 text-slate-300 transition-all cursor-pointer"
+                title="Redo (Ctrl+Y)"
+              >
+                <Redo2 className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Responsive Viewport Simulator Toggles (Phase 2) */}
+            <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+              <button
+                onClick={() => onViewportChange("desktop")}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                  viewportMode === "desktop"
+                    ? "bg-amber-500 text-slate-950"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Desktop 1440px Viewport"
+              >
+                <Monitor className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Desktop</span>
+              </button>
+              <button
+                onClick={() => onViewportChange("tablet")}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                  viewportMode === "tablet"
+                    ? "bg-amber-500 text-slate-950"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Tablet 834px Viewport"
+              >
+                <Tablet className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Tablet</span>
+              </button>
+              <button
+                onClick={() => onViewportChange("mobile")}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                  viewportMode === "mobile"
+                    ? "bg-amber-500 text-slate-950"
+                    : "text-slate-400 hover:text-white"
+                }`}
+                title="Mobile 390px Viewport"
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Mobile</span>
+              </button>
+            </div>
           </div>
 
+          {/* Right: Actions (Add SKU, Save Draft, Save & Deploy Live, Exit) */}
           <div className="flex items-center gap-2">
             <button
               onClick={onAddNewProduct}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>+ Add New Product SKU</span>
+              <span>+ Add Product SKU</span>
+            </button>
+
+            <button
+              onClick={onSaveAsDraft}
+              className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              <FileEdit className="w-3.5 h-3.5" />
+              <span>Save Draft</span>
             </button>
 
             <button
@@ -96,10 +184,8 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
               <Save className="w-3.5 h-3.5" />
               <span>
                 {isSaving
-                  ? "Publishing Live..."
-                  : hasUnsavedChanges
-                  ? "💾 Save & Deploy Changes (Unsaved)"
-                  : "💾 Save & Deploy Changes Live"}
+                  ? "Publishing..."
+                  : "💾 Save & Deploy Live (0.2s)"}
               </span>
             </button>
 

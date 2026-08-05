@@ -1,0 +1,34 @@
+[
+  {
+    "id": "block-showcase-01",
+    "type": "CommercialShowcaseCarousel",
+    "title": "Commercial HORECA & GT Studio Photography Carousel",
+    "enabled": true,
+    "order": 1,
+    "props": {}
+  },
+  {
+    "id": "block-ticker-01",
+    "type": "BrandTicker",
+    "title": "12 Authorized Commercial Brand Ticker (McCain, ITC, Veeba, Britannia...)",
+    "enabled": true,
+    "order": 2,
+    "props": {}
+  },
+  {
+    "id": "block-catalog-01",
+    "type": "EquipmentCatalog",
+    "title": "B2B Commercial FMCG Product Catalog & Wholesale Matrix",
+    "enabled": true,
+    "order": 3,
+    "props": {}
+  },
+  {
+    "id": "block-contact-01",
+    "type": "ContactUsSection",
+    "title": "Rahul Garg & Sonu Direct Contact, Mayur Vihar Phase-3 Warehouse Maps & Paytm UPI Standee",
+    "enabled": true,
+    "order": 4,
+    "props": {}
+  }
+]

@@ -1,10 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { X, Save, Sparkles, Image as ImageIcon, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  X,
+  Save,
+  Sparkles,
+  Upload,
+  CheckCircle2,
+  Image as ImageIcon,
+} from "lucide-react";
 import { Product } from "@/types/equipment";
+import { LayoutBlock } from "@/types/layout";
 
-export type EditableItemType = "text" | "product" | "contact";
+export type EditableItemType = "text" | "product" | "contact" | "block";
 
 export interface EditableTarget {
   type: EditableItemType;
@@ -12,6 +20,7 @@ export interface EditableTarget {
   fieldKey: string;
   value: any;
   product?: Product;
+  block?: LayoutBlock;
 }
 
 interface AdminPropertyInspectorModalProps {
@@ -19,20 +28,26 @@ interface AdminPropertyInspectorModalProps {
   onClose: () => void;
   onSaveText: (fieldKey: string, newValue: string) => void;
   onSaveProduct: (updatedProduct: Product) => void;
+  onSaveBlockProps?: (blockId: string, updatedProps: Record<string, any>) => void;
 }
 
 export const AdminPropertyInspectorModal: React.FC<
   AdminPropertyInspectorModalProps
-> = ({ target, onClose, onSaveText, onSaveProduct }) => {
+> = ({ target, onClose, onSaveText, onSaveProduct, onSaveBlockProps }) => {
   const [textValue, setTextValue] = useState("");
   const [editedProduct, setEditedProduct] = useState<Product | null>(null);
+  const [editedBlock, setEditedBlock] = useState<LayoutBlock | null>(null);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (target) {
       setSavedSuccess(false);
       if (target.type === "product" && target.product) {
         setEditedProduct({ ...target.product });
+      } else if (target.type === "block" && target.block) {
+        setEditedBlock({ ...target.block });
       } else {
         setTextValue(String(target.value || ""));
       }
@@ -41,9 +56,32 @@ export const AdminPropertyInspectorModal: React.FC<
 
   if (!target) return null;
 
+  // Integrated Media Drag-and-Drop Pipeline (Phase 5)
+  const handleFileUpload = (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      if (editedProduct) {
+        setEditedProduct({ ...editedProduct, image: dataUrl });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingFile(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileUpload(e.dataTransfer.files[0]);
+    }
+  };
+
   const handleSave = () => {
     if (target.type === "product" && editedProduct) {
       onSaveProduct(editedProduct);
+    } else if (target.type === "block" && editedBlock && onSaveBlockProps) {
+      onSaveBlockProps(editedBlock.id, editedBlock.props || {});
     } else {
       onSaveText(target.fieldKey, textValue);
     }
@@ -73,15 +111,15 @@ export const AdminPropertyInspectorModal: React.FC<
         </div>
 
         {/* Inspector Body */}
-        <div className="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <div className="p-5 space-y-4 max-h-[75vh] overflow-y-auto">
           {savedSuccess ? (
             <div className="py-8 text-center space-y-2">
               <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
               <h4 className="text-base font-extrabold text-white">
-                Canvas Field Updated Live!
+                Canvas Property Updated Live!
               </h4>
               <p className="text-xs text-slate-400">
-                Changes applied to preview canvas. Click Save &amp; Publish when ready.
+                Changes applied to canvas. Click Save &amp; Deploy when ready.
               </p>
             </div>
           ) : target.type === "product" && editedProduct ? (
@@ -175,13 +213,49 @@ export const AdminPropertyInspectorModal: React.FC<
                 </div>
               </div>
 
+              {/* INTEGRATED MEDIA DRAG-AND-DROP FILE UPLOADER (PHASE 5) */}
               <div>
                 <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
-                  Primary Commercial Photo URL
+                  Product Commercial Photo (Drag-and-Drop File or Paste URL)
                 </label>
-                <div className="flex gap-2">
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDraggingFile(true);
+                  }}
+                  onDragLeave={() => setIsDraggingFile(false)}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`p-4 border-2 border-dashed rounded-xl text-center cursor-pointer transition-all ${
+                    isDraggingFile
+                      ? "border-amber-400 bg-amber-500/10"
+                      : "border-slate-700 hover:border-amber-500/60 bg-slate-950"
+                  }`}
+                >
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        handleFileUpload(e.target.files[0]);
+                      }
+                    }}
+                  />
+                  <Upload className="w-5 h-5 text-amber-400 mx-auto mb-1.5" />
+                  <p className="text-xs font-bold text-white">
+                    Drop photo file here or click to upload
+                  </p>
+                  <p className="text-[10px] font-mono-spec text-slate-400">
+                    Supports JPG, PNG, WEBP commercial studio photography
+                  </p>
+                </div>
+
+                <div className="mt-2 flex gap-2">
                   <input
                     type="text"
+                    placeholder="Or paste Image URL..."
                     value={editedProduct.image}
                     onChange={(e) =>
                       setEditedProduct({
@@ -192,6 +266,7 @@ export const AdminPropertyInspectorModal: React.FC<
                     className="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
                   />
                 </div>
+
                 {editedProduct.image && (
                   <img
                     src={editedProduct.image}

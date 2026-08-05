@@ -20,11 +20,28 @@ import { DistributionConciergeChatbot } from "@/components/chat/DistributionConc
 import { MobileCommercialAppView } from "@/components/mobile/MobileCommercialAppView";
 import { ColdChain3DVisualizer } from "@/components/home/ColdChain3DVisualizer";
 import { CommercialShowcaseCarousel } from "@/components/home/CommercialShowcaseCarousel";
-import { CheckCircle2 } from "lucide-react";
+import {
+  CheckCircle2,
+  ArrowUp,
+  ArrowDown,
+  Eye,
+  EyeOff,
+  Move,
+} from "lucide-react";
 
 export default function HomePage() {
-  const { toastMessage, theme } = useApp();
-  const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
+  const {
+    toastMessage,
+    theme,
+    isCanvasMode,
+    layoutBlocks,
+    moveBlockUp,
+    moveBlockDown,
+    toggleBlockEnabled,
+    viewportMode,
+  } = useApp();
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("All Categories");
 
   const scrollToCatalog = () => {
     const el = document.getElementById("catalog");
@@ -33,13 +50,41 @@ export default function HomePage() {
     }
   };
 
+  // Component Registry mapping BlockType string to live React Section component
+  const renderLayoutBlock = (type: string) => {
+    switch (type) {
+      case "CommercialShowcaseCarousel":
+        return <CommercialShowcaseCarousel />;
+      case "BrandTicker":
+        return <BrandTicker />;
+      case "EquipmentCatalog":
+        return (
+          <EquipmentCatalog
+            selectedCategory={selectedCategory}
+            onCategoryChange={(cat) => setSelectedCategory(cat)}
+          />
+        );
+      case "ContactUsSection":
+        return <ContactUsSection />;
+      default:
+        return null;
+    }
+  };
+
+  const viewportContainerClasses =
+    viewportMode === "mobile"
+      ? "max-w-[390px] mx-auto border-4 border-amber-500 rounded-[36px] overflow-hidden shadow-2xl my-6 bg-slate-950"
+      : viewportMode === "tablet"
+      ? "max-w-[834px] mx-auto border-4 border-amber-500 rounded-3xl overflow-hidden shadow-2xl my-6 bg-slate-950"
+      : "flex flex-col flex-1";
+
   return (
     <div
       className={`min-h-screen flex flex-col transition-colors duration-300 ${
         theme === "dark"
           ? "bg-slate-950 text-white"
           : "bg-slate-50 text-slate-900"
-      } relative`}
+      } relative pt-12 md:pt-0`}
     >
       {/* Toast Feedback Banner */}
       {toastMessage && (
@@ -49,11 +94,11 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* MOBILE PHONE NATIVE APP VERSION (Visible on Phones < md) */}
-      <MobileCommercialAppView />
+      {/* MOBILE PHONE NATIVE APP VERSION (Visible on Phones < md when in Desktop Mode) */}
+      {viewportMode === "desktop" && <MobileCommercialAppView />}
 
-      {/* DESKTOP WEB PORTAL VERSION (Visible on Desktop / Tablet >= md) */}
-      <div className="hidden md:flex flex-col flex-1">
+      {/* DESKTOP WEB PORTAL VERSION & RESPONSIVE VIEWPORT SIMULATOR FRAME */}
+      <div className={`hidden md:flex flex-col flex-1 ${viewportContainerClasses}`}>
         {/* Edge-to-Edge Sticky Navigation Header */}
         <StickyHeader
           onSelectCategory={(cat) => setSelectedCategory(cat)}
@@ -61,33 +106,95 @@ export default function HomePage() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1">
-          {/* High-Resolution HORECA & Cold-Chain Commercial Showcase Carousel (RIGHT AFTER HEADER) */}
-          <CommercialShowcaseCarousel />
-
+        <main className="flex-1 space-y-2">
           {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
           <HeroSection onExploreCatalog={scrollToCatalog} />
 
-          {/* Animated 3D Brand Ticker showcasing all 12 Authorized Brands */}
-          <BrandTicker />
-
-          {/* Dynamic 3D Industrial Cold-Chain & Product Quality Telemetry Visualizer */}
+          {/* Dynamic 3D Industrial Cold-Chain Telemetry Visualizer */}
           <ColdChain3DVisualizer />
 
-          {/* Multi-Faceted HORECA & General Trade Catalog */}
-          <EquipmentCatalog
-            selectedCategory={selectedCategory}
-            onCategoryChange={(cat) => setSelectedCategory(cat)}
-          />
+          {/* COMPONENT REGISTRY: SPATIAL DRAG-AND-DROP JSON LAYOUT TREE RENDERER (PHASES 3 & 8) */}
+          {layoutBlocks.map((block) => (
+            <div
+              key={block.id}
+              className={`relative transition-all ${
+                isCanvasMode
+                  ? "border-2 border-dashed border-amber-500/50 hover:border-amber-400 p-1.5 rounded-2xl bg-amber-500/5"
+                  : ""
+              }`}
+            >
+              {/* Spatial Layout Reordering Toolbar when Canvas Edit Mode is Active */}
+              {isCanvasMode && (
+                <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-slate-950/95 border border-amber-500/80 mb-2 shadow-xl">
+                  <div className="flex items-center gap-2">
+                    <Move className="w-4 h-4 text-amber-400" />
+                    <span className="text-xs font-mono-spec font-black text-amber-400 uppercase">
+                      BLOCK: {block.title}
+                    </span>
+                    <span
+                      className={`text-[10px] font-mono-spec px-2 py-0.5 rounded font-bold ${
+                        block.enabled
+                          ? "bg-emerald-500/20 text-emerald-400"
+                          : "bg-rose-500/20 text-rose-400"
+                      }`}
+                    >
+                      {block.enabled ? "ACTIVE SECTION" : "HIDDEN"}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => moveBlockUp(block.id)}
+                      className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-amber-500 text-slate-300 hover:text-slate-950 font-mono-spec text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
+                      title="Move Section Up Spatially"
+                    >
+                      <ArrowUp className="w-3.5 h-3.5" />
+                      <span>Move Up</span>
+                    </button>
+
+                    <button
+                      onClick={() => moveBlockDown(block.id)}
+                      className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-amber-500 text-slate-300 hover:text-slate-950 font-mono-spec text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
+                      title="Move Section Down Spatially"
+                    >
+                      <ArrowDown className="w-3.5 h-3.5" />
+                      <span>Move Down</span>
+                    </button>
+
+                    <button
+                      onClick={() => toggleBlockEnabled(block.id)}
+                      className={`px-2.5 py-1 rounded-lg font-mono-spec text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                        block.enabled
+                          ? "bg-rose-600/30 text-rose-300 hover:bg-rose-600"
+                          : "bg-emerald-600/30 text-emerald-300 hover:bg-emerald-600"
+                      }`}
+                    >
+                      {block.enabled ? (
+                        <>
+                          <EyeOff className="w-3.5 h-3.5" />
+                          <span>Hide</span>
+                        </>
+                      ) : (
+                        <>
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Show</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Render the block if enabled or if in Canvas Edit Mode */}
+              {(block.enabled || isCanvasMode) && renderLayoutBlock(block.type)}
+            </div>
+          ))}
 
           {/* Turnkey Case Supply Blueprints Showcase */}
           <TurnkeyShowcaseSection />
 
-          {/* Executive About Us Section — Rahul Garg & Sonu, Mayur Vihar Phase-3, Delhi */}
+          {/* Executive About Us Section */}
           <AboutUsSection />
-
-          {/* Interactive Contact Us & Direct Distributor Inquiry Desk */}
-          <ContactUsSection />
 
           {/* Core Industrial Guarantees & Cold Chain Pillars */}
           <TrustIndustrialSection />

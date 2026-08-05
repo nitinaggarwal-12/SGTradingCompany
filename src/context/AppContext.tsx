@@ -14,6 +14,8 @@ import {
 } from "@/types/equipment";
 import { PRODUCTS_CATALOG } from "@/data/products";
 import DEFAULT_SITE_CONTENT from "@/data/site-content.json";
+import DEFAULT_LAYOUT_TREE from "@/data/layout-tree.json";
+import { LayoutBlock, ViewportMode } from "@/types/layout";
 import { AdminCanvasToolbar } from "@/components/admin/AdminCanvasToolbar";
 import {
   AdminPropertyInspectorModal,
@@ -75,7 +77,7 @@ interface AppContextType {
   quickViewProduct: Product | null;
   setQuickViewProduct: (product: Product | null) => void;
 
-  // Visual Canvas Edit Mode & Live CMS Engine
+  // Visual Canvas Edit Mode & Live CMS Engine (Phases 1-9)
   isCanvasMode: boolean;
   setIsCanvasMode: (enabled: boolean) => void;
   siteContent: any;
@@ -87,6 +89,21 @@ interface AppContextType {
   openProductInspector: (product: Product) => void;
   hasUnsavedChanges: boolean;
   saveCanvasChangesLive: () => Promise<void>;
+  saveAsDraft: () => void;
+
+  // Spatial Drag-and-Drop Layout Tree Engine (Phase 3 & 8)
+  layoutBlocks: LayoutBlock[];
+  moveBlockUp: (blockId: string) => void;
+  moveBlockDown: (blockId: string) => void;
+  toggleBlockEnabled: (blockId: string) => void;
+
+  // Viewport Simulator & Undo/Redo Stack (Phase 2 & 9)
+  viewportMode: ViewportMode;
+  setViewportMode: (mode: ViewportMode) => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
 
   // Active Catalog Category Filter from Mega Menu
   activeCategoryFilter: string;
@@ -303,15 +320,106 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cart, setCart] = useState<CartItem[]>(defaultCartItems);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Visual Canvas Edit Mode & Dynamic Site Content State
+  // Visual Canvas Edit Mode & Dynamic Site Content State (Phases 1-9)
   const [rawCatalogProducts, setRawCatalogProducts] = useState<Product[]>(PRODUCTS_CATALOG);
   const [isCanvasMode, setIsCanvasMode] = useState<boolean>(false);
   const [siteContent, setSiteContent] = useState<any>(DEFAULT_SITE_CONTENT);
+  const [layoutBlocks, setLayoutBlocks] = useState<LayoutBlock[]>(
+    DEFAULT_LAYOUT_TREE as LayoutBlock[]
+  );
+  const [viewportMode, setViewportMode] = useState<ViewportMode>("desktop");
   const [inspectorTarget, setInspectorTarget] =
     useState<EditableTarget | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
 
+  // Undo / Redo Local History Stack (Phase 9)
+  const [undoStack, setUndoStack] = useState<
+    Array<{ siteContent: any; rawCatalogProducts: Product[]; layoutBlocks: LayoutBlock[] }>
+  >([]);
+  const [redoStack, setRedoStack] = useState<
+    Array<{ siteContent: any; rawCatalogProducts: Product[]; layoutBlocks: LayoutBlock[] }>
+  >([]);
+
+  const pushToHistory = () => {
+    setUndoStack((prev) => [
+      ...prev.slice(-15),
+      {
+        siteContent: JSON.parse(JSON.stringify(siteContent)),
+        rawCatalogProducts: JSON.parse(JSON.stringify(rawCatalogProducts)),
+        layoutBlocks: JSON.parse(JSON.stringify(layoutBlocks)),
+      },
+    ]);
+    setRedoStack([]);
+    setHasUnsavedChanges(true);
+  };
+
+  const onUndo = () => {
+    if (undoStack.length === 0) return;
+    const previous = undoStack[undoStack.length - 1];
+    setUndoStack((prev) => prev.slice(0, -1));
+    setRedoStack((prev) => [
+      ...prev,
+      { siteContent, rawCatalogProducts, layoutBlocks },
+    ]);
+    setSiteContent(previous.siteContent);
+    setRawCatalogProducts(previous.rawCatalogProducts);
+    setLayoutBlocks(previous.layoutBlocks);
+    showToast("↩️ Undo applied!");
+  };
+
+  const onRedo = () => {
+    if (redoStack.length === 0) return;
+    const next = redoStack[redoStack.length - 1];
+    setRedoStack((prev) => prev.slice(0, -1));
+    setUndoStack((prev) => [
+      ...prev,
+      { siteContent, rawCatalogProducts, layoutBlocks },
+    ]);
+    setSiteContent(next.siteContent);
+    setRawCatalogProducts(next.rawCatalogProducts);
+    setLayoutBlocks(next.layoutBlocks);
+    showToast("↪️ Redo applied!");
+  };
+
+  // Spatial Drag-and-Drop Layout Tree Controls (Phase 3 & 8)
+  const moveBlockUp = (blockId: string) => {
+    pushToHistory();
+    setLayoutBlocks((prev) => {
+      const idx = prev.findIndex((b) => b.id === blockId);
+      if (idx <= 0) return prev;
+      const copy = [...prev];
+      const temp = copy[idx - 1];
+      copy[idx - 1] = copy[idx];
+      copy[idx] = temp;
+      return copy;
+    });
+    showToast("⬆️ Section moved up!");
+  };
+
+  const moveBlockDown = (blockId: string) => {
+    pushToHistory();
+    setLayoutBlocks((prev) => {
+      const idx = prev.findIndex((b) => b.id === blockId);
+      if (idx === -1 || idx >= prev.length - 1) return prev;
+      const copy = [...prev];
+      const temp = copy[idx + 1];
+      copy[idx + 1] = copy[idx];
+      copy[idx] = temp;
+      return copy;
+    });
+    showToast("⬇️ Section moved down!");
+  };
+
+  const toggleBlockEnabled = (blockId: string) => {
+    pushToHistory();
+    setLayoutBlocks((prev) =>
+      prev.map((b) => (b.id === blockId ? { ...b, enabled: !b.enabled } : b))
+    );
+    showToast("👁️ Section visibility toggled!");
+  };
+
   const updateSiteContent = (fieldKey: string, newValue: string) => {
+    pushToHistory();
     setSiteContent((prev: any) => {
       const copy = JSON.parse(JSON.stringify(prev));
       const parts = fieldKey.split(".");
@@ -322,19 +430,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       current[parts[parts.length - 1]] = newValue;
       return copy;
     });
-    setHasUnsavedChanges(true);
     showToast(`Updated canvas field: ${fieldKey}`);
   };
 
   const updateProductInCatalog = (updatedProduct: Product) => {
+    pushToHistory();
     setRawCatalogProducts((prev) =>
       prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
     );
-    setHasUnsavedChanges(true);
     showToast(`Updated product SKU: ${updatedProduct.name}`);
   };
 
   const addNewProductToCatalog = () => {
+    pushToHistory();
     const newSku: Product = {
       id: `sg-custom-${Date.now()}`,
       sku: `SG-CUST-${Math.floor(100 + Math.random() * 900)}`,
@@ -361,7 +469,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       highlights: ["Direct Mayur Vihar Phase-3 Warehouse Stock"],
     };
     setRawCatalogProducts((prev) => [newSku, ...prev]);
-    setHasUnsavedChanges(true);
     setInspectorTarget({
       type: "product",
       title: newSku.name,
@@ -373,8 +480,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const deleteProductFromCatalog = (productId: string) => {
+    pushToHistory();
     setRawCatalogProducts((prev) => prev.filter((p) => p.id !== productId));
-    setHasUnsavedChanges(true);
     showToast("Removed product from Visual Canvas catalog.");
   };
 
@@ -401,15 +508,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
+  const saveAsDraft = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        "sg_canvas_draft",
+        JSON.stringify({ siteContent, rawCatalogProducts, layoutBlocks })
+      );
+    }
+    showToast("📝 Saved draft layout locally to browser!");
+  };
+
   const saveCanvasChangesLive = async () => {
     try {
       const res = await fetch("/api/admin/save-canvas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ siteContent, products: rawCatalogProducts }),
+        body: JSON.stringify({ siteContent, products: rawCatalogProducts, layoutBlocks }),
       });
       setHasUnsavedChanges(false);
-      showToast("🚀 Visual Canvas changes published live in 0.2s!");
+      showToast("🚀 Visual Canvas & Dynamic Layout Tree published live in 0.2s!");
     } catch (e) {
       setHasUnsavedChanges(false);
       showToast("🚀 Visual Canvas changes applied live!");
@@ -877,6 +994,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         openProductInspector,
         hasUnsavedChanges,
         saveCanvasChangesLive,
+        saveAsDraft,
+        layoutBlocks,
+        moveBlockUp,
+        moveBlockDown,
+        toggleBlockEnabled,
+        viewportMode,
+        setViewportMode,
+        canUndo: undoStack.length > 0,
+        canRedo: redoStack.length > 0,
+        onUndo,
+        onRedo,
         activeCategoryFilter,
         setActiveCategoryFilter,
         isInventoryModalOpen,
@@ -897,6 +1025,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         onToggleCanvasMode={setIsCanvasMode}
         onAddNewProduct={addNewProductToCatalog}
         onSaveCanvasLive={saveCanvasChangesLive}
+        onSaveAsDraft={saveAsDraft}
+        onUndo={onUndo}
+        onRedo={onRedo}
+        canUndo={undoStack.length > 0}
+        canRedo={redoStack.length > 0}
+        viewportMode={viewportMode}
+        onViewportChange={setViewportMode}
         hasUnsavedChanges={hasUnsavedChanges}
       />
 
