@@ -108,10 +108,13 @@ export default function HomePage() {
 
         {/* Main Content Area */}
         <main className="flex-1 space-y-4">
-          {/* Commercial Quality Visual Showcase Carousel Moved to Top */}
+          {/* 1. Commercial Quality Visual Showcase Carousel */}
           <CommercialShowcaseCarousel />
 
-          {/* 16 SKU AUTHORIZED PRODUCT CATALOG GRID SHOWN DIRECTLY BELOW SHOWCASE */}
+          {/* 2. Authorized Distributor Brand Infinite Marquee (Instant Direct Factory Trust) */}
+          <BrandTicker />
+
+          {/* 3. 16 SKU AUTHORIZED PRODUCT CATALOG GRID */}
           <div id="catalog">
             <EquipmentCatalog
               selectedCategory={selectedCategory}
@@ -119,20 +122,21 @@ export default function HomePage() {
             />
           </div>
 
-          {/* INSTITUTIONAL B2B GROWTH, SALES, CREDIT & VOLUME TIER SUITE */}
+          {/* 4. INSTITUTIONAL B2B GROWTH, SALES, CREDIT & VOLUME TIER SUITE */}
           <B2BGrowthAndSalesSuite />
 
-          {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
-          <HeroSection onExploreCatalog={scrollToCatalog} />
-
-          {/* Dynamic 3D Industrial Cold-Chain Telemetry Visualizer */}
+          {/* 5. Dynamic 3D Industrial Cold-Chain Telemetry & Culinary Quality Simulator */}
           <ColdChain3DVisualizer />
+
+          {/* 6. Mayur Vihar Phase-3 Warehouse Authority & Instant RFQ Concierge */}
+          <HeroSection onExploreCatalog={scrollToCatalog} />
 
           {/* COMPONENT REGISTRY: SPATIAL DRAG-AND-DROP JSON LAYOUT TREE RENDERER */}
           {layoutBlocks
             .filter(
               (block) =>
                 block.type !== "CommercialShowcaseCarousel" &&
+                block.type !== "BrandTicker" &&
                 block.type !== "EquipmentCatalog"
             )
             .map((block) => (
