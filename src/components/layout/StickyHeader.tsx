@@ -164,11 +164,14 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     },
   ];
 
+  const [isOperationsDropdownOpen, setIsOperationsDropdownOpen] = useState(false);
+
   return (
     <header
       className="sticky top-0 w-full bg-slate-950 border-b border-slate-800/80 z-50"
       onMouseLeave={() => {
         setIsMegaMenuOpen(false);
+        setIsOperationsDropdownOpen(false);
         setIsSearchFocused(false);
       }}
     >
@@ -197,15 +200,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-slate-300">
-            <Link
-              href="/market-intelligence"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold transition-all"
-            >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>Market Intelligence &amp; SWOT</span>
-            </Link>
-
+          <nav className="hidden lg:flex items-center gap-2.5 text-xs font-bold uppercase tracking-wider text-slate-300">
             {/* Sleek Compact All Brands Dropdown Trigger */}
             <div
               className="relative"
@@ -287,48 +282,114 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            {/* Warehouse Stock & O2C Status Combined Link */}
-            <Link
-              href="/stock-manager"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 font-bold hover:bg-amber-500 hover:text-slate-950 transition-all cursor-pointer"
-            >
-              <Boxes className="w-3.5 h-3.5" />
-              <span>Stock ({totalStockCount})</span>
-            </Link>
-
-            <Link
-              href="/order-to-cash"
-              className="hover:text-amber-400 text-slate-300 font-bold transition-colors flex items-center gap-1 px-2"
-            >
-              <span>Orders &amp; O2C</span>
-            </Link>
-
+            {/* Live Offers Link */}
             <Link
               href="/offers"
-              className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-bold text-xs border border-amber-500/40 transition-all flex items-center gap-1.5 shrink-0"
+              className="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-extrabold text-xs border border-amber-500/40 transition-all flex items-center gap-1.5 shrink-0"
             >
               <Flame className="w-3.5 h-3.5" />
               <span>Live Offers</span>
             </Link>
 
+            {/* Coming Soon Link */}
             <Link
               href="/coming-soon"
-              className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-bold text-xs border border-emerald-500/40 transition-all flex items-center gap-1.5 shrink-0"
+              className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-extrabold text-xs border border-emerald-500/40 transition-all flex items-center gap-1.5 shrink-0"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Coming Soon</span>
+              <span>Coming Soon (12)</span>
             </Link>
 
-            <Link
-              href="/#about"
-              className="hover:text-amber-400 font-bold transition-colors"
+            {/* CONSOLIDATED OPERATIONS & INTELLIGENCE SUITE DROPDOWN */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsOperationsDropdownOpen(true)}
             >
-              About Us
-            </Link>
+              <button
+                onClick={() => setIsOperationsDropdownOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-200 hover:text-white font-extrabold transition-all cursor-pointer"
+              >
+                <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
+                <span>Operations &amp; Intelligence</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-amber-400 transition-transform ${
+                    isOperationsDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isOperationsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-72 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs">
+                  <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
+                    Wholesale B2B Operations &amp; Intelligence
+                  </div>
+
+                  <Link
+                    href="/market-intelligence"
+                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <BarChart3 className="w-4 h-4 text-amber-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Market Intelligence &amp; SWOT</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Brand Moat &amp; Cold-Chain Strategy</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/stock-manager"
+                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Boxes className="w-4 h-4 text-emerald-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Mayur Vihar Stock ({totalStockCount})</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Live Cold Room 1 Inventory Level</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/order-to-cash"
+                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <FileText className="w-4 h-4 text-sky-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Orders &amp; Order-to-Cash (O2C)</p>
+                      <p className="text-[10px] text-slate-400 font-sans">GST Tax Invoice &amp; Dispatch Status</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/rfq-workspace"
+                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Scale className="w-4 h-4 text-amber-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">Institutional RFQ Quotation</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Custom Annual Hotel Contracts</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/#about"
+                    onClick={() => setIsOperationsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                  >
+                    <Building2 className="w-4 h-4 text-amber-400" />
+                    <div>
+                      <p className="font-extrabold text-xs">About SG Trading Hub</p>
+                      <p className="text-[10px] text-slate-400 font-sans">Mayur Vihar Phase-3 Credentials</p>
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <Link
               href="/account"
-              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px]"
+              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px] px-2"
               title={currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
             >
               {currentUser ? currentUser.companyName : "Account"}
