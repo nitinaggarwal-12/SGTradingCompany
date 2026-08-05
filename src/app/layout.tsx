@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
+import { CookieConsentBanner } from "@/components/common/CookieConsentBanner";
 
 export const metadata: Metadata = {
   title: "SG Trading Company | Commercial Kitchen & HORECA Industrial Equipment Marketplace",
@@ -19,7 +20,10 @@ export default function RootLayout({
         className="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-amber-500 selection:text-slate-950"
         suppressHydrationWarning
       >
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          {children}
+          <CookieConsentBanner />
+        </AppProvider>
       </body>
     </html>
   );

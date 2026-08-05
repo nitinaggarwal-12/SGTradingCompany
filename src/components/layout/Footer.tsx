@@ -169,7 +169,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Copyright & Disclaimer */}
         <div className="pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <p>© 2026 SG TRADING COMPANY (Rahul Garg & Sonu). All rights reserved.</p>
+          <p>© 2026 SG TRADING COMPANY. All rights reserved.</p>
           <div className="flex items-center gap-6 font-mono-spec text-slate-300">
             <span>OFFICIAL GSTIN: <strong className="text-amber-400">07ADQFS8839Q1ZQ</strong></span>
             <span>WAREHOUSE: MAYUR VIHAR PHASE-3, DELHI NCR</span>
