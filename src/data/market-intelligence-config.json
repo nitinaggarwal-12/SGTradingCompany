@@ -89,6 +89,29 @@
   ],
   "customers": [
     {
+      "id": "cust-04",
+      "name": "EatClub / Box8 Cloud Kitchen Shared Facility (Indirapuram / Vaishali Cluster)",
+      "type": "New High-Potential Prospect",
+      "segment": "Cloud Kitchen Cluster",
+      "contactPerson": "Aman Singhania (Head of Regional Procurement)",
+      "phone": "+919810564732",
+      "location": "Indirapuram Sector-14 Cloud Kitchen Hub",
+      "monthlyCaseVolume": "Target: 90 Master Cases / Month",
+      "primaryProducts": ["ITC Master Chef Chicken Nuggets", "ITC Makhani Gravy Base", "McCain Potato Cheese Balls", "Veeba Mayo"],
+      "paymentRiskPct": 9,
+      "acceptanceRatePct": 94,
+      "acceptanceTier": "VERY HIGH ACCEPTANCE (94%)",
+      "riskLevel": "SAFE / B2B CREDIT (GREEN)",
+      "riskColor": "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
+      "longTermEvaluation": "VC-backed multi-brand cloud kitchen operating 12 brands out of 1 facility. Currently buying from costly metro distributors with 24h lag.",
+      "whyGoodCustomer": "Massive potential for ITC Makhani gravy base and McCain appetizer volume with same-day express delivery from Mayur Vihar Phase-3.",
+      "acquisitionRecommendations": [
+        "1. Send free sample case of McCain 9mm Fries & ITC Makhani base directly via Mayur Vihar express van.",
+        "2. Pitch 2-hour emergency window vs. their current 24-hour metro delivery lag.",
+        "3. Offer 2% volume tier discount on >60 cases/month."
+      ]
+    },
+    {
       "id": "cust-01",
       "name": "Radisson Blu Hotel & Banquet Kitchens (East Delhi / Kaushambi Cluster)",
       "type": "Existing Institutional Account",
@@ -99,10 +122,17 @@
       "monthlyCaseVolume": "65 - 85 Master Cases / Month",
       "primaryProducts": ["McCain 9mm Fries", "Britannia Diced Mozzarella", "ITC Makhani Base", "Chatha Frankfurters"],
       "paymentRiskPct": 3,
+      "acceptanceRatePct": 88,
+      "acceptanceTier": "HIGH ACCEPTANCE (88%)",
       "riskLevel": "ULTRA-SAFE (GREEN)",
       "riskColor": "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
       "longTermEvaluation": "Institutional 5-star property with corporate NEFT 14-day billing cycle. Zero default history in 4 years. Consistently high banquet appetite for McCain fries and ITC Makhani bases.",
-      "whyGoodCustomer": "High order predictability, instant GST input compliance, and zero delivery dispute due to proximity to Mayur Vihar Phase-3 Cold Room."
+      "whyGoodCustomer": "High order predictability, instant GST input compliance, and zero delivery dispute due to proximity to Mayur Vihar Phase-3 Cold Room.",
+      "acquisitionRecommendations": [
+        "1. Share official digital -18°C temperature log certificate from Cold Room 1 prior to wedding banquets.",
+        "2. Lock in pre-festive cold room reservation so banquet kitchen never faces a stockout.",
+        "3. Introduce Britannia Commercial Mozzarella for banquet pizza stations."
+      ]
     },
     {
       "id": "cust-02",
@@ -115,10 +145,16 @@
       "monthlyCaseVolume": "110 - 140 Master Cases / Month",
       "primaryProducts": ["McCain 9mm Fries", "Veeba Eggless Mayo", "Britannia 51 Cheese Slices", "Iscon Peri Peri Fries"],
       "paymentRiskPct": 5,
+      "acceptanceRatePct": 84,
+      "acceptanceTier": "HIGH ACCEPTANCE (84%)",
       "riskLevel": "LOW RISK (GREEN)",
       "riskColor": "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
       "longTermEvaluation": "Rapidly expanding QSR burger chain with weekly automated Paytm UPI / NEFT settlement. Requires strict -18°C cold chain verification upon dock arrival.",
-      "whyGoodCustomer": "Largest single volume consumer of McCain 9mm fries and Veeba Mayonnaise pouches. High repeat order frequency every Monday and Thursday."
+      "whyGoodCustomer": "Largest single volume consumer of McCain 9mm fries and Veeba Mayonnaise pouches. High repeat order frequency every Monday and Thursday.",
+      "acquisitionRecommendations": [
+        "1. Pitch Iscon Balaji Peri Peri Crinkle Fries as a high-margin upgrade to regular fry menu.",
+        "2. Establish fixed bi-weekly dispatch route (Monday & Thursday 8 AM) from Mayur Vihar warehouse."
+      ]
     },
     {
       "id": "cust-03",
@@ -131,26 +167,16 @@
       "monthlyCaseVolume": "35 - 45 Master Cases / Month",
       "primaryProducts": ["Britannia Diced Mozzarella", "Go Diced Mozzarella", "Veeba Gourmet Pizza Sauce", "Milkana Cheese Spread"],
       "paymentRiskPct": 7,
+      "acceptanceRatePct": 91,
+      "acceptanceTier": "VERY HIGH ACCEPTANCE (91%)",
       "riskLevel": "SAFE (GREEN)",
       "riskColor": "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
       "longTermEvaluation": "Loyal neighborhood pizzeria partner. Pays via Paytm UPI Merchant QR (paytmqr69pf0i@ptys) within 24 hours of delivery. Zero credit extensions required.",
-      "whyGoodCustomer": "High-margin cheese consumer (Britannia & Go Diced Mozzarella) with 100% digital payment discipline."
-    },
-    {
-      "id": "cust-04",
-      "name": "EatClub / Box8 Cloud Kitchen Shared Facility (Indirapuram / Vaishali Cluster)",
-      "type": "New High-Potential Prospect",
-      "segment": "Cloud Kitchen Cluster",
-      "contactPerson": "Aman Singhania (Head of Regional Procurement)",
-      "phone": "+919810564732",
-      "location": "Indirapuram Sector-14 Cloud Kitchen Hub",
-      "monthlyCaseVolume": "Target: 90 Master Cases / Month",
-      "primaryProducts": ["ITC Master Chef Chicken Nuggets", "ITC Makhani Gravy Base", "McCain Potato Cheese Balls", "Veeba Mayo"],
-      "paymentRiskPct": 9,
-      "riskLevel": "SAFE / B2B CREDIT (GREEN)",
-      "riskColor": "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
-      "longTermEvaluation": "VC-backed multi-brand cloud kitchen operating 12 brands out of 1 facility. Currently buying from costly metro distributors with 24h lag.",
-      "whyGoodCustomer": "Massive potential for ITC Makhani gravy base and McCain appetizer volume with same-day express delivery from Mayur Vihar Phase-3."
+      "whyGoodCustomer": "High-margin cheese consumer (Britannia & Go Diced Mozzarella) with 100% digital payment discipline.",
+      "acquisitionRecommendations": [
+        "1. Demonstrate 42cm+ stretch gauge of Britannia Mozzarella at 280°C woodfired heat.",
+        "2. Offer 1-Master-Case MOQ flex for trial of Milkana Cheese Spread."
+      ]
     },
     {
       "id": "cust-05",
@@ -163,10 +189,16 @@
       "monthlyCaseVolume": "50 - 70 Master Cases / Month",
       "primaryProducts": ["Anoop Pure Roasted Chana Sattu", "ITC Makhani Base", "Ocean Fruit Water", "Sleepy Owl Coffee"],
       "paymentRiskPct": 11,
+      "acceptanceRatePct": 79,
+      "acceptanceTier": "MODERATE ACCEPTANCE (79%)",
       "riskLevel": "MODERATE / CASH ON DELIV (AMBER)",
       "riskColor": "text-amber-400 border-amber-500/40 bg-amber-500/10",
       "longTermEvaluation": "Well-established traditional sweet & catering family business. High seasonal surge in summer/winter Sattu and Makhani gravy orders. Pays Cash-on-Delivery or instant UPI.",
-      "whyGoodCustomer": "Highest single buyer of Anoop Roasted Chana Sattu wholesale cartons and ITC retort gravies for wedding caterings."
+      "whyGoodCustomer": "Highest single buyer of Anoop Roasted Chana Sattu wholesale cartons and ITC retort gravies for wedding caterings.",
+      "acquisitionRecommendations": [
+        "1. Conduct live tasting of ITC Master Chef Butter Chicken & Makhani gravy base for catering head chefs.",
+        "2. Maintain strict Same-Day Cash/UPI settlement policy."
+      ]
     },
     {
       "id": "cust-06",
@@ -179,10 +211,16 @@
       "monthlyCaseVolume": "40 - 55 Wholesale Cartons / Month",
       "primaryProducts": ["Ocean Fruit Water Peach", "Sleepy Owl Instant Coffee Jar", "Loyka Almond Brittle Box", "Anoop Sattu"],
       "paymentRiskPct": 14,
+      "acceptanceRatePct": 86,
+      "acceptanceTier": "HIGH ACCEPTANCE (86%)",
       "riskLevel": "MODERATE / SAME-DAY UPI (AMBER)",
       "riskColor": "text-amber-400 border-amber-500/40 bg-amber-500/10",
       "longTermEvaluation": "Cooperative association of 18 high-performing Kirana & modern grocery stores surrounding B-577 Mayur Vihar Phase-3 warehouse.",
-      "whyGoodCustomer": "Zero logistics transport cost — customers pick up directly or receive bike express within 15 minutes."
+      "whyGoodCustomer": "Zero logistics transport cost — customers pick up directly or receive bike express within 15 minutes.",
+      "acquisitionRecommendations": [
+        "1. Host quarterly neighborhood Kirana distributor meet at Mayur Vihar Phase-3 warehouse.",
+        "2. Provide promotional counter display stands for Sleepy Owl Coffee & Loyka Almond Brittle."
+      ]
     }
   ]
 }

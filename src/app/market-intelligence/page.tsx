@@ -498,23 +498,46 @@ export default function MarketIntelligenceDashboardPage() {
                       </div>
                     </div>
 
-                    {/* Risk Progress Bar */}
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[11px] font-mono-spec">
-                        <span className="text-slate-400">Long-Term Run &amp; Payment Risk Meter:</span>
-                        <span className="font-bold text-white">{cust.riskLevel}</span>
+                    {/* Risk Progress Bar & Acceptance Rate % Gauge */}
+                    <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-950/90 border border-slate-800">
+                      {/* Payment Risk Gauge */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between text-[10px] font-mono-spec">
+                          <span className="text-slate-400">Payment Risk:</span>
+                          <span className="font-black text-white">{cust.paymentRiskPct}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full ${
+                              cust.paymentRiskPct <= 6
+                                ? "bg-emerald-500"
+                                : cust.paymentRiskPct <= 12
+                                ? "bg-amber-500"
+                                : "bg-red-500"
+                            }`}
+                            style={{ width: `${Math.min(cust.paymentRiskPct * 4, 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-[9px] font-mono-spec text-slate-400 block truncate">
+                          {cust.riskLevel}
+                        </span>
                       </div>
-                      <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full ${
-                            cust.paymentRiskPct <= 6
-                              ? "bg-emerald-500"
-                              : cust.paymentRiskPct <= 12
-                              ? "bg-amber-500"
-                              : "bg-red-500"
-                          }`}
-                          style={{ width: `${Math.min(cust.paymentRiskPct * 4, 100)}%` }}
-                        />
+
+                      {/* Target Acceptance Rate Gauge */}
+                      <div className="space-y-1 border-l border-slate-800 pl-3">
+                        <div className="flex items-center justify-between text-[10px] font-mono-spec">
+                          <span className="text-slate-400">Acceptance Rate:</span>
+                          <span className="font-black text-emerald-400">{cust.acceptanceRatePct}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-emerald-400"
+                            style={{ width: `${cust.acceptanceRatePct}%` }}
+                          />
+                        </div>
+                        <span className="text-[9px] font-mono-spec text-emerald-400 font-bold block truncate">
+                          {cust.acceptanceTier}
+                        </span>
                       </div>
                     </div>
 
@@ -553,6 +576,23 @@ export default function MarketIntelligenceDashboardPage() {
                           {cust.longTermEvaluation}
                         </p>
                       </div>
+
+                      {/* Actionable Recommendations to Acquire / Expand This Customer */}
+                      {cust.acquisitionRecommendations && (
+                        <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-1.5">
+                          <span className="text-[10px] font-mono-spec font-black text-amber-400 uppercase tracking-wider flex items-center gap-1">
+                            <Target className="w-3 h-3" />
+                            <span>RECOMMENDED ACTION PLAN TO ACQUIRE / CONVERT:</span>
+                          </span>
+                          <ul className="space-y-1 text-[11px] text-slate-200 font-medium">
+                            {cust.acquisitionRecommendations.map((rec, rIdx) => (
+                              <li key={rIdx} className="leading-snug">
+                                {rec}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
 
                     {/* Primary Products Ordered */}
