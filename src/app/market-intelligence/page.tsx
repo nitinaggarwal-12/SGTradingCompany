@@ -928,6 +928,69 @@ export default function MarketIntelligenceDashboardPage() {
               </div>
             </div>
           </div>
+
+          {/* VISUAL ENHANCEMENT: B-577 MAYUR VIHAR-3 COLD ROOM 1 PALLET STORAGE RACK SURVEILLANCE */}
+          <div className="p-5 rounded-2xl bg-[#080C14] border border-slate-800/90 space-y-4 relative z-10">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <span className="text-[10px] font-mono-spec text-amber-400 font-black uppercase tracking-wider block">
+                  PALLET INVENTORY SURVEILLANCE • B-577 MAYUR VIHAR PHASE-3 COLD ROOM 1 (-18°C)
+                </span>
+                <h4 className="text-base font-black text-white">
+                  Real-Time Authorized SKU Pallet Rack Utilization
+                </h4>
+              </div>
+              <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-black border border-emerald-500/40">
+                TOTAL STOCK: 1,420 MASTER CASES READY FOR EXPRESS DISPATCH
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono-spec text-xs">
+              <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-extrabold">McCain Pallet Rack A</span>
+                  <span className="text-emerald-400 font-black">88% FULL</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                  <div className="h-full bg-emerald-400 w-[88%]" />
+                </div>
+                <span className="text-[10px] text-slate-400 block">450 Cases • 9mm Fries &amp; Cheese Balls</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-extrabold">Britannia Dairy Rack B</span>
+                  <span className="text-amber-400 font-black">74% FULL</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                  <div className="h-full bg-amber-400 w-[74%]" />
+                </div>
+                <span className="text-[10px] text-slate-400 block">320 Cases • Diced Mozzarella &amp; Slices</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-extrabold">Veeba Commercial Rack C</span>
+                  <span className="text-emerald-400 font-black">92% FULL</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                  <div className="h-full bg-emerald-400 w-[92%]" />
+                </div>
+                <span className="text-[10px] text-slate-400 block">380 Cases • Eggless Mayo &amp; Pizza Sauces</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-extrabold">ITC Master Chef Rack D</span>
+                  <span className="text-sky-400 font-black">65% FULL</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                  <div className="h-full bg-sky-400 w-[65%]" />
+                </div>
+                <span className="text-[10px] text-slate-400 block">270 Cases • Retort Gravies &amp; Nuggets</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* CUSTOMER CRM VISUAL RADIAL GAUGE ACCORDIONS SECTION */}
