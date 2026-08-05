@@ -179,7 +179,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             );
           })}
 
-          <div className="commercial-showcase-photo-gradient absolute inset-0 z-20 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-90" />
+          {/* Bottom subtle gradient strictly for text legibility */}
+          <div className="commercial-showcase-photo-gradient absolute bottom-0 left-0 right-0 h-14 z-20 bg-gradient-to-t from-slate-950/80 to-transparent pointer-events-none" />
 
           {/* Top Corner Badges */}
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-30">
