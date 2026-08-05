@@ -106,9 +106,17 @@ export default function HomePage() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 space-y-2">
+        <main className="flex-1 space-y-4">
           {/* Commercial Quality Visual Showcase Carousel Moved to Top */}
           <CommercialShowcaseCarousel />
+
+          {/* 16 SKU AUTHORIZED PRODUCT CATALOG GRID SHOWN DIRECTLY BELOW SHOWCASE */}
+          <div id="catalog">
+            <EquipmentCatalog
+              selectedCategory={selectedCategory}
+              onCategoryChange={(cat) => setSelectedCategory(cat)}
+            />
+          </div>
 
           {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
           <HeroSection onExploreCatalog={scrollToCatalog} />
@@ -116,9 +124,13 @@ export default function HomePage() {
           {/* Dynamic 3D Industrial Cold-Chain Telemetry Visualizer */}
           <ColdChain3DVisualizer />
 
-          {/* COMPONENT REGISTRY: SPATIAL DRAG-AND-DROP JSON LAYOUT TREE RENDERER (PHASES 3 & 8) */}
+          {/* COMPONENT REGISTRY: SPATIAL DRAG-AND-DROP JSON LAYOUT TREE RENDERER */}
           {layoutBlocks
-            .filter((block) => block.type !== "CommercialShowcaseCarousel")
+            .filter(
+              (block) =>
+                block.type !== "CommercialShowcaseCarousel" &&
+                block.type !== "EquipmentCatalog"
+            )
             .map((block) => (
             <div
               key={block.id}
