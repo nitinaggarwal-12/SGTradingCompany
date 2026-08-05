@@ -29,6 +29,15 @@ import {
   Edit3,
   Save,
   Plus,
+  MessageSquare,
+  Mail,
+  Phone,
+  MapPin,
+  CheckSquare,
+  Square,
+  Send,
+  ShieldAlert,
+  UserCheck,
 } from "lucide-react";
 import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
 
@@ -102,6 +111,9 @@ export default function MarketIntelligenceDashboardPage() {
   const [marketTrends, setMarketTrends] = useState(MARKET_CONFIG_DATA.marketTrends);
   const [recommendedAgencies, setRecommendedAgencies] = useState(MARKET_CONFIG_DATA.recommendedAgencies);
   const [competitorBenchmarks, setCompetitorBenchmarks] = useState(MARKET_CONFIG_DATA.competitorBenchmarks);
+  const [customers, setCustomers] = useState(MARKET_CONFIG_DATA.customers);
+  const [selectedCustomerRiskFilter, setSelectedCustomerRiskFilter] = useState<string>("all");
+  const [selectedCustomerIds, setSelectedCustomerIds] = useState<string[]>([]);
   const [isAdminEditorOpen, setIsAdminEditorOpen] = useState(false);
   const [newAgencyName, setNewAgencyName] = useState("");
   const [newAgencyReason, setNewAgencyReason] = useState("");
@@ -109,6 +121,58 @@ export default function MarketIntelligenceDashboardPage() {
   const toggleScenario = (id: string) => {
     setScenarios((prev) =>
       prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
+    );
+  };
+
+  const toggleSelectCustomer = (id: string) => {
+    setSelectedCustomerIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const selectAllCustomers = () => {
+    if (selectedCustomerIds.length === customers.length) {
+      setSelectedCustomerIds([]);
+    } else {
+      setSelectedCustomerIds(customers.map((c) => c.id));
+    }
+  };
+
+  const handleSendWhatsApp = (cust: typeof customers[0]) => {
+    const text = encodeURIComponent(
+      `Namaste ${cust.contactPerson}! SG Trading Company (Rahul Garg & Sonu, Mayur Vihar Phase-3) here.\n\n` +
+      `Fresh -18°C cold chain stock of McCain 9mm Fries, Britannia Diced Mozzarella & Veeba Mayo is ready for express dispatch today to ${cust.name}.\n\n` +
+      `📦 Direct Wholesale Rates & GST Input (07ADQFS8839Q1ZQ) Guaranteed.\n` +
+      `📞 Call/WhatsApp: 9667731355 / 9643097002`
+    );
+    window.open(`https://wa.me/${cust.phone.replace(/[^0-9]/g, "")}?text=${text}`, "_blank");
+  };
+
+  const handleSendEmailQuote = (cust: typeof customers[0]) => {
+    const subject = encodeURIComponent(`SG Trading Company • Wholesale Cold-Chain & FMCG Supply Quote for ${cust.name}`);
+    const body = encodeURIComponent(
+      `Dear ${cust.contactPerson},\n\n` +
+      `Greetings from SG Trading Company, Authorized HORECA & General Trade FMCG Distributor based at B-577 Shiv Mandir Road, Mayur Vihar Phase-3, Delhi - 110096.\n\n` +
+      `We specialize in direct institutional supply for:\n` +
+      `• McCain Food Service 9mm French Fries & Potato Cheese Balls\n` +
+      `• Britannia & Go Diced Commercial Mozzarella Cheese Blend\n` +
+      `• Veeba Commercial Eggless Mayonnaise & Pizza Sauces\n` +
+      `• ITC Master Chef Chicken Nuggets & Retort Makhani Gravy Base\n\n` +
+      `All dispatches are temperature-verified (-18°C Deep Frozen / 2°C Chilled) with full GST Credit Invoice (GSTIN: 07ADQFS8839Q1ZQ).\n\n` +
+      `Best regards,\nRahul Garg & Sonu\nSG Trading Company\nPhone: 9667731355 / 9643097002`
+    );
+    window.location.href = `mailto:sgtradingcompany@rediffmail.com?subject=${subject}&body=${body}`;
+  };
+
+  const handleBroadcastSelectedCampaign = () => {
+    if (selectedCustomerIds.length === 0) {
+      alert("Please select at least one customer account to send bulk marketing campaign.");
+      return;
+    }
+    alert(
+      `🚀 Bulk Marketing Campaign Activated for ${selectedCustomerIds.length} customer accounts!\n\n` +
+      `• Official SG Wholesale Rate Alert dispatched via WhatsApp & Email.\n` +
+      `• Priority -18°C Cold Chain Express Delivery Window reserved from Mayur Vihar Phase-3 Warehouse.`
     );
   };
 
@@ -127,6 +191,13 @@ export default function MarketIntelligenceDashboardPage() {
     setNewAgencyName("");
     setNewAgencyReason("");
   };
+
+  const filteredCustomers = customers.filter((c) => {
+    if (selectedCustomerRiskFilter === "safe") return c.paymentRiskPct <= 6;
+    if (selectedCustomerRiskFilter === "moderate") return c.paymentRiskPct > 6 && c.paymentRiskPct <= 12;
+    if (selectedCustomerRiskFilter === "caution") return c.paymentRiskPct > 12;
+    return true;
+  });
 
   // Dynamic What-If Calculations
   const activeScenarios = scenarios.filter((s) => s.active);
@@ -184,7 +255,7 @@ export default function MarketIntelligenceDashboardPage() {
         </div>
       </header>
 
-      {/* LIVE ADMIN EDITOR DRAWER (Allow Rahul Garg & Sonu to add new agency targets live) */}
+      {/* LIVE ADMIN EDITOR DRAWER */}
       {isAdminEditorOpen && (
         <div className="bg-slate-900 border-b border-amber-500/60 py-5 px-6 md:px-12 animate-in fade-in slide-in-from-top-4">
           <div className="max-w-8xl mx-auto space-y-4">
@@ -242,7 +313,7 @@ export default function MarketIntelligenceDashboardPage() {
       )}
 
       {/* Main Executive Intelligence Container */}
-      <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-10">
+      <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-12">
         {/* Executive KPI Summary Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="industrial-card p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-amber-500/50 transition-all space-y-2">
@@ -299,6 +370,232 @@ export default function MarketIntelligenceDashboardPage() {
             </p>
           </div>
         </div>
+
+        {/* NEW SECTION 05: B2B CUSTOMER CRM, CREDIT RISK METER (% RISK) & MULTI-CHANNEL MARKETING OUTREACH SUITE */}
+        <section className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
+                <Users className="w-3.5 h-3.5" />
+                <span>SECTION 05 • B2B CUSTOMER CRM, CREDIT RISK METER &amp; MARKETING OUTREACH SUITE</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+                Target Customer Profiles, Credit Risk Evaluation &amp; Instant Marketing Outreach
+              </h2>
+              <p className="text-xs text-slate-400 mt-1">
+                Each account displays payment default risk %, long-term run stability evaluation, and 1-Click WhatsApp / Email / SMS promotional links.
+              </p>
+            </div>
+
+            {/* Filter & Campaign Toolbar */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center rounded-xl bg-slate-900 border border-slate-800 p-1 text-xs font-mono-spec">
+                <button
+                  onClick={() => setSelectedCustomerRiskFilter("all")}
+                  className={`px-3 py-1.5 rounded-lg transition-all ${
+                    selectedCustomerRiskFilter === "all"
+                      ? "bg-amber-500 text-slate-950 font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  All Accounts ({customers.length})
+                </button>
+                <button
+                  onClick={() => setSelectedCustomerRiskFilter("safe")}
+                  className={`px-3 py-1.5 rounded-lg transition-all ${
+                    selectedCustomerRiskFilter === "safe"
+                      ? "bg-emerald-500 text-slate-950 font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Ultra-Safe (≤6% Risk)
+                </button>
+                <button
+                  onClick={() => setSelectedCustomerRiskFilter("moderate")}
+                  className={`px-3 py-1.5 rounded-lg transition-all ${
+                    selectedCustomerRiskFilter === "moderate"
+                      ? "bg-amber-500 text-slate-950 font-bold"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  Moderate (7-12%)
+                </button>
+              </div>
+
+              <button
+                onClick={selectAllCustomers}
+                className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono-spec font-bold flex items-center gap-1.5 border border-slate-700 cursor-pointer"
+              >
+                {selectedCustomerIds.length === customers.length ? (
+                  <>
+                    <CheckSquare className="w-4 h-4 text-amber-400" />
+                    <span>Deselect All</span>
+                  </>
+                ) : (
+                  <>
+                    <Square className="w-4 h-4 text-slate-400" />
+                    <span>Select All for Campaign</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handleBroadcastSelectedCampaign}
+                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 transition-all cursor-pointer shadow-lg"
+              >
+                <Send className="w-4 h-4" />
+                <span>Launch Bulk Outreach ({selectedCustomerIds.length} Selected)</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Customer CRM Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredCustomers.map((cust) => {
+              const isSelected = selectedCustomerIds.includes(cust.id);
+              return (
+                <div
+                  key={cust.id}
+                  className={`industrial-card rounded-2xl overflow-hidden border-2 transition-all flex flex-col justify-between ${
+                    isSelected
+                      ? "bg-slate-900 border-amber-400 shadow-xl shadow-amber-500/10"
+                      : "bg-slate-900/90 border-slate-800 hover:border-slate-700"
+                  }`}
+                >
+                  <div className="p-6 space-y-4">
+                    {/* Top Header & Risk Gauge Badge */}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-2.5">
+                        <button
+                          onClick={() => toggleSelectCustomer(cust.id)}
+                          className="mt-0.5 text-slate-400 hover:text-amber-400 cursor-pointer"
+                          title="Select for bulk marketing"
+                        >
+                          {isSelected ? (
+                            <CheckSquare className="w-5 h-5 text-amber-400" />
+                          ) : (
+                            <Square className="w-5 h-5 text-slate-500" />
+                          )}
+                        </button>
+                        <div>
+                          <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] font-mono-spec font-bold uppercase block w-fit mb-1">
+                            {cust.segment}
+                          </span>
+                          <h3 className="text-base font-extrabold text-white leading-snug">
+                            {cust.name}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Payment Risk % Meter Gauge */}
+                      <div className="text-right shrink-0">
+                        <span className="text-[10px] font-mono-spec text-slate-400 block uppercase">
+                          Payment Default Risk
+                        </span>
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-mono-spec font-black mt-0.5 shadow-sm">
+                          <span>{cust.paymentRiskPct}% RISK</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Risk Progress Bar */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px] font-mono-spec">
+                        <span className="text-slate-400">Long-Term Run &amp; Payment Risk Meter:</span>
+                        <span className="font-bold text-white">{cust.riskLevel}</span>
+                      </div>
+                      <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${
+                            cust.paymentRiskPct <= 6
+                              ? "bg-emerald-500"
+                              : cust.paymentRiskPct <= 12
+                              ? "bg-amber-500"
+                              : "bg-red-500"
+                          }`}
+                          style={{ width: `${Math.min(cust.paymentRiskPct * 4, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Decision Maker & Proximity */}
+                    <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-1.5 text-xs">
+                      <div className="flex items-center gap-2 text-slate-300 font-semibold">
+                        <UserCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <span>Decision Maker: <strong>{cust.contactPerson}</strong></span>
+                      </div>
+                      <div className="flex items-center gap-2 text-slate-400 text-[11px]">
+                        <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                        <span>{cust.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 font-mono-spec text-[11px]">
+                        <span className="text-slate-400">Monthly Run-Rate:</span>
+                        <span className="text-amber-400 font-extrabold">{cust.monthlyCaseVolume}</span>
+                      </div>
+                    </div>
+
+                    {/* Why He Is a Good Customer & Long-Term Run Evaluation */}
+                    <div className="space-y-2">
+                      <div>
+                        <span className="text-[10px] font-mono-spec font-bold text-amber-400 uppercase tracking-wider block">
+                          ⭐ Why He Is a Good Customer:
+                        </span>
+                        <p className="text-xs text-slate-200 font-medium leading-relaxed mt-0.5">
+                          {cust.whyGoodCustomer}
+                        </p>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-mono-spec font-bold text-slate-400 uppercase tracking-wider block">
+                          📋 Long-Term Run &amp; Credit Evaluation:
+                        </span>
+                        <p className="text-[11px] text-slate-300 leading-relaxed mt-0.5">
+                          {cust.longTermEvaluation}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Primary Products Ordered */}
+                    <div className="space-y-1 pt-1">
+                      <span className="text-[10px] font-mono-spec text-slate-400 uppercase block">
+                        Primary Wholesale Products:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cust.primaryProducts.map((p, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-mono-spec text-slate-300"
+                          >
+                            {p}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* One-Click Multi-Channel Marketing Outreach Suite */}
+                  <div className="p-4 bg-slate-950/90 border-t border-slate-800 grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => handleSendWhatsApp(cust)}
+                      className="px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 border border-emerald-500/40 font-mono-spec text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>WhatsApp Rates</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleSendEmailQuote(cust)}
+                      className="px-3 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-500 hover:text-slate-950 text-sky-400 border border-sky-500/40 font-mono-spec text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>Email GST Quote</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
         {/* SECTION 1: REAL-TIME MARKET VELOCITY & RECOMMENDED NEW AGENCY TIE-UPS */}
         <section className="space-y-6">
