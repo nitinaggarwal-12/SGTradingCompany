@@ -468,18 +468,18 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Search products..."
                   value={searchQuery}
                   onFocus={() => setIsSearchFocused(true)}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-24 sm:w-44 lg:w-52 pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-all"
+                  className="w-36 sm:w-56 lg:w-64 pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-all"
                 />
               </div>
 
               {/* Instant Search Dropdown Results & Dynamic Recommended Searches */}
               {isSearchFocused && (
                 <div
-                  className="absolute top-full right-0 mt-2 w-72 sm:w-96 bg-slate-900 border-2 border-amber-500/80 text-white rounded-2xl shadow-2xl p-3 z-[999] font-mono-spec text-xs space-y-3"
+                  className="fixed sm:absolute top-14 sm:top-full left-4 right-4 sm:left-auto sm:right-0 mt-2 w-auto sm:w-96 max-w-[92vw] bg-slate-900 border-2 border-amber-500/80 text-white rounded-2xl shadow-2xl p-3.5 z-[999] font-mono-spec text-xs space-y-3"
                   onMouseDown={(e) => e.preventDefault()}
                 >
                   {/* DYNAMIC RECOMMENDED SEARCH CHIPS (FILTERED AS USER TYPES) */}
