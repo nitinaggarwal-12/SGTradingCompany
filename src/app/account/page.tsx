@@ -35,10 +35,45 @@ export default function AccountPage() {
     registerCustomer,
     loginCustomer,
     logoutCustomer,
+    ssoConfig,
+    updateSsoConfig,
     showToast,
   } = useApp();
 
   const [mode, setMode] = useState<"login" | "register" | "admin">("login");
+  const [showSsoConfigModal, setShowSsoConfigModal] = useState(false);
+
+  // Local state for SSO configuration panel
+  const [googleClientId, setGoogleClientId] = useState(ssoConfig.googleClientId);
+  const [googleClientSecret, setGoogleClientSecret] = useState(ssoConfig.googleClientSecret);
+  const [isGoogleLive, setIsGoogleLive] = useState(ssoConfig.isGoogleLive);
+
+  const [whatsAppPhoneId, setWhatsAppPhoneId] = useState(ssoConfig.whatsAppPhoneId);
+  const [whatsAppAccessToken, setWhatsAppAccessToken] = useState(ssoConfig.whatsAppAccessToken);
+  const [whatsAppReceivingNumber, setWhatsAppReceivingNumber] = useState(ssoConfig.whatsAppReceivingNumber || "+919667731355");
+  const [isWhatsAppLive, setIsWhatsAppLive] = useState(ssoConfig.isWhatsAppLive);
+
+  const [metaAppId, setMetaAppId] = useState(ssoConfig.metaAppId);
+  const [metaAppSecret, setMetaAppSecret] = useState(ssoConfig.metaAppSecret);
+  const [isMetaLive, setIsMetaLive] = useState(ssoConfig.isMetaLive);
+
+  const handleSaveSsoKeys = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateSsoConfig({
+      googleClientId,
+      googleClientSecret,
+      isGoogleLive,
+      whatsAppPhoneId,
+      whatsAppAccessToken,
+      whatsAppReceivingNumber,
+      isWhatsAppLive,
+      metaAppId,
+      metaAppSecret,
+      isMetaLive,
+    });
+    setShowSsoConfigModal(false);
+    showToast("💾 Live SSO API Keys & Integration Settings Saved Permanently!");
+  };
 
   // Registration form state
   const [companyName, setCompanyName] = useState("");
@@ -178,7 +213,15 @@ export default function AccountPage() {
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => setShowSsoConfigModal(true)}
+                className="px-4 py-2 rounded-xl bg-emerald-500/15 border-2 border-emerald-500/50 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-extrabold text-xs flex items-center gap-1.5 cursor-pointer transition-all"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>🔐 Configure Live SSO API Keys (Google / WhatsApp / Meta)</span>
+              </button>
+
               <button
                 onClick={handleAdminQuickSignIn}
                 className="px-4 py-2 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-all"
@@ -188,6 +231,260 @@ export default function AccountPage() {
               </button>
             </div>
           </div>
+
+          {/* INTERACTIVE SSO API KEYS INTEGRATION & STEP-BY-STEP INSTRUCTIONS MODAL */}
+          {showSsoConfigModal && (
+            <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
+              <div className="industrial-card w-full max-w-4xl bg-slate-900 border-2 border-amber-500 rounded-3xl p-6 md:p-8 space-y-6 max-h-[92vh] overflow-y-auto font-sans">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                  <div>
+                    <span className="text-xs font-mono-spec font-black text-amber-400 uppercase">
+                      PORTAL API INTEGRATION CENTER
+                    </span>
+                    <h2 className="text-2xl font-extrabold text-white">
+                      Single Sign-On (SSO) &amp; Messaging API Keys Setup
+                    </h2>
+                    <p className="text-xs text-slate-400">
+                      Add your live API production credentials below. Step-by-step instructions are provided for each provider.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowSsoConfigModal(false)}
+                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                  >
+                    ✕ Close
+                  </button>
+                </div>
+
+                <form onSubmit={handleSaveSsoKeys} className="space-y-8">
+                  {/* 1. GOOGLE WORKSPACE / GOOGLE OAUTH 2.0 */}
+                  <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-8 h-8 rounded-full bg-white text-slate-950 font-black flex items-center justify-center text-sm">
+                          G
+                        </span>
+                        <div>
+                          <h3 className="font-bold text-white text-base">
+                            1. Google Workspace / Google OAuth 2.0 Integration
+                          </h3>
+                          <p className="text-xs text-slate-400">
+                            Enables 1-click corporate Google login for hotel procurement &amp; accounting teams.
+                          </p>
+                        </div>
+                      </div>
+                      <label className="flex items-center gap-2 text-xs font-bold text-emerald-400 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isGoogleLive}
+                          onChange={(e) => setIsGoogleLive(e.target.checked)}
+                          className="w-4 h-4 accent-emerald-500 rounded"
+                        />
+                        <span>Activate Live Google OAuth Mode</span>
+                      </label>
+                    </div>
+
+                    {/* Step-by-step instructions */}
+                    <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
+                      <p className="font-bold text-amber-400 uppercase text-[11px]">
+                        📋 How to get your Google OAuth Client ID &amp; Secret (Step-by-Step):
+                      </p>
+                      <ol className="list-decimal list-inside space-y-1 text-slate-300">
+                        <li>
+                          Open <strong>console.cloud.google.com</strong> ➔ Click <strong>Create Project</strong> (e.g. <em>SG Trading Company Portal</em>).
+                        </li>
+                        <li>
+                          Go to <strong>APIs &amp; Services</strong> ➔ <strong>OAuth consent screen</strong> ➔ Choose <strong>External</strong> &amp; save.
+                        </li>
+                        <li>
+                          Go to <strong>Credentials</strong> ➔ <strong>+ Create Credentials</strong> ➔ <strong>OAuth Client ID</strong> ➔ Select <strong>Web application</strong>.
+                        </li>
+                        <li>
+                          Add Authorized Redirect URI: <code className="bg-slate-950 px-2 py-0.5 rounded text-amber-400 font-mono-spec">http://localhost:3000/api/auth/callback/google</code> (or your production domain).
+                        </li>
+                        <li>Copy the generated <strong>Client ID</strong> and <strong>Client Secret</strong> into the inputs below.</li>
+                      </ol>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          Google Client ID *
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 123456789-abcde.apps.googleusercontent.com"
+                          value={googleClientId}
+                          onChange={(e) => setGoogleClientId(e.target.value)}
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          Google Client Secret *
+                        </label>
+                        <input
+                          type="password"
+                          placeholder="e.g. GOCSPX-xxxxxxxxxxxxxxxxx"
+                          value={googleClientSecret}
+                          onChange={(e) => setGoogleClientSecret(e.target.value)}
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2. WHATSAPP BUSINESS FAST LOGIN (META CLOUD API & DEEP LINK) */}
+                  <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2.5">
+                        <MessageCircle className="w-6 h-6 text-emerald-400" />
+                        <div>
+                          <h3 className="font-bold text-white text-base">
+                            2. WhatsApp Business API &amp; 1-Click Fast Verification
+                          </h3>
+                          <p className="text-xs text-slate-400">
+                            Preferred authentication for Delhi NCR restaurant chefs &amp; purchasing officers.
+                          </p>
+                        </div>
+                      </div>
+                      <label className="flex items-center gap-2 text-xs font-bold text-emerald-400 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isWhatsAppLive}
+                          onChange={(e) => setIsWhatsAppLive(e.target.checked)}
+                          className="w-4 h-4 accent-emerald-500 rounded"
+                        />
+                        <span>Activate Live WhatsApp Messaging Mode</span>
+                      </label>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
+                      <p className="font-bold text-emerald-400 uppercase text-[11px]">
+                        📋 How WhatsApp Integration Works:
+                      </p>
+                      <ul className="list-disc list-inside space-y-1 text-slate-300">
+                        <li>
+                          <strong>Option A (Instant Zero-Cost — Ready Now)</strong>: Direct WhatsApp Deep-Link to your Mayur Vihar helpline (<code className="bg-slate-950 px-2 py-0.5 rounded text-amber-400 font-mono-spec">+91 96677 31355</code>). Zero Meta registration required.
+                        </li>
+                        <li>
+                          <strong>Option B (Official Automated WhatsApp Cloud API)</strong>: Open <strong>developers.facebook.com</strong> ➔ Create App ➔ Add Product <strong>WhatsApp</strong> ➔ Paste your Phone Number ID and Access Token below.
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          Distributor WhatsApp Number *
+                        </label>
+                        <input
+                          type="text"
+                          value={whatsAppReceivingNumber}
+                          onChange={(e) => setWhatsAppReceivingNumber(e.target.value)}
+                          placeholder="+919667731355"
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          WhatsApp Phone Number ID (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={whatsAppPhoneId}
+                          onChange={(e) => setWhatsAppPhoneId(e.target.value)}
+                          placeholder="e.g. 1049283749201"
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          WhatsApp Meta Token (Optional)
+                        </label>
+                        <input
+                          type="password"
+                          value={whatsAppAccessToken}
+                          onChange={(e) => setWhatsAppAccessToken(e.target.value)}
+                          placeholder="EAAGxxxxxxxxxxxx"
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. META BUSINESS (FACEBOOK & INSTAGRAM) SSO */}
+                  <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2.5">
+                        <Share2 className="w-6 h-6 text-sky-400" />
+                        <div>
+                          <h3 className="font-bold text-white text-base">
+                            3. Meta Business (Facebook &amp; Instagram) SSO
+                          </h3>
+                          <p className="text-xs text-slate-400">
+                            Allows cloud kitchens &amp; cafes to log in via Facebook or Instagram Business.
+                          </p>
+                        </div>
+                      </div>
+                      <label className="flex items-center gap-2 text-xs font-bold text-emerald-400 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isMetaLive}
+                          onChange={(e) => setIsMetaLive(e.target.checked)}
+                          className="w-4 h-4 accent-emerald-500 rounded"
+                        />
+                        <span>Activate Live Meta Business SSO</span>
+                      </label>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          Meta / Facebook App ID
+                        </label>
+                        <input
+                          type="text"
+                          value={metaAppId}
+                          onChange={(e) => setMetaAppId(e.target.value)}
+                          placeholder="e.g. 987654321012345"
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-mono-spec text-slate-400 block mb-1">
+                          Meta / Facebook App Secret
+                        </label>
+                        <input
+                          type="password"
+                          value={metaAppSecret}
+                          onChange={(e) => setMetaAppSecret(e.target.value)}
+                          placeholder="e.g. 3a9f0e1d2c..."
+                          className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono-spec"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => setShowSsoConfigModal(false)}
+                      className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20"
+                    >
+                      <span>💾 Save API Keys &amp; Activate SSO Integration</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
 
           {currentUser ? (
             /* Logged-In Account Dashboard */
