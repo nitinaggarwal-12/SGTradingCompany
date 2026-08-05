@@ -303,6 +303,14 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
 
             <Link
+              href="/coming-soon"
+              className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-bold text-xs border border-emerald-500/40 transition-all flex items-center gap-1.5 shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Coming Soon</span>
+            </Link>
+
+            <Link
               href="/#about"
               className="hover:text-amber-400 font-bold transition-colors"
             >
