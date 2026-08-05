@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "badge": "SG TRADING COMPANY • AUTH. DISTRIBUTOR (DELHI NCR)",
+    "title": "Authorized Distributor for HORECA & General Trade (GT) FMCG Supplies.",
+    "subtitle": "Direct institutional distributor for McCain Food Service, ITC Master Chef, Veeba, Britannia Cheese, Iscon Balaji, Go Diced, Chatha Foods & Milkana Professional (HORECA) alongside Anoop Sattu, Ocean Water, Sleepy Owl Coffee & Loyka (General Trade)."
+  },
+  "contacts": {
+    "rahulGargName": "Rahul Garg",
+    "rahulGargPhone": "9667731355",
+    "sonuName": "Sonu / Cold Chain",
+    "sonuPhone": "9643097002",
+    "email": "sgtradingcompany@rediffmail.com",
+    "warehouseAddress": "B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096",
+    "hours": "Mon-Sat 8AM-8PM",
+    "gstin": "07ADQFS8839Q1ZQ"
+  },
+  "guarantees": {
+    "coldRoomTitle": "EXPRESS DELHI NCR DISPATCH",
+    "coldRoomSubtitle": "Refrigerated -18°C delivery for McCain, ITC, Chatha & Cheese packs directly to your kitchen."
+  }
+}

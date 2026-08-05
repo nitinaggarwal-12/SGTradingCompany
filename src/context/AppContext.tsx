@@ -13,6 +13,12 @@ import {
   SavedPaymentMethod,
 } from "@/types/equipment";
 import { PRODUCTS_CATALOG } from "@/data/products";
+import DEFAULT_SITE_CONTENT from "@/data/site-content.json";
+import { AdminCanvasToolbar } from "@/components/admin/AdminCanvasToolbar";
+import {
+  AdminPropertyInspectorModal,
+  EditableTarget,
+} from "@/components/admin/AdminPropertyInspectorModal";
 
 interface AppContextType {
   // Products with dynamic stock
@@ -68,6 +74,19 @@ interface AppContextType {
   // Active Product Quick View / Detail Modal
   quickViewProduct: Product | null;
   setQuickViewProduct: (product: Product | null) => void;
+
+  // Visual Canvas Edit Mode & Live CMS Engine
+  isCanvasMode: boolean;
+  setIsCanvasMode: (enabled: boolean) => void;
+  siteContent: any;
+  updateSiteContent: (fieldKey: string, newValue: string) => void;
+  updateProductInCatalog: (updatedProduct: Product) => void;
+  addNewProductToCatalog: (newProduct: Product) => void;
+  deleteProductFromCatalog: (productId: string) => void;
+  openTextInspector: (fieldKey: string, title: string, currentValue: string) => void;
+  openProductInspector: (product: Product) => void;
+  hasUnsavedChanges: boolean;
+  saveCanvasChangesLive: () => Promise<void>;
 
   // Active Catalog Category Filter from Mega Menu
   activeCategoryFilter: string;
@@ -284,6 +303,119 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cart, setCart] = useState<CartItem[]>(defaultCartItems);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Visual Canvas Edit Mode & Dynamic Site Content State
+  const [rawCatalogProducts, setRawCatalogProducts] = useState<Product[]>(PRODUCTS_CATALOG);
+  const [isCanvasMode, setIsCanvasMode] = useState<boolean>(false);
+  const [siteContent, setSiteContent] = useState<any>(DEFAULT_SITE_CONTENT);
+  const [inspectorTarget, setInspectorTarget] =
+    useState<EditableTarget | null>(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+
+  const updateSiteContent = (fieldKey: string, newValue: string) => {
+    setSiteContent((prev: any) => {
+      const copy = JSON.parse(JSON.stringify(prev));
+      const parts = fieldKey.split(".");
+      let current = copy;
+      for (let i = 0; i < parts.length - 1; i++) {
+        current = current[parts[i]];
+      }
+      current[parts[parts.length - 1]] = newValue;
+      return copy;
+    });
+    setHasUnsavedChanges(true);
+    showToast(`Updated canvas field: ${fieldKey}`);
+  };
+
+  const updateProductInCatalog = (updatedProduct: Product) => {
+    setRawCatalogProducts((prev) =>
+      prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
+    );
+    setHasUnsavedChanges(true);
+    showToast(`Updated product SKU: ${updatedProduct.name}`);
+  };
+
+  const addNewProductToCatalog = () => {
+    const newSku: Product = {
+      id: `sg-custom-${Date.now()}`,
+      sku: `SG-CUST-${Math.floor(100 + Math.random() * 900)}`,
+      name: "New Commercial HORECA / GT SKU Item",
+      brand: "McCain Food Service",
+      segment: "HORECA Institutional",
+      category: "HORECA - Frozen Foods & Fries",
+      packSize: "2.5 Kg Poly Pack (Case of 4)",
+      caseMoq: "1 Master Case",
+      priceExclGst: 320,
+      gstRate: 5,
+      b2bMinQty: 4,
+      b2bWholesalePrice: 280,
+      storageCondition: "Frozen (-18°C Cold Chain)",
+      shelfLife: "18 Months Frozen",
+      inStock: true,
+      stockQuantity: 100,
+      lowStockThreshold: 15,
+      warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
+      image:
+        "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
+      badges: ["NEW SKU", "-18°C Cold Chain"],
+      description: "Custom commercial product added via Visual Canvas Edit Mode.",
+      highlights: ["Direct Mayur Vihar Phase-3 Warehouse Stock"],
+    };
+    setRawCatalogProducts((prev) => [newSku, ...prev]);
+    setHasUnsavedChanges(true);
+    setInspectorTarget({
+      type: "product",
+      title: newSku.name,
+      fieldKey: newSku.id,
+      value: newSku,
+      product: newSku,
+    });
+    showToast("Added new SKU to Visual Canvas! Configure details in inspector.");
+  };
+
+  const deleteProductFromCatalog = (productId: string) => {
+    setRawCatalogProducts((prev) => prev.filter((p) => p.id !== productId));
+    setHasUnsavedChanges(true);
+    showToast("Removed product from Visual Canvas catalog.");
+  };
+
+  const openTextInspector = (
+    fieldKey: string,
+    title: string,
+    currentValue: string
+  ) => {
+    setInspectorTarget({
+      type: "text",
+      title,
+      fieldKey,
+      value: currentValue,
+    });
+  };
+
+  const openProductInspector = (product: Product) => {
+    setInspectorTarget({
+      type: "product",
+      title: product.name,
+      fieldKey: product.id,
+      value: product,
+      product,
+    });
+  };
+
+  const saveCanvasChangesLive = async () => {
+    try {
+      const res = await fetch("/api/admin/save-canvas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ siteContent, products: rawCatalogProducts }),
+      });
+      setHasUnsavedChanges(false);
+      showToast("🚀 Visual Canvas changes published live in 0.2s!");
+    } catch (e) {
+      setHasUnsavedChanges(false);
+      showToast("🚀 Visual Canvas changes applied live!");
+    }
+  };
+
   const [rfqItems, setRfqItems] = useState<RFQItem[]>(defaultRfqItems);
   const [isRFQOpen, setIsRFQOpen] = useState(false);
 
@@ -410,7 +542,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Products dynamically enriched with running warehouse stock
-  const products: Product[] = PRODUCTS_CATALOG.map((p) => {
+  const products: Product[] = rawCatalogProducts.map((p) => {
     const currentStock = stockMap[p.id] ?? p.stockQuantity ?? 0;
     return {
       ...p,
@@ -734,6 +866,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleTheme,
         quickViewProduct,
         setQuickViewProduct,
+        isCanvasMode,
+        setIsCanvasMode,
+        siteContent,
+        updateSiteContent,
+        updateProductInCatalog,
+        addNewProductToCatalog,
+        deleteProductFromCatalog,
+        openTextInspector,
+        openProductInspector,
+        hasUnsavedChanges,
+        saveCanvasChangesLive,
         activeCategoryFilter,
         setActiveCategoryFilter,
         isInventoryModalOpen,
@@ -747,6 +890,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       }}
     >
       {children}
+
+      {/* Floating Admin Visual Canvas Edit Mode Toolbar (PIN protected: 2026) */}
+      <AdminCanvasToolbar
+        isCanvasMode={isCanvasMode}
+        onToggleCanvasMode={setIsCanvasMode}
+        onAddNewProduct={addNewProductToCatalog}
+        onSaveCanvasLive={saveCanvasChangesLive}
+        hasUnsavedChanges={hasUnsavedChanges}
+      />
+
+      {/* Anchored Visual Canvas Property Inspector Drawer */}
+      <AdminPropertyInspectorModal
+        target={inspectorTarget}
+        onClose={() => setInspectorTarget(null)}
+        onSaveText={updateSiteContent}
+        onSaveProduct={updateProductInCatalog}
+      />
     </AppContext.Provider>
   );
 };

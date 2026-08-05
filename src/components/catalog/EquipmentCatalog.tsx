@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { PRODUCTS_CATALOG } from "@/data/products";
+import { useApp } from "@/context/AppContext";
 import { ProductCard } from "./ProductCard";
 import {
   Filter,
@@ -49,6 +49,13 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   selectedCategory,
   onCategoryChange,
 }) => {
+  const {
+    products,
+    isCanvasMode,
+    openProductInspector,
+    deleteProductFromCatalog,
+  } = useApp();
+
   const [segment, setSegment] = useState<string>("All");
   // Multi-select brands array (defaults to all 12 brands selected)
   const [selectedBrands, setSelectedBrands] = useState<string[]>(ALL_BRANDS_LIST);
@@ -92,7 +99,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   ];
 
   const filteredProducts = useMemo(() => {
-    return PRODUCTS_CATALOG.filter((p) => {
+    return products.filter((p) => {
       if (
         selectedCategory !== "All Categories" &&
         p.category !== selectedCategory
@@ -487,7 +494,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
 
               <div className="text-xs font-mono-spec font-extrabold text-white">
                 Showing <span className="text-amber-400 text-sm">{filteredProducts.length}</span> of{" "}
-                {PRODUCTS_CATALOG.length} Authorized SKUs
+                {products.length} Authorized SKUs
               </div>
             </div>
 
@@ -495,11 +502,25 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    viewMode={viewMode}
-                  />
+                  <div key={product.id} className="relative group/canvas">
+                    {isCanvasMode && (
+                      <div className="absolute top-2 left-2 right-2 z-50 flex items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-950/95 border-2 border-amber-500 shadow-2xl">
+                        <button
+                          onClick={() => openProductInspector(product)}
+                          className="flex-1 py-1 px-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-spec font-black text-[10px] uppercase cursor-pointer"
+                        >
+                          ✎ Edit SKU / Price
+                        </button>
+                        <button
+                          onClick={() => deleteProductFromCatalog(product.id)}
+                          className="py-1 px-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-mono-spec font-bold text-[10px] uppercase cursor-pointer"
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    )}
+                    <ProductCard product={product} viewMode={viewMode} />
+                  </div>
                 ))}
 
                 {/* Symmetrical Grid Filler Card to eliminate empty whitespace in incomplete rows */}
