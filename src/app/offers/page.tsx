@@ -15,13 +15,20 @@ import {
   ArrowRight,
   Sparkles,
   Award,
+  CreditCard,
+  Building,
 } from "lucide-react";
 
 interface OfferDeal {
   id: string;
   code: string;
   title: string;
-  category: "Bulk Volume Rebates" | "Combo Bundles" | "Banquet & Hotel Specials" | "New Account Bonus";
+  category:
+    | "Bulk Volume Rebates"
+    | "Combo Bundles"
+    | "Banquet & Hotel Specials"
+    | "New Account Bonus"
+    | "Credit Card Cashback Offers";
   brand: string;
   discountBadge: string;
   validity: string;
@@ -33,6 +40,64 @@ interface OfferDeal {
 }
 
 const LIVE_OFFERS: OfferDeal[] = [
+  {
+    id: "hdfc-corporate-card-cashback",
+    code: "SG-HDFCCORP1500",
+    title: "HDFC Bank Commercial Corporate Card: Flat ₹1,500 Instant Cashback",
+    category: "Credit Card Cashback Offers",
+    brand: "HDFC Bank Corporate Cards",
+    discountBadge: "FLAT ₹1,500 INSTANT CASHBACK",
+    validity: "Valid Through August 2026 • Commercial Credit Cards",
+    description:
+      "Pay your wholesale HORECA cold-chain invoice using HDFC Corporate, Business, or Commercial Purchase Credit Card and receive flat ₹1,500 instant cashback + 5X Reward Points on invoices of ₹40,000+.",
+    minOrderRequirement: "Invoice value ₹40,000+ via HDFC Corporate Card",
+    estimatedSavings: "₹1,500 Instant Cashback + 5X Corporate Rewards",
+    imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=85",
+    featured: true,
+  },
+  {
+    id: "icici-commercial-card-cashback",
+    code: "SG-ICICIB2B2500",
+    title: "ICICI Bank B2B Commercial Card: 8% Cashback Up to ₹2,500",
+    category: "Credit Card Cashback Offers",
+    brand: "ICICI Bank Corporate",
+    discountBadge: "FLAT 8% CASHBACK (UP TO ₹2,500)",
+    validity: "Monthly Cold-Room Replenishment Special",
+    description:
+      "Enjoy flat 8% cashback up to ₹2,500 on all recurring frozen food and cheese replenishment orders placed using ICICI Bank Corporate & Commercial Credit Cards.",
+    minOrderRequirement: "Min Invoice ₹20,000 via ICICI Commercial Card",
+    estimatedSavings: "Up to ₹2,500 Monthly Cashback",
+    imageUrl: "https://images.unsplash.com/photo-1556742049-0a67f5d42445?auto=format&fit=crop&w=800&q=85",
+    featured: true,
+  },
+  {
+    id: "axis-corporate-card-offer",
+    code: "SG-AXISCORP2000",
+    title: "Axis Bank Commercial Credit Card: Flat 10% Instant Discount",
+    category: "Credit Card Cashback Offers",
+    brand: "Axis Bank Commercial",
+    discountBadge: "FLAT 10% INSTANT DISCOUNT (UP TO ₹2,000)",
+    validity: "Active All Days • Instant Invoice Credit",
+    description:
+      "Instant 10% discount up to ₹2,000 on wholesale master cartons of McCain French Fries, Britannia Mozzarella, and Veeba Sauces when paid using Axis Bank Commercial Credit Cards.",
+    minOrderRequirement: "Min Invoice ₹15,000 via Axis Commercial Card",
+    estimatedSavings: "Up to ₹2,000 Instant Invoice Discount",
+    imageUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=85",
+  },
+  {
+    id: "paytm-upi-credit-offer",
+    code: "SG-PAYTMUPI500",
+    title: "Paytm Merchant UPI & UPI Credit Card: Flat ₹500 Cash Credit",
+    category: "Credit Card Cashback Offers",
+    brand: "Paytm Merchant QR (paytmqr69pf0i@ptys)",
+    discountBadge: "FLAT ₹500 INSTANT CASH CREDIT",
+    validity: "Instant Dispatch Verification • Mayur Vihar-3 Hub",
+    description:
+      "Instant ₹500 cash credit on your wholesale order when paying via RuPay Credit Card on UPI or Paytm Merchant QR at our Mayur Vihar Phase-3 Cold Room dispatch counter.",
+    minOrderRequirement: "Min Order ₹10,000 via UPI Credit / Paytm QR",
+    estimatedSavings: "₹500 Instant Dispatch Credit",
+    imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=85",
+  },
   {
     id: "mccain-10-plus-1",
     code: "SG-MCCAIN10PLUS1",
@@ -56,7 +121,8 @@ const LIVE_OFFERS: OfferDeal[] = [
     brand: "Britannia Commercial Cheese",
     discountBadge: "FLAT ₹450 / KG (SAVE ₹200 / CASE)",
     validity: "Active HORECA Special • Instant Approval",
-    description: "Unlock institutional factory pricing on Britannia Diced Mozzarella & 70:30 Hybrid Cheese blocks when ordering 5 or more Master Cases for your pizzeria or cloud kitchen network.",
+    description:
+      "Unlock institutional factory pricing on Britannia Diced Mozzarella & 70:30 Hybrid Cheese blocks when ordering 5 or more Master Cases for your pizzeria or cloud kitchen network.",
     minOrderRequirement: "5+ Master Cartons (50 Kg+ Total)",
     estimatedSavings: "₹1,000+ Savings Per Order + 100% GST Input Credit",
     imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=85",
@@ -70,7 +136,8 @@ const LIVE_OFFERS: OfferDeal[] = [
     brand: "Veeba Food Services",
     discountBadge: "FREE 2 x 1 KG PIZZA SAUCES",
     validity: "Limited Commercial Batch • Mayur Vihar Warehouse",
-    description: "Purchase 4 Heavy-Duty 5 Kg Buckets of Veeba White Garlic or Tandoori Mayonnaise and get 2 Chef Special 1 Kg Pizza & Pasta Sauce spout pouches absolutely free.",
+    description:
+      "Purchase 4 Heavy-Duty 5 Kg Buckets of Veeba White Garlic or Tandoori Mayonnaise and get 2 Chef Special 1 Kg Pizza & Pasta Sauce spout pouches absolutely free.",
     minOrderRequirement: "4 x 5 Kg Commercial Buckets",
     estimatedSavings: "₹330 Free Product Value",
     imageUrl: "https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=800&q=85",
@@ -83,7 +150,8 @@ const LIVE_OFFERS: OfferDeal[] = [
     brand: "ITC Master Chef Retort",
     discountBadge: "SPECIAL ₹265 / 2.5 KG POUCH",
     validity: "Hotel Banquet & Caterer Exclusive Rate",
-    description: "Special institutional pricing for hotel catering directors and wedding caterers. Stock up on Makhani & Cashew gravy bases for 500+ guest banquets.",
+    description:
+      "Special institutional pricing for hotel catering directors and wedding caterers. Stock up on Makhani & Cashew gravy bases for 500+ guest banquets.",
     minOrderRequirement: "20+ Institutional Pouches (2 Master Cases)",
     estimatedSavings: "₹500 Savings Per Master Case",
     imageUrl: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=85",
@@ -97,10 +165,11 @@ const LIVE_OFFERS: OfferDeal[] = [
     brand: "SG Trading Company Corporate",
     discountBadge: "FLAT ₹1,000 INVOICE CASHBACK",
     validity: "First Order Exclusive • Official GSTIN Verified",
-    description: "New restaurants, QSR chains, and hotels registering their first wholesale cold-chain supply order of ₹25,000+ with SG Trading Company receive a flat ₹1,000 instant invoice discount + dedicated account coordinator.",
+    description:
+      "New restaurants, QSR chains, and hotels registering their first wholesale cold-chain supply order of ₹25,000+ with SG Trading Company receive a flat ₹1,000 instant invoice discount + dedicated account coordinator.",
     minOrderRequirement: "First Order of ₹25,000+",
     estimatedSavings: "₹1,000 Instant Invoice Discount",
-    imageUrl: "https://images.unsplash.com/photo-1556742049-0a67f5d42445?auto=format&fit=crop&w=800&q=85",
+    imageUrl: "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=85",
   },
 ];
 
@@ -110,6 +179,7 @@ export default function CurrentOffersPage() {
 
   const categories = [
     "All Live Offers",
+    "Credit Card Cashback Offers",
     "Bulk Volume Rebates",
     "Combo Bundles",
     "Banquet & Hotel Specials",
@@ -143,18 +213,18 @@ export default function CurrentOffersPage() {
             <div className="space-y-4 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400 text-xs font-mono-spec font-black uppercase">
                 <Flame className="w-4 h-4" />
-                <span>OFFICIAL AUTHORIZED FACTORY WHOLESALE PROMOTIONS • AUGUST 2026</span>
+                <span>OFFICIAL AUTHORIZED FACTORY WHOLESALE PROMOTIONS &amp; CREDIT CARD CASHBACK • AUGUST 2026</span>
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
                 Current Offers &amp;{" "}
                 <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-                  Wholesale Promotions.
+                  Credit Card Cashback.
                 </span>
               </h1>
 
               <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                Direct factory-supported volume rebates, commercial combo deals, and banquet promotions dispatched from our <strong className="text-white">B-577 Mayur Vihar Phase-3 Central Cold Room 1 Hub</strong> with full GST Input Credit (<strong className="text-amber-400">GSTIN: 07ADQFS8839Q1ZQ</strong>).
+                Direct factory volume rebates, commercial bank corporate credit card cashback (HDFC, ICICI, Axis), and banquet promotions dispatched from our <strong className="text-white">B-577 Mayur Vihar Phase-3 Central Cold Room 1 Hub</strong> with full GST Input Credit (<strong className="text-amber-400">GSTIN: 07ADQFS8839Q1ZQ</strong>).
               </p>
             </div>
 
@@ -165,7 +235,7 @@ export default function CurrentOffersPage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               </div>
               <div className="text-3xl font-black text-white">
-                5 Active Deals
+                9 Active Deals
               </div>
               <p className="text-xs text-slate-300">
                 Guaranteed factory-sealed stock • Next-morning refrigerated delivery across Delhi NCR.
@@ -207,19 +277,23 @@ export default function CurrentOffersPage() {
               >
                 <div>
                   {/* Top Image & Badge Container */}
-                  <div className="relative h-56 w-full overflow-hidden bg-slate-950">
+                  <div className="relative h-56 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
                     <img
                       src={deal.imageUrl}
                       alt={deal.title}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src =
+                          "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85";
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
                     {/* Deal Badge */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg">
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg z-10">
                       {deal.discountBadge}
                     </div>
 
-                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#0B101D] to-transparent" />
+                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#0B101D] to-transparent z-10" />
                   </div>
 
                   {/* Deal Content */}
@@ -240,7 +314,7 @@ export default function CurrentOffersPage() {
                     </p>
 
                     {/* Requirements & Savings Box */}
-                    <div className="p-3.5 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-2 font-mono-spec text-xs">
+                    <div className="p-3.5 rounded-2xl bg-[#060911] text-white border border-slate-800 space-y-2 font-mono-spec text-xs">
                       <div className="flex items-center justify-between text-slate-300">
                         <span>Min Requirement:</span>
                         <strong className="text-white">{deal.minOrderRequirement}</strong>
@@ -252,7 +326,7 @@ export default function CurrentOffersPage() {
                     </div>
 
                     {/* Promo Code Box */}
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#060911] text-white border border-slate-800">
                       <div>
                         <span className="text-[10px] font-mono-spec text-slate-400 block uppercase font-bold">
                           Official Promo Code:
