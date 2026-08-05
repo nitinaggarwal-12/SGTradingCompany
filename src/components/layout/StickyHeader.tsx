@@ -279,6 +279,13 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
             </Link>
 
             <Link
+              href="/#about"
+              className="hover:text-amber-400 font-bold transition-colors"
+            >
+              About Us
+            </Link>
+
+            <Link
               href="/account"
               className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px]"
               title={currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
