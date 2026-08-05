@@ -51,6 +51,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     toggleTheme,
     currentUser,
     logoutCustomer,
+    setIsGuestCheckout,
     setActiveCategoryFilter,
     isCanvasMode,
     setIsCanvasMode,
@@ -497,7 +498,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   </div>
 
                   {currentUser ? (
-                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5">
                       <div>
                         <p className="font-extrabold text-white text-xs">
                           {currentUser.companyName}
@@ -506,42 +507,65 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                           GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong> • {currentUser.phone}
                         </p>
                       </div>
-                      <div className="flex items-center justify-between pt-1.5 border-t border-slate-800">
-                        <Link
-                          href="/account"
-                          onClick={() => setActiveMenu(null)}
-                          className="text-[11px] text-emerald-400 font-bold hover:underline"
-                        >
-                          Manage Account →
-                        </Link>
+
+                      <div className="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-slate-800">
                         <button
                           type="button"
                           onClick={() => {
                             logoutCustomer();
+                            setIsGuestCheckout(true);
+                            showToast("🛍️ Switched to Guest Shopping Mode (Zero Registration Required)!");
                             setActiveMenu(null);
                           }}
-                          className="px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-[10px] transition-all cursor-pointer"
+                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-black text-[10px] transition-all cursor-pointer text-center"
                         >
-                          🚪 Sign Out
+                          🛍️ Guest Mode
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            logoutCustomer();
+                            showToast("👋 Signed Out of Customer Account!");
+                            setActiveMenu(null);
+                          }}
+                          className="px-2.5 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-[10px] transition-all cursor-pointer text-center"
+                        >
+                          🚪 Logout
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <Link
-                      href="/account"
-                      onClick={() => setActiveMenu(null)}
-                      className="flex items-center gap-2.5 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all group"
-                    >
-                      <UserCheck className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
-                      <div>
-                        <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
-                          Sign In with WhatsApp / Google SSO
-                        </p>
-                        <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-sans">
-                          Passwordless 1-Click login for chefs &amp; hotels
+                    <div className="space-y-2">
+                      <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/40 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-black text-emerald-400 flex items-center gap-1">
+                            🛍️ GUEST SHOPPING MODE
+                          </span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 font-black">
+                            ACTIVE
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-300 font-sans">
+                          Browse all 12 HORECA brands &amp; order immediately as a Guest without signing in!
                         </p>
                       </div>
-                    </Link>
+
+                      <Link
+                        href="/account"
+                        onClick={() => setActiveMenu(null)}
+                        className="flex items-center gap-2.5 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all group"
+                      >
+                        <UserCheck className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
+                        <div>
+                          <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
+                            Sign In with WhatsApp / Google SSO
+                          </p>
+                          <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-sans">
+                            Save your business GSTIN &amp; VIP Chef Points
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
                   )}
 
                   {/* PORTAL & ADMIN TOOLS SECTION UNDER ACCOUNT DROPDOWN */}
