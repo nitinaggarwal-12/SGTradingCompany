@@ -131,14 +131,16 @@ export const CommercialShowcaseCarousel: React.FC = () => {
             return (
               <div
                 key={slide.id}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
                   isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
                 }`}
               >
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  className="w-full h-full object-cover object-center"
+                  className={`w-full h-full object-cover object-center transition-transform duration-[6000ms] ease-out ${
+                    isActive ? "scale-105" : "scale-100"
+                  }`}
                 />
 
                 {/* Dark Vignette & Gradient Overlay for Contrast */}
