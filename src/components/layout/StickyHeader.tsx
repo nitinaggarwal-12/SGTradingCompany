@@ -9,6 +9,7 @@ import {
   FileText,
   ChevronDown,
   Sparkles,
+  Flame,
   Snowflake,
   ShieldCheck,
   Award,
@@ -300,6 +301,14 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               className="hover:text-amber-400 text-slate-300 font-bold transition-colors flex items-center gap-1 px-2"
             >
               <span>Orders &amp; O2C</span>
+            </Link>
+
+            <Link
+              href="/offers"
+              className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-bold text-xs border border-amber-500/40 transition-all flex items-center gap-1.5 shrink-0"
+            >
+              <Flame className="w-3.5 h-3.5" />
+              <span>Live Offers</span>
             </Link>
 
             <Link
