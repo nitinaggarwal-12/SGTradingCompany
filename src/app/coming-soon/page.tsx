@@ -181,7 +181,7 @@ const UPCOMING_PRODUCTS: UpcomingProduct[] = [
     brandCategory: "Commercial Sauces & Puree",
     name: "Veeba Commercial White Garlic & Tandoori Mayonnaise Bucket",
     packSize: "5 Kg Commercial Heavy-Duty Pail",
-    teaserImage: "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=800&q=85",
+    teaserImage: "https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=800&q=85",
     expectedLaunch: "Q3 2026 • Mayur Vihar Phase-3 Hub",
     estimatedWholesalePrice: "₹680 / 5 Kg Bucket",
     description: "Velvety heat-stable white garlic & eggless tandoori mayo pails engineered for rolls, momos, shawarmas, and burger finishing.",
@@ -195,7 +195,7 @@ const UPCOMING_PRODUCTS: UpcomingProduct[] = [
     brandCategory: "Frozen Potato & Snacks",
     name: "Iscon Balaji 9mm Coated Super-Crunch Shoestring Fries",
     packSize: "4 x 2.5 Kg Master Carton (10 Kg)",
-    teaserImage: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=800&q=85",
+    teaserImage: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=800&q=85",
     expectedLaunch: "Q3 2026 • Mayur Vihar Cold Room 1",
     estimatedWholesalePrice: "₹340 / 2.5 Kg Pack (₹1,360 / Master Case)",
     description: "High-yield Indian-grown coated potato fries with 25-minute delivery crunch retention at ₹40 lower per pack cost.",
@@ -351,29 +351,33 @@ export default function ComingSoonLaunchPage() {
             return (
               <div
                 key={product.id}
-                className="group rounded-3xl bg-slate-900/80 border-2 border-slate-800/80 hover:border-amber-500/70 overflow-hidden transition-all duration-300 shadow-2xl flex flex-col justify-between"
+                className="group rounded-3xl bg-[#0B101D] text-white border-2 border-slate-800 hover:border-amber-500/80 overflow-hidden transition-all duration-300 shadow-2xl flex flex-col justify-between"
               >
                 <div>
                   {/* Visual Teaser Image Container */}
-                  <div className="relative h-60 w-full overflow-hidden bg-slate-950">
+                  <div className="relative h-60 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
                     <img
                       src={product.teaserImage}
                       alt={product.name}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src =
+                          "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85";
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
                     {/* Top Badges */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-xl bg-amber-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg">
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-xl bg-amber-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg z-10">
                       {product.brand}
                     </div>
 
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-slate-950/90 text-cyan-400 border border-cyan-500/40 text-xs font-mono-spec font-bold flex items-center gap-1">
+                    <div className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-slate-950/90 text-cyan-400 border border-cyan-500/40 text-xs font-mono-spec font-bold flex items-center gap-1 z-10">
                       <Clock className="w-3.5 h-3.5" />
                       <span>{product.expectedLaunch}</span>
                     </div>
 
                     {/* Bottom Blur Overlay */}
-                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-slate-900 to-transparent" />
+                    <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#0B101D] to-transparent z-10" />
                   </div>
 
                   {/* Content Details */}
