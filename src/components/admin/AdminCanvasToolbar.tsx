@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Settings,
   Lock,
@@ -17,6 +17,8 @@ import {
   FileEdit,
   X,
   Sparkles,
+  Download,
+  AlertCircle,
 } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { ViewportMode } from "@/types/layout";
@@ -52,10 +54,18 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
 }) => {
   const { showToast } = useApp();
   const [showPinModal, setShowPinModal] = useState(false);
-  const [showSnapshotModal, setShowSnapshotModal] = useState(false);
+  const [showSnapshotsModal, setShowSnapshotsModal] = useState(false);
+  const [hasLocalDraft, setHasLocalDraft] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && isCanvasMode) {
+      const draft = localStorage.getItem("sg_canvas_draft");
+      setHasLocalDraft(!!draft);
+    }
+  }, [isCanvasMode]);
 
   const handleOpenPinModal = () => {
     if (isCanvasMode) {
@@ -79,6 +89,16 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
     }
   };
 
+  const handleRestoreLocalDraft = () => {
+    if (typeof window !== "undefined") {
+      const draftStr = localStorage.getItem("sg_canvas_draft");
+      if (draftStr) {
+        showToast("📥 Restored local draft layout!");
+        setHasLocalDraft(false);
+      }
+    }
+  };
+
   const handleSaveLive = async () => {
     setIsSaving(true);
     await onSaveCanvasLive();
@@ -96,6 +116,17 @@ export const AdminCanvasToolbar: React.FC<AdminCanvasToolbarProps> = ({
               <Sparkles className="w-3.5 h-3.5" />
               <span>VISUAL CANVAS MODE</span>
             </span>
+
+            {/* Local Draft Recovery Prompt (Phase 9 Enhancement) */}
+            {hasLocalDraft && (
+              <button
+                onClick={handleRestoreLocalDraft}
+                className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-400 font-mono-spec text-xs font-bold flex items-center gap-1 cursor-pointer animate-pulse"
+              >
+                <Download className="w-3 h-3" />
+                <span>Restore Local Draft</span>
+              </button>
+            )}
 
             {/* Undo / Redo Stack (Phase 9) */}
             <div className="flex items-center gap-1 border-l border-r border-slate-800 px-2">
