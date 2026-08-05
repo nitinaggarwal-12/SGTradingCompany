@@ -107,6 +107,9 @@ export default function HomePage() {
 
         {/* Main Content Area */}
         <main className="flex-1 space-y-2">
+          {/* Commercial Quality Visual Showcase Carousel Moved to Top */}
+          <CommercialShowcaseCarousel />
+
           {/* Asymmetric Industrial Hero & Interactive Turnkey Supply Bundle Estimator */}
           <HeroSection onExploreCatalog={scrollToCatalog} />
 
@@ -114,7 +117,9 @@ export default function HomePage() {
           <ColdChain3DVisualizer />
 
           {/* COMPONENT REGISTRY: SPATIAL DRAG-AND-DROP JSON LAYOUT TREE RENDERER (PHASES 3 & 8) */}
-          {layoutBlocks.map((block) => (
+          {layoutBlocks
+            .filter((block) => block.type !== "CommercialShowcaseCarousel")
+            .map((block) => (
             <div
               key={block.id}
               className={`relative transition-all ${
