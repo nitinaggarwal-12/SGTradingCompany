@@ -109,7 +109,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
       if (segment !== "All" && p.segment !== segment) {
         return false;
       }
-      if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand)) {
+      if (!selectedBrands.includes(p.brand)) {
         return false;
       }
       if (

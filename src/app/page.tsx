@@ -40,9 +40,9 @@ export default function HomePage() {
     moveBlockDown,
     toggleBlockEnabled,
     viewportMode,
+    activeCategoryFilter,
+    setActiveCategoryFilter,
   } = useApp();
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>("All Categories");
 
   const scrollToCatalog = () => {
     const el = document.getElementById("catalog");
@@ -61,8 +61,8 @@ export default function HomePage() {
       case "EquipmentCatalog":
         return (
           <EquipmentCatalog
-            selectedCategory={selectedCategory}
-            onCategoryChange={(cat) => setSelectedCategory(cat)}
+            selectedCategory={activeCategoryFilter}
+            onCategoryChange={(cat) => setActiveCategoryFilter(cat)}
           />
         );
       case "ContactUsSection":
@@ -103,8 +103,8 @@ export default function HomePage() {
           {/* 3. 16 SKU AUTHORIZED PRODUCT CATALOG GRID */}
           <div id="catalog">
             <EquipmentCatalog
-              selectedCategory={selectedCategory}
-              onCategoryChange={(cat) => setSelectedCategory(cat)}
+              selectedCategory={activeCategoryFilter}
+              onCategoryChange={(cat) => setActiveCategoryFilter(cat)}
             />
           </div>
 

@@ -102,7 +102,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
   const handleCategoryClick = (catTitle: string) => {
     setActiveCategoryFilter(catTitle);
-    setIsMegaMenuOpen(false);
+    setActiveMenu(null);
     setIsMobileMenuOpen(false);
     if (typeof window !== "undefined") {
       if (window.location.pathname !== "/") {
