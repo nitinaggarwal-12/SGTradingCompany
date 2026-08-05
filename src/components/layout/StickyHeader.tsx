@@ -23,6 +23,7 @@ import {
   UserCheck,
   PhoneCall,
   Scale,
+  RotateCcw,
 } from "lucide-react";
 import Link from "next/link";
 import { PRODUCTS_CATALOG } from "@/data/products";
@@ -58,6 +59,16 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   const [showAdminPinModal, setShowAdminPinModal] = useState(false);
   const [adminPinInput, setAdminPinInput] = useState("");
   const [adminPinError, setAdminPinError] = useState(false);
+
+  const handleClearCacheAndReload = () => {
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      showToast("🔄 Cleared browser cache & reloading fresh!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    }
+  };
 
   const handleAdminCanvasToggle = () => {
     if (isCanvasMode) {
@@ -376,8 +387,17 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               </Link>
             </div>
 
-            {/* Consolidated Theme & TOP-RIGHT CORNER ADMIN CANVAS EDIT CONTROLLER */}
+            {/* Consolidated Theme, Refresh/Clear Cache & TOP-RIGHT CORNER ADMIN CANVAS EDIT */}
             <div className="flex items-center gap-1.5 pl-2 border-l border-slate-800">
+              {/* Refresh / Clear Cache Button */}
+              <button
+                onClick={handleClearCacheAndReload}
+                className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
+                title="Clear Browser Cache & Reload Everything Fresh"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
