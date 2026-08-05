@@ -222,7 +222,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "mega" && (
                 <div
                   onMouseEnter={() => setActiveMenu("mega")}
-                  className="absolute top-full left-0 mt-2 w-80 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2.5 space-y-1.5 z-50 animate-in fade-in slide-in-from-top-2"
+                  className="absolute top-full left-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-2 z-[999] animate-in fade-in slide-in-from-top-2"
                 >
                   <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] font-mono-spec text-amber-400 uppercase font-bold">
                     <span>Authorized Distribution Directory</span>
@@ -236,7 +236,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <button
                     onClick={() => handleCategoryClick("All Categories")}
-                    className="w-full text-left p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
+                    className="w-full text-left p-2.5 rounded-xl bg-amber-500/20 border border-amber-500 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
                       <CheckSquare className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
@@ -254,19 +254,19 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                     </span>
                   </button>
 
-                  <div className="border-t border-slate-800/80 pt-1 space-y-1">
+                  <div className="border-t border-slate-800 pt-1 space-y-1">
                     {CATEGORIES.map((cat) => {
                       const Icon = cat.icon;
                       return (
                         <button
                           key={cat.name}
                           onClick={() => handleCategoryClick(cat.name)}
-                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-900 flex items-center justify-between group transition-all cursor-pointer"
+                          className="w-full text-left px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 flex items-center justify-between group transition-all cursor-pointer"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
                             <Icon className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                             <div className="min-w-0">
-                              <p className="font-bold text-xs text-slate-200 group-hover:text-amber-400 truncate">
+                              <p className="font-bold text-xs text-white group-hover:text-amber-400 truncate">
                                 {cat.name}
                               </p>
                               <p className="text-[10px] text-slate-400 truncate">
@@ -274,7 +274,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                               </p>
                             </div>
                           </div>
-                          <span className="text-[10px] font-mono-spec font-bold text-slate-400 shrink-0 ml-2">
+                          <span className="text-[10px] font-mono-spec font-bold text-amber-400 shrink-0 ml-2">
                             {cat.count} SKUs
                           </span>
                         </button>
@@ -306,7 +306,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "deals" && (
                 <div
                   onMouseEnter={() => setActiveMenu("deals")}
-                  className="absolute top-full left-0 mt-2 w-76 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                  className="absolute top-full left-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-1.5 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
                 >
                   <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
                     Wholesale Savings &amp; VIP Chef Incentives
@@ -315,11 +315,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/offers"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Flame className="w-4 h-4 text-amber-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Current Offers &amp; Bank Cashback</p>
+                      <p className="font-extrabold text-xs text-white">Current Offers &amp; Bank Cashback</p>
                       <p className="text-[10px] text-slate-400 font-sans">HDFC, ICICI, Axis &amp; Paytm UPI Credit</p>
                     </div>
                   </Link>
@@ -327,11 +327,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/offers"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Gift className="w-4 h-4 text-emerald-400" />
                     <div>
-                      <p className="font-extrabold text-xs">SG Chef Loyalty &amp; VIP Points</p>
+                      <p className="font-extrabold text-xs text-white">SG Chef Loyalty &amp; VIP Points</p>
                       <p className="text-[10px] text-slate-400 font-sans">Earn Points, Free Master Cases &amp; Gifts</p>
                     </div>
                   </Link>
@@ -339,11 +339,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/coming-soon"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Sparkles className="w-4 h-4 text-emerald-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Coming Soon Launch Radar (12 SKUs)</p>
+                      <p className="font-extrabold text-xs text-white">Coming Soon Launch Radar (12 SKUs)</p>
                       <p className="text-[10px] text-slate-400 font-sans">Chatha Chicken, Britannia &amp; Veeba</p>
                     </div>
                   </Link>
@@ -374,7 +374,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "operations" && (
                 <div
                   onMouseEnter={() => setActiveMenu("operations")}
-                  className="absolute top-full right-0 mt-2 w-72 bg-slate-950 border-2 border-amber-500/60 rounded-2xl shadow-2xl p-2 space-y-1 z-50 animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                  className="absolute top-full right-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-1.5 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
                 >
                   <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
                     Wholesale B2B Operations &amp; Intelligence
@@ -383,11 +383,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/market-intelligence"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <BarChart3 className="w-4 h-4 text-amber-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Market Intelligence &amp; SWOT</p>
+                      <p className="font-extrabold text-xs text-white">Market Intelligence &amp; SWOT</p>
                       <p className="text-[10px] text-slate-400 font-sans">Brand Moat &amp; Cold-Chain Strategy</p>
                     </div>
                   </Link>
@@ -395,11 +395,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/stock-manager"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Boxes className="w-4 h-4 text-emerald-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Mayur Vihar Stock ({totalStockCount})</p>
+                      <p className="font-extrabold text-xs text-white">Mayur Vihar Stock ({totalStockCount})</p>
                       <p className="text-[10px] text-slate-400 font-sans">Live Cold Room 1 Inventory Level</p>
                     </div>
                   </Link>
@@ -407,11 +407,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/order-to-cash"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <FileText className="w-4 h-4 text-sky-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Orders &amp; Order-to-Cash (O2C)</p>
+                      <p className="font-extrabold text-xs text-white">Orders &amp; Order-to-Cash (O2C)</p>
                       <p className="text-[10px] text-slate-400 font-sans">GST Tax Invoice &amp; Dispatch Status</p>
                     </div>
                   </Link>
@@ -419,11 +419,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/rfq-workspace"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Scale className="w-4 h-4 text-amber-400" />
                     <div>
-                      <p className="font-extrabold text-xs">Institutional RFQ Quotation</p>
+                      <p className="font-extrabold text-xs text-white">Institutional RFQ Quotation</p>
                       <p className="text-[10px] text-slate-400 font-sans">Custom Annual Hotel Contracts</p>
                     </div>
                   </Link>
@@ -431,11 +431,11 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   <Link
                     href="/#about"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
                     <Building2 className="w-4 h-4 text-amber-400" />
                     <div>
-                      <p className="font-extrabold text-xs">About SG Trading Hub</p>
+                      <p className="font-extrabold text-xs text-white">About SG Trading Hub</p>
                       <p className="text-[10px] text-slate-400 font-sans">Mayur Vihar Phase-3 Credentials</p>
                     </div>
                   </Link>
