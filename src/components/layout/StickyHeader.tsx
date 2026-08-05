@@ -50,6 +50,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     theme,
     toggleTheme,
     currentUser,
+    logoutCustomer,
     setActiveCategoryFilter,
     isCanvasMode,
     setIsCanvasMode,
@@ -496,20 +497,34 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   </div>
 
                   {currentUser ? (
-                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                      <p className="font-extrabold text-white text-xs">
-                        {currentUser.companyName}
-                      </p>
-                      <p className="text-[10px] text-slate-400 font-sans">
-                        GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong> • {currentUser.phone}
-                      </p>
-                      <Link
-                        href="/account"
-                        onClick={() => setActiveMenu(null)}
-                        className="inline-block pt-1 text-[11px] text-emerald-400 font-bold hover:underline"
-                      >
-                        Manage Account &amp; Saved Cards →
-                      </Link>
+                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                      <div>
+                        <p className="font-extrabold text-white text-xs">
+                          {currentUser.companyName}
+                        </p>
+                        <p className="text-[10px] text-slate-400 font-sans">
+                          GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong> • {currentUser.phone}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between pt-1.5 border-t border-slate-800">
+                        <Link
+                          href="/account"
+                          onClick={() => setActiveMenu(null)}
+                          className="text-[11px] text-emerald-400 font-bold hover:underline"
+                        >
+                          Manage Account →
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            logoutCustomer();
+                            setActiveMenu(null);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-[10px] transition-all cursor-pointer"
+                        >
+                          🚪 Sign Out
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <Link
