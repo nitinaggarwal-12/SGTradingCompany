@@ -509,18 +509,13 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                       </div>
 
                       <div className="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-slate-800">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            logoutCustomer();
-                            setIsGuestCheckout(true);
-                            showToast("🛍️ Switched to Guest Shopping Mode (Zero Registration Required)!");
-                            setActiveMenu(null);
-                          }}
-                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-black text-[10px] transition-all cursor-pointer text-center"
+                        <Link
+                          href="/account"
+                          onClick={() => setActiveMenu(null)}
+                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-black text-[10px] transition-all text-center"
                         >
-                          🛍️ Guest Mode
-                        </button>
+                          My Account →
+                        </Link>
                         <button
                           type="button"
                           onClick={() => {
@@ -530,7 +525,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                           }}
                           className="px-2.5 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-[10px] transition-all cursor-pointer text-center"
                         >
-                          🚪 Logout
+                          🚪 Sign Out
                         </button>
                       </div>
                     </div>
@@ -565,6 +560,19 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                           </p>
                         </div>
                       </Link>
+
+                      {/* Explicit Logout / Reset Session button for Guest Mode */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          logoutCustomer();
+                          showToast("🚪 Session reset & signed out!");
+                          setActiveMenu(null);
+                        }}
+                        className="w-full py-2 px-3 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                      >
+                        <span>🚪 Sign Out / Reset Guest Session</span>
+                      </button>
                     </div>
                   )}
 
