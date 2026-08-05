@@ -95,11 +95,8 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* MOBILE PHONE NATIVE APP VERSION (Visible on Phones < md when in Desktop Mode) */}
-      {viewportMode === "desktop" && <MobileCommercialAppView />}
-
-      {/* DESKTOP WEB PORTAL VERSION & RESPONSIVE VIEWPORT SIMULATOR FRAME */}
-      <div className={`hidden md:flex flex-col flex-1 ${viewportContainerClasses}`}>
+      {/* RESPONSIVE WEB PORTAL CONTENT AREA */}
+      <div className={`flex flex-col flex-1 ${viewportContainerClasses}`}>
         {/* Main Content Area */}
         <main className="flex-1 space-y-4">
           {/* 1. Commercial Quality Visual Showcase Carousel */}
