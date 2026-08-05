@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -176,7 +176,7 @@ const LIVE_OFFERS: OfferDeal[] = [
   },
 ];
 
-export default function OffersPage() {
+function OffersPageContent() {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get("tab") === "loyalty" ? "loyalty" : "offers";
   const [activeTab, setActiveTab] = useState<"offers" | "loyalty">(initialTab);
@@ -572,5 +572,19 @@ export default function OffersPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function OffersPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-12 text-xs">
+          Loading Commercial Offers &amp; Loyalty Hub...
+        </div>
+      }
+    >
+      <OffersPageContent />
+    </Suspense>
   );
 }

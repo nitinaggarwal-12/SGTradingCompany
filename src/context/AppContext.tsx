@@ -22,6 +22,19 @@ import {
   EditableTarget,
 } from "@/components/admin/AdminPropertyInspectorModal";
 
+export interface SsoConfig {
+  googleClientId: string;
+  googleClientSecret: string;
+  isGoogleLive: boolean;
+  whatsAppPhoneId: string;
+  whatsAppAccessToken: string;
+  whatsAppReceivingNumber: string;
+  isWhatsAppLive: boolean;
+  metaAppId: string;
+  metaAppSecret: string;
+  isMetaLive: boolean;
+}
+
 interface AppContextType {
   // Products with dynamic stock
   products: Product[];
@@ -63,6 +76,10 @@ interface AppContextType {
   registerCustomer: (accountData: Partial<CustomerAccount>) => CustomerAccount;
   loginCustomer: (email: string) => CustomerAccount;
   logoutCustomer: () => void;
+
+  // Real Single Sign-On (SSO) API Keys Configuration
+  ssoConfig: SsoConfig;
+  updateSsoConfig: (updates: Partial<SsoConfig>) => void;
 
   // Saved Customer Payment Methods (Multiple Cards & Saved Customer UPI IDs)
   savedPaymentMethods: SavedPaymentMethod[];
@@ -550,6 +567,42 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentUser, setCurrentUser] = useState<CustomerAccount | null>(null);
   const [isGuestCheckout, setIsGuestCheckout] = useState<boolean>(true);
 
+  // Real Single Sign-On (SSO) API Keys Configuration State
+  const [ssoConfig, setSsoConfig] = useState<SsoConfig>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("sg_sso_config");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+    return {
+      googleClientId: "",
+      googleClientSecret: "",
+      isGoogleLive: false,
+      whatsAppPhoneId: "",
+      whatsAppAccessToken: "",
+      whatsAppReceivingNumber: "+919667731355",
+      isWhatsAppLive: false,
+      metaAppId: "",
+      metaAppSecret: "",
+      isMetaLive: false,
+    };
+  });
+
+  const updateSsoConfig = (updates: Partial<SsoConfig>) => {
+    setSsoConfig((prev) => {
+      const next = { ...prev, ...updates };
+      if (typeof window !== "undefined") {
+        localStorage.setItem("sg_sso_config", JSON.stringify(next));
+      }
+      return next;
+    });
+  };
+
   // Saved Customer Payment Methods Wallet State
   const [savedPaymentMethods, setSavedPaymentMethods] = useState<
     SavedPaymentMethod[]
@@ -981,6 +1034,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
         registerCustomer,
         loginCustomer,
         logoutCustomer,
+        ssoConfig,
+        updateSsoConfig,
         savedPaymentMethods,
         addSavedPaymentMethod,
         removeSavedPaymentMethod,
