@@ -220,7 +220,6 @@ export default function CurrentOffersPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      <StickyHeader />
       {/* INTERACTIVE LOYALTY POINTS & REWARD INCENTIVE CALCULATOR */}
       <section className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8">
         <div className="p-8 rounded-3xl bg-white border-2 border-amber-500/60 shadow-lg space-y-6">

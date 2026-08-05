@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { CookieConsentBanner } from "@/components/common/CookieConsentBanner";
+import { StickyHeader } from "@/components/layout/StickyHeader";
 
 export const metadata: Metadata = {
   title: "SG Trading Company | Commercial Kitchen & HORECA Industrial Equipment Marketplace",
@@ -21,6 +22,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AppProvider>
+          <StickyHeader />
           {children}
           <CookieConsentBanner />
         </AppProvider>
