@@ -55,8 +55,8 @@ export const ContactUsSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Direct Contact Cards & Warehouse Address (5 Cols - 3 Cards) */}
-          <div className="lg:col-span-5 space-y-4">
+          {/* Left Column: Contact Cards + Warehouse Google Maps + Request Wholesale Rates Form (6 Cols) */}
+          <div className="lg:col-span-6 space-y-4">
             {/* 1. Rahul Garg & Sonu Direct Contact Card */}
             <div className="industrial-card rounded-2xl p-6 border border-slate-800 space-y-4">
               <div className="flex items-center justify-between">
@@ -179,27 +179,7 @@ export const ContactUsSection: React.FC = () => {
               </div>
             </div>
 
-            {/* 3. Cold Chain Guarantee Card */}
-            <div className="industrial-card rounded-2xl p-5 border border-slate-800 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
-                <Clock className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white uppercase">
-                  Express Delhi NCR Dispatch
-                </h4>
-                <p className="text-xs text-slate-300 mt-0.5">
-                  Refrigerated -18°C delivery for McCain, ITC, Chatha & Cheese packs directly to your kitchen.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Authentic Paytm UPI QR Standee + Commercial Inquiry Form + SLA & FAQ (7 Cols) */}
-          <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
-            {/* OFFICIAL AUTHENTIC SG TRADING COMPANY PAYTM UPI STANDEE (TOP OF RIGHT COLUMN) */}
-            <PaytmMerchantQRStandee />
-
+            {/* 3. REQUEST WHOLESALE RATES & SAMPLE DISPATCH FORM (UNDER MAPS ON LEFT COLUMN!) */}
             <div className="industrial-card rounded-2xl p-6 md:p-8 border border-slate-800">
               {formSubmitted ? (
                 <div className="p-8 text-center space-y-4">
@@ -207,7 +187,7 @@ export const ContactUsSection: React.FC = () => {
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
                   <h3 className="text-2xl font-bold text-white">
-                    Inquiry Received by Rahul Garg & Sonu!
+                    Inquiry Received by Rahul Garg &amp; Sonu!
                   </h3>
                   <p className="text-xs text-slate-300 max-w-md mx-auto">
                     Our team will contact you back on <strong className="text-amber-400">{formData.phone}</strong> with wholesale rates and delivery schedules for <strong className="text-white">{formData.businessName}</strong>.
@@ -223,7 +203,7 @@ export const ContactUsSection: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                     <h3 className="text-base font-bold text-white">
-                      Request Wholesale Rates & Sample Dispatch
+                      Request Wholesale Rates &amp; Sample Dispatch
                     </h3>
                     <span className="text-xs text-slate-400 font-mono-spec">
                       Direct to Distributor Desk
@@ -345,6 +325,27 @@ export const ContactUsSection: React.FC = () => {
                 </form>
               )}
             </div>
+
+            {/* 4. Cold Chain Guarantee Card */}
+            <div className="industrial-card rounded-2xl p-5 border border-slate-800 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                <Clock className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-white uppercase">
+                  Express Delhi NCR Dispatch
+                </h4>
+                <p className="text-xs text-slate-300 mt-0.5">
+                  Refrigerated -18°C delivery for McCain, ITC, Chatha &amp; Cheese packs directly to your kitchen.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Authentic Paytm UPI QR Standee + SLA & FAQ Panels (6 Cols) */}
+          <div className="lg:col-span-6 flex flex-col justify-between space-y-4">
+            {/* OFFICIAL AUTHENTIC SG TRADING COMPANY PAYTM UPI STANDEE (TOP OF RIGHT COLUMN) */}
+            <PaytmMerchantQRStandee />
 
             {/* AUTHORIZED INSTITUTIONAL DISTRIBUTION SLA & COLD-CHAIN LOGISTICS PROTOCOL CARD */}
             <div className="industrial-card rounded-2xl p-5 border border-slate-800 space-y-3">
