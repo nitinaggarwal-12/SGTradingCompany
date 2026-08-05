@@ -480,31 +480,31 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "account" && (
                 <div
                   onMouseEnter={() => setActiveMenu("account")}
-                  className="absolute top-full right-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-2 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                  className="absolute top-full right-0 mt-2 w-72 bg-slate-900 border border-slate-700 text-white rounded-2xl shadow-2xl p-2.5 space-y-2 z-[999] animate-in fade-in slide-in-from-top-2 font-sans text-xs"
                 >
-                  <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-amber-400 uppercase font-black">
+                  <div className="px-2 py-1 flex items-center justify-between text-[11px] text-amber-400 font-bold">
                     <span>
                       {currentUser
-                        ? "Active Buyer Account Profile"
-                        : "Customer Portal & 1-Click SSO"}
+                        ? "Active Account"
+                        : "Guest Shopping Mode"}
                     </span>
                     <Link
                       href="/account"
                       onClick={() => setActiveMenu(null)}
-                      className="text-white hover:text-amber-400 underline font-bold"
+                      className="text-slate-300 hover:text-amber-400 font-medium"
                     >
-                      Open Full Page →
+                      Account Portal →
                     </Link>
                   </div>
 
                   {currentUser ? (
-                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5">
+                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                       <div>
-                        <p className="font-extrabold text-white text-xs">
+                        <p className="font-bold text-white text-xs truncate">
                           {currentUser.companyName}
                         </p>
-                        <p className="text-[10px] text-slate-400 font-sans">
-                          GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong> • {currentUser.phone}
+                        <p className="text-[11px] text-slate-400">
+                          GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong>
                         </p>
                       </div>
 
@@ -512,156 +512,105 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                         <Link
                           href="/account"
                           onClick={() => setActiveMenu(null)}
-                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-black text-[10px] transition-all text-center"
+                          className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-[11px] text-center"
                         >
-                          My Account →
+                          My Account
                         </Link>
                         <button
                           type="button"
                           onClick={() => {
                             logoutCustomer();
-                            showToast("👋 Signed Out of Customer Account!");
+                            showToast("👋 Signed out!");
                             setActiveMenu(null);
                           }}
-                          className="px-2.5 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-[10px] transition-all cursor-pointer text-center"
+                          className="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white font-bold text-[11px] cursor-pointer text-center"
                         >
                           🚪 Sign Out
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <div className="space-y-2">
-                      <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/40 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-black text-emerald-400 flex items-center gap-1">
-                            🛍️ GUEST SHOPPING MODE
-                          </span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 font-black">
-                            ACTIVE
-                          </span>
-                        </div>
-                        <p className="text-[10px] text-slate-300 font-sans">
-                          Browse all 12 HORECA brands &amp; order immediately as a Guest without signing in!
-                        </p>
+                    <div className="space-y-1.5">
+                      <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                        <span className="text-[11px] font-bold text-emerald-400">
+                          🛍️ Guest Shopping Active
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            logoutCustomer();
+                            showToast("🚪 Session reset");
+                            setActiveMenu(null);
+                          }}
+                          className="text-[10px] text-rose-400 hover:underline font-bold"
+                        >
+                          Sign Out
+                        </button>
                       </div>
 
                       <Link
                         href="/account"
                         onClick={() => setActiveMenu(null)}
-                        className="flex items-center gap-2.5 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all group"
+                        className="flex items-center justify-between p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 font-bold text-xs text-amber-400 transition-all"
                       >
-                        <UserCheck className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
-                        <div>
-                          <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
-                            Sign In with WhatsApp / Google SSO
-                          </p>
-                          <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-sans">
-                            Save your business GSTIN &amp; VIP Chef Points
-                          </p>
-                        </div>
+                        <span>🔑 Sign In with WhatsApp / Google</span>
+                        <span>→</span>
                       </Link>
-
-                      {/* Explicit Logout / Reset Session button for Guest Mode */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          logoutCustomer();
-                          showToast("🚪 Session reset & signed out!");
-                          setActiveMenu(null);
-                        }}
-                        className="w-full py-2 px-3 rounded-xl bg-rose-500/15 hover:bg-rose-500 text-rose-400 hover:text-white font-black text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                      >
-                        <span>🚪 Sign Out / Reset Guest Session</span>
-                      </button>
                     </div>
                   )}
 
-                  {/* PORTAL & ADMIN TOOLS SECTION UNDER ACCOUNT DROPDOWN */}
-                  <div className="pt-2 border-t border-slate-800 space-y-1.5">
-                    <span className="text-[9px] text-slate-400 uppercase font-black block px-2">
-                      PORTAL PREFERENCES &amp; ADMIN CONTROLS:
-                    </span>
-
-                    {/* 1. Admin Visual Canvas Edit Button */}
+                  {/* PORTAL & ADMIN CONTROLS */}
+                  <div className="pt-1.5 border-t border-slate-800 space-y-1">
                     <button
                       type="button"
                       onClick={() => {
                         handleAdminCanvasToggle();
                         setActiveMenu(null);
                       }}
-                      className={`w-full text-left p-2.5 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
+                      className={`w-full p-2 rounded-xl border flex items-center justify-between font-bold text-xs cursor-pointer transition-all ${
                         isCanvasMode
-                          ? "bg-amber-500 text-slate-950 border-amber-400 font-black"
+                          ? "bg-amber-500 text-slate-950 border-amber-400"
                           : "bg-slate-950 hover:bg-slate-800 text-amber-400 border-slate-800"
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-amber-400" />
-                        <div>
-                          <p className="font-bold text-xs">
-                            {isCanvasMode ? "Visual Canvas Edit: ON" : "Admin Visual Canvas Edit"}
-                          </p>
-                          <p className="text-[10px] text-slate-400 font-sans">
-                            Live CMS drag-and-drop page builder
-                          </p>
-                        </div>
-                      </div>
-                      <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[9px] font-black">
-                        ADMIN
+                      <span className="flex items-center gap-2">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        {isCanvasMode ? "Admin Edit: ON" : "Admin Visual Edit"}
                       </span>
+                      <span className="text-[10px] uppercase opacity-75">CMS</span>
                     </button>
 
-                    {/* 2. Theme Switcher (Light / Dark) */}
                     <button
                       type="button"
                       onClick={() => {
                         toggleTheme();
                         setActiveMenu(null);
                       }}
-                      className="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition-all cursor-pointer"
+                      className="w-full p-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between font-bold text-xs text-white cursor-pointer"
                     >
-                      <div className="flex items-center gap-2">
+                      <span className="flex items-center gap-2">
                         {theme === "dark" ? (
-                          <Sun className="w-4 h-4 text-amber-400" />
+                          <Sun className="w-3.5 h-3.5 text-amber-400" />
                         ) : (
-                          <Moon className="w-4 h-4 text-sky-400" />
+                          <Moon className="w-3.5 h-3.5 text-sky-400" />
                         )}
-                        <div>
-                          <p className="font-bold text-xs text-white">
-                            Switch Theme Mode
-                          </p>
-                          <p className="text-[10px] text-slate-400 font-sans">
-                            Current: {theme === "dark" ? "Dark Executive" : "Light Commercial"}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-amber-400">
-                        {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+                        Theme Mode
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-normal">
+                        {theme === "dark" ? "Dark" : "Light"}
                       </span>
                     </button>
 
-                    {/* 3. Refresh & Clear Cache Button */}
                     <button
                       type="button"
-                      onClick={() => {
-                        handleClearCacheAndReload();
-                      }}
-                      className="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition-all cursor-pointer"
+                      onClick={() => handleClearCacheAndReload()}
+                      className="w-full p-2 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between font-bold text-xs text-slate-300 hover:text-white cursor-pointer"
                     >
-                      <div className="flex items-center gap-2">
-                        <RotateCcw className="w-4 h-4 text-sky-400" />
-                        <div>
-                          <p className="font-bold text-xs text-white">
-                            Clear Cache &amp; Reload Fresh
-                          </p>
-                          <p className="text-[10px] text-slate-400 font-sans">
-                            Flush local state and reload portal
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-sky-400">
-                        RELOAD
+                      <span className="flex items-center gap-2">
+                        <RotateCcw className="w-3.5 h-3.5 text-sky-400" />
+                        Reload &amp; Clear Cache
                       </span>
+                      <span className="text-[10px] text-sky-400 font-normal">Fresh</span>
                     </button>
                   </div>
                 </div>
