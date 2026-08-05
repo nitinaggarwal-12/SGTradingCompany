@@ -69,12 +69,11 @@ export const CommercialShowcaseCarousel: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % SHOWCASE_SLIDES.length);
-    }, 5500);
+    }, 4000);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, []);
 
   const currentSlide = SHOWCASE_SLIDES[currentIndex];
 
@@ -89,11 +88,7 @@ export const CommercialShowcaseCarousel: React.FC = () => {
   };
 
   return (
-    <section
-      className="py-12 bg-slate-900/60 dark:bg-slate-950/80 border-y border-slate-800"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
+    <section className="py-12 bg-slate-900/60 dark:bg-slate-950/80 border-y border-slate-800">
       <div className="max-w-8xl mx-auto px-6 md:px-12">
         {/* Section Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
