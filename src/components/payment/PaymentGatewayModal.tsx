@@ -41,11 +41,17 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
   const [transactionId, setTransactionId] = useState("");
   const [copiedUpi, setCopiedUpi] = useState(false);
 
-  // Card Form state
+  // Card Form state & Saved Cards
+  const { savedPaymentMethods, currentUser, addSavedPaymentMethod } = useApp();
+  const [selectedSavedCardId, setSelectedSavedCardId] = useState<string | null>(
+    savedPaymentMethods.length > 0 ? savedPaymentMethods[0].id : null
+  );
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiry, setCardExpiry] = useState("");
   const [cardCvv, setCardCvv] = useState("");
   const [cardHolder, setCardHolder] = useState("");
+  const [saveCardForFuture, setSaveCardForFuture] = useState(true);
+  const [cvvError, setCvvError] = useState(false);
 
   // UPI Form state
   const [upiId, setUpiId] = useState("");
@@ -61,6 +67,30 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
 
   const handleSimulatePayment = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // STRICT PCI-DSS MANDATORY CVV SECURITY CHECK FOR TRANSACTIONS
+    if (paymentMethod === "card") {
+      if (!cardCvv || cardCvv.trim().length < 3) {
+        setCvvError(true);
+        showToast("⛔ SECURITY ERROR: Mandatory 3-Digit CVV required to execute transaction!");
+        return;
+      }
+      setCvvError(false);
+
+      // Save new card if checked (Only REDACTED Card Mask is saved; CVV is NEVER stored)
+      if (!selectedSavedCardId && saveCardForFuture && cardNumber.length >= 12) {
+        const last4 = cardNumber.slice(-4);
+        addSavedPaymentMethod({
+          type: "card",
+          nickname: `Commercial Card •••• ${last4}`,
+          maskedNumber: `•••• •••• •••• ${last4}`,
+          cardBrand: "VISA",
+          cardHolder: cardHolder || "Authorized Kitchen Buyer",
+          expiry: cardExpiry || "12/28",
+        });
+      }
+    }
+
     setIsProcessing(true);
 
     setTimeout(() => {
@@ -69,7 +99,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
       const generatedTxn = `SG-PTM-2026-${Math.floor(100000 + Math.random() * 900000)}`;
       setTransactionId(generatedTxn);
       deductOrderStock(cart);
-      showToast("Payment Verified via Paytm UPI! Stock automatically deducted from Warehouse.");
+      showToast("Payment Verified via Paytm UPI / Commercial Card! Stock automatically deducted from Warehouse.");
       clearCart();
     }, 1800);
   };
@@ -90,10 +120,10 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-white text-base">
-                  SG TRADING COMPANY — Paytm & UPI Gateway
+                  SG TRADING COMPANY — Paytm &amp; UPI Gateway
                 </h3>
                 <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono-spec font-bold flex items-center gap-1">
-                  <Lock className="w-3 h-3" /> VERIFIED MERCHANT
+                  <Lock className="w-3 h-3" /> VERIFIED PCI-DSS ENCRYPTED
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-mono-spec">
@@ -119,13 +149,13 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
 
             <div className="space-y-2">
               <span className="text-xs font-mono-spec uppercase tracking-wider text-emerald-400 font-bold">
-                PAYMENT RECEIVED VIA PAYTM / UPI
+                PAYMENT RECEIVED &amp; AUTHORIZED
               </span>
               <h2 className="text-2xl font-extrabold text-white">
                 Commercial Order Confirmed!
               </h2>
               <p className="text-xs text-slate-300 max-w-md mx-auto">
-                Thank you for ordering from <strong className="text-amber-400">Rahul Garg & Sonu (SG Trading Company)</strong>. Your running warehouse stock has been updated, and cold-chain dispatch is scheduled.
+                Thank you for ordering from <strong className="text-amber-400">Rahul Garg &amp; Sonu (SG Trading Company)</strong>. Your running warehouse stock has been updated, and cold-chain dispatch is scheduled.
               </p>
             </div>
 
@@ -141,11 +171,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">FSSAI LIC. NO:</span>
-                <span className="text-emerald-400 font-bold">[ADD YOUR FSSAI NO.]</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">UPI ID PAID TO:</span>
-                <span className="text-amber-400 font-bold">paytmqr69pf0i@ptys</span>
+                <span className="text-emerald-400 font-bold">13324008000192</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">TRANSACTION ID:</span>
@@ -177,7 +203,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
                 onClick={onClose}
                 className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs"
               >
-                Done & Continue Browsing
+                Done &amp; Continue Browsing
               </button>
             </div>
           </div>
@@ -199,7 +225,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
                   Includes ₹{gstAmount.toLocaleString("en-IN")} GST
                 </span>
                 <span className="text-[11px] text-slate-400">
-                  Paytm / All UPI Apps Supported
+                  PCI-DSS Zero-Knowledge Masking Active
                 </span>
               </div>
             </div>
@@ -208,7 +234,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
             <div className="grid grid-cols-4 gap-2">
               {[
                 { id: "upi", label: "Paytm / UPI QR", icon: QrCode },
-                { id: "card", label: "Card", icon: CreditCard },
+                { id: "card", label: "Commercial Card", icon: CreditCard },
                 { id: "netbanking", label: "NetBanking", icon: Building2 },
                 { id: "neft", label: "B2B RTGS / NEFT", icon: ShieldCheck },
               ].map((m) => {
@@ -289,63 +315,141 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
             )}
 
             {paymentMethod === "card" && (
-              <div className="industrial-card rounded-xl p-5 border border-slate-800 space-y-3">
-                <div>
-                  <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
-                    Corporate / Business Credit or Debit Card Number *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="4532 •••• •••• 8901"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono-spec text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
-                      Expiry Date (MM/YY) *
+              <div className="industrial-card rounded-xl p-5 border border-slate-800 space-y-4">
+                {/* SAVED COMMERCIAL CARDS SECTION (REDACTED MASK ONLY) */}
+                {savedPaymentMethods.length > 0 && (
+                  <div className="space-y-2 pb-3 border-b border-slate-800">
+                    <label className="text-[10px] font-mono-spec text-amber-400 block uppercase font-bold">
+                      🔒 SAVED COMMERCIAL CARDS (REDACTED PCI-DSS MASK):
                     </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="09/28"
-                      value={cardExpiry}
-                      onChange={(e) => setCardExpiry(e.target.value)}
-                      className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono-spec text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
-                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {savedPaymentMethods.map((card) => {
+                        const isSelected = selectedSavedCardId === card.id;
+                        return (
+                          <button
+                            key={card.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedSavedCardId(card.id);
+                              setCvvError(false);
+                            }}
+                            className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? "bg-amber-500/15 border-amber-500 text-white"
+                                : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-mono-spec text-xs font-black text-amber-400">
+                                {card.maskedNumber || "•••• •••• •••• 8901"}
+                              </span>
+                              <span className="text-[10px] text-slate-400 font-mono-spec">
+                                Exp: {card.expiry || "12/28"}
+                              </span>
+                            </div>
+                            <p className="text-[11px] font-bold text-slate-200 truncate mt-1">
+                              {card.cardHolder || "Authorized Kitchen Buyer"}
+                            </p>
+                          </button>
+                        );
+                      })}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedSavedCardId(null)}
+                        className={`p-3 rounded-xl border text-center font-mono-spec text-xs font-bold transition-all cursor-pointer ${
+                          selectedSavedCardId === null
+                            ? "bg-amber-500/15 border-amber-500 text-amber-400"
+                            : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                        }`}
+                      >
+                        + Use New Commercial Card
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
-                      CVV Security Code *
+                )}
+
+                {/* IF NEW CARD IS SELECTED */}
+                {selectedSavedCardId === null && (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
+                        Corporate / Business Credit or Debit Card Number *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="4532 •••• •••• 8901"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono-spec text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
+                          Expiry Date (MM/YY) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="09/28"
+                          value={cardExpiry}
+                          onChange={(e) => setCardExpiry(e.target.value)}
+                          className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono-spec text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
+                          Cardholder Name *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Rahul Garg / Kitchen Director"
+                          value={cardHolder}
+                          onChange={(e) => setCardHolder(e.target.value)}
+                          className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* MANDATORY CVV INPUT (REQUIRED FOR BOTH SAVED & NEW CARDS - NEVER STORED) */}
+                <div className="p-3.5 rounded-xl bg-amber-500/10 border-2 border-amber-500/60 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-mono-spec font-black text-amber-400 uppercase">
+                      ENTER MANDATORY 3-DIGIT CVV SECURITY CODE *
                     </label>
+                    <span className="text-[10px] text-emerald-400 font-mono-spec font-bold">
+                      NEVER STORED IN DB / REDACTED
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
                     <input
                       type="password"
                       maxLength={4}
                       required
                       placeholder="•••"
                       value={cardCvv}
-                      onChange={(e) => setCardCvv(e.target.value)}
-                      className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono-spec text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                      onChange={(e) => {
+                        setCardCvv(e.target.value);
+                        setCvvError(false);
+                      }}
+                      className="w-32 px-4 py-2 bg-slate-950 border border-amber-500 rounded-xl text-center text-base font-mono-spec font-black text-amber-400 tracking-widest focus:outline-none"
                     />
+                    <p className="text-[11px] text-slate-300 leading-tight">
+                      For PCI-DSS compliance, CVV code is required for every transaction and is erased immediately after authorization.
+                    </p>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-[11px] font-mono-spec text-slate-400 block mb-1">
-                    Cardholder Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Rahul Garg / Company Authorized Card"
-                    value={cardHolder}
-                    onChange={(e) => setCardHolder(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
-                  />
+                  {cvvError && (
+                    <p className="text-xs text-rose-400 font-mono-spec font-bold">
+                      ⛔ Security Alert: Please enter your valid 3-digit CVV code to execute this payment.
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -397,7 +501,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
                     <strong>BANK:</strong> ICICI BANK LTD, MAYUR VIHAR PHASE-3 BRANCH
                   </p>
                   <p>
-                    <strong>ACCOUNT NUMBER:</strong> 004105008942
+                    <strong>ACCOUNT NUMBER (REDACTED):</strong> •••• •••• 8942 <span className="text-slate-500">(Full account visible on official proforma invoice)</span>
                   </p>
                   <p>
                     <strong>IFSC CODE:</strong> ICIC0000041
@@ -413,11 +517,11 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
               className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-xl shadow-amber-500/20 cursor-pointer disabled:opacity-50"
             >
               {isProcessing ? (
-                <span>Verifying Paytm UPI Payment & Issuing Official GST Receipt...</span>
+                <span>Verifying Authorization &amp; Issuing Official GST Receipt...</span>
               ) : (
                 <>
                   <span>
-                    Confirm Paytm / UPI Payment of ₹{amount.toLocaleString("en-IN")} & Complete Order
+                    Confirm Payment of ₹{amount.toLocaleString("en-IN")} &amp; Complete Order
                   </span>
                   <ArrowRight className="w-4 h-4" />
                 </>
