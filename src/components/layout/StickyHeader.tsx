@@ -227,9 +227,9 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "mega" && (
                 <div
                   onMouseEnter={() => setActiveMenu("mega")}
-                  className="absolute top-full left-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-2 z-[999] animate-in fade-in slide-in-from-top-2"
+                  className="absolute top-full left-0 mt-2 w-72 bg-slate-900 border border-slate-700 text-white rounded-2xl shadow-2xl p-2.5 space-y-1.5 z-[999] animate-in fade-in slide-in-from-top-2 font-sans text-xs"
                 >
-                  <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] font-mono-spec text-amber-400 uppercase font-bold">
+                  <div className="px-2 py-1 flex items-center justify-between text-[11px] font-bold text-amber-400">
                     <span>Authorized Distribution Directory</span>
                     <button
                       onClick={() => setActiveMenu(null)}
@@ -241,45 +241,33 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
                   <button
                     onClick={() => handleCategoryClick("All Categories")}
-                    className="w-full text-left p-2.5 rounded-xl bg-amber-500/20 border border-amber-500 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
+                    className="w-full text-left p-2 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all flex items-center justify-between group cursor-pointer"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <CheckSquare className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
-                      <div>
-                        <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
-                          ALL 12 AUTHORIZED BRANDS
-                        </p>
-                        <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-medium">
-                          Show entire 16 SKU wholesale portfolio
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <CheckSquare className="w-3.5 h-3.5 text-amber-400 group-hover:text-slate-950" />
+                      <span className="font-bold text-xs">All 12 Authorized Brands</span>
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-black">
+                    <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-[10px] font-bold">
                       16 SKUs
                     </span>
                   </button>
 
-                  <div className="border-t border-slate-800 pt-1 space-y-1">
+                  <div className="border-t border-slate-800 pt-1 space-y-0.5">
                     {CATEGORIES.map((cat) => {
                       const Icon = cat.icon;
                       return (
                         <button
                           key={cat.name}
                           onClick={() => handleCategoryClick(cat.name)}
-                          className="w-full text-left px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 flex items-center justify-between group transition-all cursor-pointer"
+                          className="w-full text-left px-2.5 py-1.5 rounded-xl hover:bg-slate-800 flex items-center justify-between group transition-all cursor-pointer"
                         >
-                          <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="flex items-center gap-2 min-w-0">
                             <Icon className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                            <div className="min-w-0">
-                              <p className="font-bold text-xs text-white group-hover:text-amber-400 truncate">
-                                {cat.name}
-                              </p>
-                              <p className="text-[10px] text-slate-400 truncate">
-                                {cat.desc}
-                              </p>
-                            </div>
+                            <span className="font-medium text-xs text-white group-hover:text-amber-400 truncate">
+                              {cat.name}
+                            </span>
                           </div>
-                          <span className="text-[10px] font-mono-spec font-bold text-amber-400 shrink-0 ml-2">
+                          <span className="text-[11px] font-bold text-amber-400 shrink-0 ml-2">
                             {cat.count} SKUs
                           </span>
                         </button>
@@ -311,45 +299,45 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "deals" && (
                 <div
                   onMouseEnter={() => setActiveMenu("deals")}
-                  className="absolute top-full left-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-1.5 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                  className="absolute top-full left-0 mt-2 w-72 bg-slate-900 border border-slate-700 text-white rounded-2xl shadow-2xl p-2.5 space-y-1 z-[999] animate-in fade-in slide-in-from-top-2 font-sans text-xs"
                 >
-                  <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
-                    Wholesale Savings &amp; VIP Chef Incentives
+                  <div className="px-2 py-1 text-[11px] font-bold text-amber-400">
+                    Wholesale Savings &amp; VIP Incentives
                   </div>
 
                   <Link
                     href="/offers?tab=offers"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Flame className="w-4 h-4 text-amber-400" />
+                    <Flame className="w-4 h-4 text-amber-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Current Offers &amp; Bank Cashback</p>
-                      <p className="text-[10px] text-slate-400 font-sans">HDFC, ICICI, Axis &amp; Paytm UPI Credit</p>
+                      <p className="font-bold text-xs text-white">Bank Cashback &amp; Offers</p>
+                      <p className="text-[11px] text-slate-400">HDFC, ICICI &amp; Paytm credit</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/offers?tab=loyalty"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Gift className="w-4 h-4 text-emerald-400" />
+                    <Gift className="w-4 h-4 text-emerald-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">SG Chef Loyalty &amp; VIP Points</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Earn Points, Free Master Cases &amp; Gifts</p>
+                      <p className="font-bold text-xs text-white">SG Chef VIP Rewards</p>
+                      <p className="text-[11px] text-slate-400">Earn points &amp; free master cases</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/coming-soon"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Coming Soon Launch Radar (12 SKUs)</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Chatha Chicken, Britannia &amp; Veeba</p>
+                      <p className="font-bold text-xs text-white">Coming Soon Radar (12 SKUs)</p>
+                      <p className="text-[11px] text-slate-400">Chatha, Britannia &amp; Veeba</p>
                     </div>
                   </Link>
                 </div>
@@ -379,69 +367,69 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {activeMenu === "operations" && (
                 <div
                   onMouseEnter={() => setActiveMenu("operations")}
-                  className="absolute top-full right-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-1.5 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                  className="absolute top-full right-0 mt-2 w-72 bg-slate-900 border border-slate-700 text-white rounded-2xl shadow-2xl p-2.5 space-y-1 z-[999] animate-in fade-in slide-in-from-top-2 font-sans text-xs"
                 >
-                  <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] text-amber-400 uppercase font-black">
-                    Wholesale B2B Operations &amp; Intelligence
+                  <div className="px-2 py-1 text-[11px] font-bold text-amber-400">
+                    B2B Operations &amp; Intelligence
                   </div>
 
                   <Link
                     href="/market-intelligence"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <BarChart3 className="w-4 h-4 text-amber-400" />
+                    <BarChart3 className="w-4 h-4 text-amber-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Market Intelligence &amp; SWOT</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Brand Moat &amp; Cold-Chain Strategy</p>
+                      <p className="font-bold text-xs text-white">Market Intelligence &amp; SWOT</p>
+                      <p className="text-[11px] text-slate-400">Brand moat &amp; cold-chain analytics</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/stock-manager"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Boxes className="w-4 h-4 text-emerald-400" />
+                    <Boxes className="w-4 h-4 text-emerald-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Mayur Vihar Stock ({totalStockCount})</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Live Cold Room 1 Inventory Level</p>
+                      <p className="font-bold text-xs text-white">Mayur Vihar Stock ({totalStockCount})</p>
+                      <p className="text-[11px] text-slate-400">Live Cold Room 1 inventory</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/order-to-cash"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <FileText className="w-4 h-4 text-sky-400" />
+                    <FileText className="w-4 h-4 text-sky-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Orders &amp; Order-to-Cash (O2C)</p>
-                      <p className="text-[10px] text-slate-400 font-sans">GST Tax Invoice &amp; Dispatch Status</p>
+                      <p className="font-bold text-xs text-white">Order-to-Cash (O2C)</p>
+                      <p className="text-[11px] text-slate-400">GST tax invoices &amp; dispatch</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/rfq-workspace"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Scale className="w-4 h-4 text-amber-400" />
+                    <Scale className="w-4 h-4 text-amber-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">Institutional RFQ Quotation</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Custom Annual Hotel Contracts</p>
+                      <p className="font-bold text-xs text-white">Institutional RFQ Quotation</p>
+                      <p className="text-[11px] text-slate-400">Annual hotel contract rates</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/#about"
                     onClick={() => setActiveMenu(null)}
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-800 text-white hover:text-amber-400 transition-all"
                   >
-                    <Building2 className="w-4 h-4 text-amber-400" />
+                    <Building2 className="w-4 h-4 text-amber-400 shrink-0" />
                     <div>
-                      <p className="font-extrabold text-xs text-white">About SG Trading Hub</p>
-                      <p className="text-[10px] text-slate-400 font-sans">Mayur Vihar Phase-3 Credentials</p>
+                      <p className="font-bold text-xs text-white">About SG Trading Hub</p>
+                      <p className="text-[11px] text-slate-400">Mayur Vihar Phase-3 hub</p>
                     </div>
                   </Link>
                 </div>
