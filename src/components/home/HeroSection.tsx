@@ -79,63 +79,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               (General Trade).
             </p>
 
-            {/* Direct Visiting Card Contact Credentials & Paytm UPI QR Code Box - 100% Razor Sharp Contrast */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0F172A] border-2 border-amber-500 shadow-2xl grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
-              {/* Left & Center: Credentials & Warehouse Address */}
-              <div className="sm:col-span-8 space-y-4 font-mono-spec">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <span className="block text-[10px] uppercase font-extrabold tracking-wider text-amber-700 dark:text-amber-400">
-                      Authorized Distributors
-                    </span>
-                    <span className="font-extrabold text-xl block mt-0.5 text-slate-900 dark:text-white">
-                      Rahul Garg &amp; Sonu
-                    </span>
-                    <a
-                      href="tel:+919667731355"
-                      className="text-amber-700 dark:text-amber-400 font-extrabold text-sm block mt-1 hover:underline"
-                    >
-                      Ph: 9667731355 / 9643097002
-                    </a>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] uppercase font-extrabold tracking-wider text-sky-700 dark:text-sky-400">
-                      Mayur Vihar Phase-3 Warehouse
-                    </span>
-                    <span className="font-bold block text-xs leading-relaxed mt-0.5 text-slate-900 dark:text-slate-100">
-                      B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
-                    </span>
-                    <span className="text-slate-600 dark:text-slate-400 font-bold block text-[11px] mt-1">
-                      Email: sgtradingcompany@rediffmail.com
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 pt-1">
-                  <span className="px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-[10px] font-extrabold border border-emerald-300 dark:border-emerald-500/40">
-                    ● -18°C COLD ROOM 1 READY
+            {/* Direct Visiting Card Contact Credentials - 100% Razor Sharp Contrast */}
+            <div className="p-6 rounded-2xl bg-white dark:bg-[#0F172A] border-2 border-amber-500 shadow-2xl space-y-4 font-mono-spec">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <span className="block text-[10px] uppercase font-extrabold tracking-wider text-amber-700 dark:text-amber-400">
+                    Authorized Distributors
                   </span>
-                  <span className="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-400 text-[10px] font-extrabold border border-amber-300 dark:border-amber-500/40">
-                    GSTIN: 07ADQFS8839Q1ZQ
+                  <span className="font-extrabold text-2xl block mt-0.5 text-slate-900 dark:text-white">
+                    Rahul Garg &amp; Sonu
+                  </span>
+                  <a
+                    href="tel:+919667731355"
+                    className="text-amber-700 dark:text-amber-400 font-extrabold text-base block mt-1 hover:underline"
+                  >
+                    Ph: 9667731355 / 9643097002
+                  </a>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase font-extrabold tracking-wider text-sky-700 dark:text-sky-400">
+                    Mayur Vihar Phase-3 Warehouse
+                  </span>
+                  <span className="font-bold block text-sm leading-relaxed mt-0.5 text-slate-900 dark:text-slate-100">
+                    B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096
+                  </span>
+                  <span className="text-slate-600 dark:text-slate-400 font-bold block text-xs mt-1">
+                    Email: sgtradingcompany@rediffmail.com
                   </span>
                 </div>
               </div>
 
-              {/* Right: Authentic SG Trading Company Paytm UPI Merchant QR Standee */}
-              <div className="sm:col-span-4 flex flex-col items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border-2 border-sky-500/80 shadow-md">
-                <span className="text-[10px] font-mono-spec font-black text-sky-700 dark:text-sky-400 uppercase tracking-wider mb-1.5 text-center">
-                  Paytm UPI Merchant QR
+              <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <span className="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 text-xs font-extrabold border border-emerald-300 dark:border-emerald-500/40">
+                  ● -18°C COLD ROOM 1 READY
                 </span>
-                <img
-                  src="/sg-trading-company-paytm-qr.png"
-                  alt="SG Trading Company Paytm UPI Merchant QR Code Standee"
-                  className="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-lg border border-slate-200 shadow bg-white"
-                />
-                <span className="text-[10px] font-mono-spec font-black text-slate-900 dark:text-amber-400 mt-1.5">
-                  paytmqr69pf0i@ptys
-                </span>
-                <span className="text-[9px] font-mono-spec font-bold text-slate-600 dark:text-slate-400">
-                  9667731355 • Instant Pay
+                <span className="px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-400 text-xs font-extrabold border border-amber-300 dark:border-amber-500/40">
+                  GSTIN: 07ADQFS8839Q1ZQ
                 </span>
               </div>
             </div>
