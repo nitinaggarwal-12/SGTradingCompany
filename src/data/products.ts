@@ -65,7 +65,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["HORECA No.1 Fry", "Golden Crisp", "-18°C Cold Chain"],
     description:

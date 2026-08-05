@@ -62,6 +62,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 key={idx}
                 src={imgUrl}
                 alt={product.name}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = product.image;
+                }}
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms] ease-in-out ${
                   idx === currentImgIndex ? "opacity-100" : "opacity-0"
                 }`}
@@ -164,6 +167,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 key={idx}
                 src={imgUrl}
                 alt={`${product.name} View ${idx + 1}`}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = product.image;
+                }}
                 className={`absolute inset-0 w-full h-full object-cover transition-all duration-[1800ms] ease-in-out ${
                   isActive
                     ? "opacity-100 scale-105 z-10"
