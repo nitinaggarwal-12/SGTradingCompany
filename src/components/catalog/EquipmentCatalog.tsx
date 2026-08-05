@@ -60,7 +60,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
   // Multi-select brands array (defaults to all 12 brands selected)
   const [selectedBrands, setSelectedBrands] = useState<string[]>(ALL_BRANDS_LIST);
   const [storageCondition, setStorageCondition] = useState<string>("All");
-  const [maxPrice, setMaxPrice] = useState<number>(500);
+  const [maxPrice, setMaxPrice] = useState<number>(1000);
   const [onlyInStock, setOnlyInStock] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<string>("featured");
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
@@ -146,7 +146,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
     setSegment("All");
     setSelectedBrands(ALL_BRANDS_LIST);
     setStorageCondition("All Storage Conditions");
-    setMaxPrice(500);
+    setMaxPrice(1000);
     setOnlyInStock(false);
     setSortBy("featured");
   };
@@ -450,7 +450,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                 <input
                   type="range"
                   min={30}
-                  max={500}
+                  max={1000}
                   step={10}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
