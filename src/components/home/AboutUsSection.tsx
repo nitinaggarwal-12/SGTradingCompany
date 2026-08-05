@@ -66,19 +66,18 @@ export const AboutUsSection: React.FC = () => {
           >
             <div className="relative h-64 md:h-72 w-full overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85"
+                src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85"
                 alt="McCain Crispy French Fries & Britannia Melted Cheese"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
               {/* Floating 3D Badge */}
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-amber-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-amber-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5 z-10">
                 <Flame className="w-3.5 h-3.5" />
                 <span>HORECA #1 BESTSELLER</span>
               </div>
 
-              <div className="absolute top-4 right-4 px-3 py-1 rounded-xl bg-slate-950/80 backdrop-blur-md text-cyan-400 border border-cyan-500/40 text-xs font-mono-spec font-bold flex items-center gap-1">
+              <div className="absolute top-4 right-4 px-3 py-1 rounded-xl bg-slate-950/80 backdrop-blur-md text-cyan-400 border border-cyan-500/40 text-xs font-mono-spec font-bold flex items-center gap-1 z-10">
                 <Snowflake className="w-3.5 h-3.5" />
                 <span>-18°C FROZEN</span>
               </div>
@@ -119,14 +118,13 @@ export const AboutUsSection: React.FC = () => {
           >
             <div className="relative h-64 md:h-72 w-full overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=85"
+                src="https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85"
                 alt="ITC Master Chef & Veeba Gourmet Sauces & Mayo"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
               {/* Floating 3D Badge */}
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-sky-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-sky-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5 z-10">
                 <Building2 className="w-3.5 h-3.5" />
                 <span>QSR &amp; BANQUET SUPPLY</span>
               </div>
@@ -171,10 +169,9 @@ export const AboutUsSection: React.FC = () => {
                 alt="Central Distribution Warehouse Mayur Vihar Phase-3 Delhi"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
               {/* Floating 3D Badge */}
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-emerald-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-xl bg-emerald-500 text-slate-950 text-xs font-mono-spec font-black uppercase shadow-lg flex items-center gap-1.5 z-10">
                 <Truck className="w-3.5 h-3.5" />
                 <span>SAME-DAY DELHI NCR</span>
               </div>
