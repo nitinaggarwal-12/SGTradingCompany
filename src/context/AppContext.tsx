@@ -322,6 +322,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Visual Canvas Edit Mode & Dynamic Site Content State (Phases 1-9)
   const [rawCatalogProducts, setRawCatalogProducts] = useState<Product[]>(PRODUCTS_CATALOG);
+  
+  React.useEffect(() => {
+    setRawCatalogProducts(PRODUCTS_CATALOG);
+  }, []);
+
   const [isCanvasMode, setIsCanvasMode] = useState<boolean>(false);
   const [siteContent, setSiteContent] = useState<any>(DEFAULT_SITE_CONTENT);
   const [layoutBlocks, setLayoutBlocks] = useState<LayoutBlock[]>(
