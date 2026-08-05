@@ -96,13 +96,13 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 95,
     lowStockThreshold: 15,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Gourmet Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
+    badges: ["Golden Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
     description:
       "Crispy golden potato bites stuffed with creamy rich melted cheese and herbs. High-margin appetizer item for lounge bars, cafes, and banquet menus.",
     highlights: [
@@ -137,7 +137,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1585325701165-351af916e581?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["ITC Master Chef", "Juicy Chicken Nuggets", "-18°C Cold Chain"],
     description:
