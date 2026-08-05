@@ -476,40 +476,104 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 />
               </div>
 
-              {/* Instant Search Dropdown Results */}
-              {isSearchFocused && searchResults.length > 0 && (
-                <div className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50">
-                  <span className="text-[10px] font-mono-spec text-slate-400 px-2 py-1 block uppercase">
-                    Matching Distribution SKUs
-                  </span>
-                  {searchResults.map((prod) => (
-                    <div
-                      key={prod.id}
-                      onClick={() => {
-                        setQuickViewProduct(prod);
-                        setIsSearchFocused(false);
-                        setSearchQuery("");
-                      }}
-                      className="p-2 rounded-xl hover:bg-slate-900 flex items-center gap-3 cursor-pointer"
-                    >
-                      <img
-                        src={prod.image}
-                        alt={prod.name}
-                        className="w-10 h-10 rounded-lg object-cover border border-slate-800 shrink-0"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <span className="text-[10px] font-mono-spec text-amber-400 block font-bold">
-                          {prod.brand}
+              {/* Instant Search Dropdown Results & Recommended Searches */}
+              {isSearchFocused && (
+                <div
+                  className="absolute top-full right-0 mt-2 w-72 sm:w-88 bg-slate-900 border-2 border-amber-500/80 text-white rounded-2xl shadow-2xl p-3 z-[999] font-mono-spec text-xs"
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {searchQuery.trim() === "" ? (
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+                        <span className="text-[10px] text-amber-400 font-black uppercase flex items-center gap-1.5">
+                          <Flame className="w-3.5 h-3.5" />
+                          Recommended HORECA Commercial Searches
                         </span>
-                        <h5 className="text-xs font-bold text-white truncate">
-                          {prod.name}
-                        </h5>
-                        <span className="text-[10px] font-mono-spec text-slate-400">
-                          ₹{prod.priceExclGst} / Pack
-                        </span>
+                        <span className="text-[9px] text-slate-400">1-CLICK FILTER</span>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        {[
+                          { label: "McCain 9mm French Fries", brand: "McCain Food Service", tag: "TOP SELLER" },
+                          { label: "Britannia Commercial Mozzarella", brand: "Britannia Cheese", tag: "42cm STRETCH" },
+                          { label: "Veeba White Garlic Mayo", brand: "Veeba Food Services", tag: "5 KG BUCKET" },
+                          { label: "Iscon Balaji 9mm Commercial Fries", brand: "Iscon Balaji Foods", tag: "HIGH MARGIN" },
+                          { label: "ITC Master Chef Makhani Gravy", brand: "ITC Master Chef", tag: "BANQUET PACK" },
+                          { label: "Sleepy Owl Cold Brew Coffee", brand: "Sleepy Owl Coffee", tag: "GT HYDRATION" },
+                        ].map((rec, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => {
+                              setSearchQuery(rec.label);
+                              const el = document.getElementById("catalog");
+                              if (el) el.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className="w-full text-left p-2 rounded-xl bg-slate-950/80 hover:bg-amber-500/20 border border-slate-800 hover:border-amber-500/60 flex items-center justify-between transition-all cursor-pointer group"
+                          >
+                            <div className="min-w-0">
+                              <p className="font-bold text-xs text-white group-hover:text-amber-400 truncate">
+                                🔍 {rec.label}
+                              </p>
+                              <p className="text-[10px] text-slate-400 truncate font-sans">
+                                {rec.brand}
+                              </p>
+                            </div>
+                            <span className="px-2 py-0.5 rounded bg-slate-800 group-hover:bg-amber-500 group-hover:text-slate-950 text-[9px] font-black text-amber-400 shrink-0 ml-2">
+                              {rec.tag}
+                            </span>
+                          </button>
+                        ))}
                       </div>
                     </div>
-                  ))}
+                  ) : searchResults.length > 0 ? (
+                    <div className="space-y-2">
+                      <span className="text-[10px] text-amber-400 px-1 block uppercase font-black border-b border-slate-800 pb-1">
+                        Matching Mayur Vihar Distribution SKUs ({searchResults.length})
+                      </span>
+                      {searchResults.map((prod) => (
+                        <div
+                          key={prod.id}
+                          onClick={() => {
+                            setQuickViewProduct(prod);
+                            setIsSearchFocused(false);
+                            setSearchQuery("");
+                          }}
+                          className="p-2 rounded-xl hover:bg-slate-800 flex items-center gap-3 cursor-pointer transition-colors"
+                        >
+                          <img
+                            src={prod.image}
+                            alt={prod.name}
+                            className="w-10 h-10 rounded-lg object-cover border border-slate-800 shrink-0"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <span className="text-[10px] text-amber-400 block font-bold">
+                              {prod.brand}
+                            </span>
+                            <h5 className="text-xs font-bold text-white truncate">
+                              {prod.name}
+                            </h5>
+                            <span className="text-[10px] text-slate-300">
+                              ₹{prod.priceExclGst} / Pack
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-4 text-center space-y-2">
+                      <p className="text-xs font-bold text-slate-300">
+                        No SKUs matching "{searchQuery}"
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery("")}
+                        className="text-xs text-amber-400 hover:underline font-bold"
+                      >
+                        Show Recommended Searches
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
