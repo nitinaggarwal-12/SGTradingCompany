@@ -168,7 +168,7 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
               HORECA & General Trade (GT) Wholesale Catalog
             </h2>
             <p className="text-sm text-slate-400 mt-1">
-              Direct wholesale distribution for Hotels, Restaurants, QSRs & Retailers by Rahul Garg & Sonu (Mayur Vihar Phase-3, Delhi)
+              Direct wholesale distribution for Hotels, Restaurants, QSRs &amp; Retailers by SG Trading Company (Mayur Vihar Phase-3, Delhi)
             </p>
           </div>
 
@@ -539,16 +539,16 @@ export const EquipmentCatalog: React.FC<EquipmentCatalogProps> = ({
                       Need a Special Commercial Brand or Custom Master Case Size?
                     </h3>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      Rahul Garg &amp; Sonu provide custom frozen food, institutional cheese blends, and GT packaging contracts across Mayur Vihar &amp; Delhi NCR.
+                      SG Trading Company provides custom frozen food, institutional cheese blends, and GT packaging contracts across Mayur Vihar &amp; Delhi NCR.
                     </p>
 
                     <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5 font-mono-spec text-xs">
                       <div className="flex justify-between text-slate-400">
-                        <span>Rahul Garg Direct:</span>
+                        <span>Wholesale Desk:</span>
                         <span className="text-amber-400 font-bold">9667731355</span>
                       </div>
                       <div className="flex justify-between text-slate-400">
-                        <span>Sonu Cold Room:</span>
+                        <span>Cold Room Desk:</span>
                         <span className="text-amber-400 font-bold">9643097002</span>
                       </div>
                     </div>

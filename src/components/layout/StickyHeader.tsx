@@ -588,7 +588,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 href="tel:+919667731355"
                 className="text-amber-400 font-bold flex items-center gap-1"
               >
-                <PhoneCall className="w-3 h-3" /> Rahul Garg: 9667731355
+                <PhoneCall className="w-3 h-3" /> Wholesale Helpline: 9667731355 / 9643097002
               </a>
             </div>
           </div>

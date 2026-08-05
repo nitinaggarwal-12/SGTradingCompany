@@ -49,7 +49,7 @@ export const LegalDisclaimerModal: React.FC<LegalDisclaimerModalProps> = ({
               <span>1. Authorized Third-Party Distribution &amp; Trademark Disclaimer</span>
             </h3>
             <p>
-              SG Trading Company (Proprietors: <strong>Rahul Garg &amp; Sonu</strong>, operating from B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096, GSTIN: <strong>07ADQFS8839Q1ZQ</strong>) is an independent authorized distributor and supplier of institutional HORECA and General Trade (GT) FMCG goods. All product brand names, registered trademarks, logos, nutritional labels, allergen disclosures, manufacturing dates, and shelf-life guarantees—including but not limited to <em>McCain Foods, ITC Master Chef, Veeba Food Services, Britannia Industries, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl, and Loyka</em>—belong exclusively to their respective manufacturing brand owners. SG Trading Company claims no ownership over factory product formulations or internal manufacturing defects.
+              SG Trading Company (Operating from B-577, Shiv Mandir Road, G.D. Colony, Mayur Vihar Phase-3, Delhi - 110096, GSTIN: <strong>07ADQFS8839Q1ZQ</strong>) is an independent authorized distributor and supplier of institutional HORECA and General Trade (GT) FMCG goods. All product brand names, registered trademarks, logos, nutritional labels, allergen disclosures, manufacturing dates, and shelf-life guarantees—including but not limited to <em>McCain Foods, ITC Master Chef, Veeba Food Services, Britannia Industries, Iscon Balaji, Go Diced, Chatha Foods, Milkana, Anoop Sattu, Ocean Water, Sleepy Owl, and Loyka</em>—belong exclusively to their respective manufacturing brand owners. SG Trading Company claims no ownership over factory product formulations or internal manufacturing defects.
             </p>
           </div>
 
@@ -82,7 +82,7 @@ export const LegalDisclaimerModal: React.FC<LegalDisclaimerModalProps> = ({
               <span>4. Complete Limitation of Liability &amp; Indemnification</span>
             </h3>
             <p>
-              To the maximum extent permitted under Indian law, SG Trading Company, Rahul Garg, Sonu, its drivers, and employees shall not be held liable for any indirect, incidental, consequential, special, or exemplary damages, business interruption losses, or third-party consumer litigation arising out of commercial product supply or kitchen usage. By engaging in commercial transactions with SG Trading Company, purchasing entities agree to indemnify and hold harmless SG Trading Company against all third-party claims.
+              To the maximum extent permitted under Indian law, SG Trading Company, its drivers, and employees shall not be held liable for any indirect, incidental, consequential, special, or exemplary damages, business interruption losses, or third-party consumer litigation arising out of commercial product supply or kitchen usage. By engaging in commercial transactions with SG Trading Company, purchasing entities agree to indemnify and hold harmless SG Trading Company against all third-party claims.
             </p>
           </div>
         </div>

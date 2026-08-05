@@ -94,7 +94,7 @@ export const ColdChain3DVisualizer: React.FC = () => {
                     Insulated Multi-Temperature Cold-Chain Transit
                   </h3>
                   <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 mt-2 leading-relaxed">
-                    Every shipment of McCain, ITC Master Chef, Veeba, and Britannia leaves Rahul Garg &amp; Sonu’s Mayur Vihar Phase-3 warehouse in GPS-monitored refrigerated units.
+                    Every shipment of McCain, ITC Master Chef, Veeba, and Britannia leaves our Mayur Vihar Phase-3 warehouse in GPS-monitored refrigerated units.
                   </p>
                 </div>
 

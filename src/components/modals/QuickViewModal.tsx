@@ -211,7 +211,7 @@ export const QuickViewModal: React.FC = () => {
                   className="text-xs text-emerald-400 hover:text-emerald-300 font-mono-spec flex items-center gap-1 font-bold"
                 >
                   <PhoneCall className="w-3.5 h-3.5" />
-                  Rahul Garg / Sonu: 9667731355 / 9643097002
+                  Wholesale Helpline: 9667731355 / 9643097002
                 </a>
               </div>
             </div>

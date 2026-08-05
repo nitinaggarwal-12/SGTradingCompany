@@ -87,13 +87,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     Authorized Distributors
                   </span>
                   <span className="font-extrabold text-2xl block mt-0.5 text-slate-900 dark:text-white">
-                    Rahul Garg &amp; Sonu
+                    SG Trading Company
                   </span>
                   <a
                     href="tel:+919667731355"
                     className="text-amber-700 dark:text-amber-400 font-extrabold text-base block mt-1 hover:underline"
                   >
-                    Ph: 9667731355 / 9643097002
+                    Wholesale Desk: 9667731355 / 9643097002
                   </a>
                 </div>
                 <div>
@@ -164,7 +164,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="px-6 py-4 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-amber-500/60 text-slate-200 hover:text-white font-semibold text-sm transition-all flex items-center gap-2"
               >
                 <Phone className="w-4 h-4 text-emerald-400" />
-                <span>Call Rahul Garg: 9667731355</span>
+                <span>Direct Wholesale Helpline: 9667731355</span>
               </a>
             </div>
           </div>

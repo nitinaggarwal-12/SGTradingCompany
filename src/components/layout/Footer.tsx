@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              Delhi NCR&apos;s premier commercial distributor for Hotels, Restaurants, Banquets, QSRs & Retail Stores. Managed by <strong className="text-amber-400">Rahul Garg & Sonu</strong> with active <strong className="text-cyan-400">-18°C cold-chain storage</strong> in Mayur Vihar Phase-3.
+              Delhi NCR&apos;s premier commercial distributor for Hotels, Restaurants, Banquets, QSRs &amp; Retail Stores with active <strong className="text-cyan-400">-18°C cold-chain storage</strong> in Mayur Vihar Phase-3.
             </p>
 
             <div className="space-y-2 text-xs text-slate-200 font-mono-spec pt-2">

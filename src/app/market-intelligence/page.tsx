@@ -202,10 +202,10 @@ export default function MarketIntelligenceDashboardPage() {
 
   const handleSendWhatsApp = (cust: typeof customers[0]) => {
     const text = encodeURIComponent(
-      `Namaste ${cust.contactPerson}! SG Trading Company (Rahul Garg & Sonu, Mayur Vihar Phase-3) here.\n\n` +
+      `Namaste ${cust.contactPerson}! SG Trading Company (Mayur Vihar Phase-3 Central Command) here.\n\n` +
       `Fresh -18°C cold chain stock of McCain 9mm Fries, Britannia Diced Mozzarella & Veeba Mayo is ready for express dispatch today to ${cust.name}.\n\n` +
       `📦 Direct Wholesale Rates & GST Input (07ADQFS8839Q1ZQ) Guaranteed.\n` +
-      `📞 Call/WhatsApp: 9667731355 / 9643097002`
+      `📞 Wholesale Desk: 9667731355 / 9643097002`
     );
     window.open(`https://wa.me/${cust.phone.replace(/[^0-9]/g, "")}?text=${text}`, "_blank");
   };
@@ -502,7 +502,7 @@ export default function MarketIntelligenceDashboardPage() {
                 Live Refrigerated Fleet GPS Dispatch &amp; Cold-Chain Surveillance
               </h2>
               <p className="text-xs md:text-sm text-slate-300 mt-1 max-w-3xl">
-                Real-time multi-vehicle telemetry originating from Rahul Garg &amp; Sonu’s B-577 Mayur Vihar Phase-3 Cold Room 1 across Delhi NCR institutional destinations.
+                Real-time multi-vehicle telemetry originating from B-577 Mayur Vihar Phase-3 Cold Room 1 across Delhi NCR institutional destinations.
               </p>
             </div>
 
@@ -824,8 +824,8 @@ export default function MarketIntelligenceDashboardPage() {
                   </span>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      { phone: "+91 9667731355", name: "Sonu & Ramesh" },
-                      { phone: "+91 9643097002", name: "Rahul Garg Desk" },
+                      { phone: "+91 9667731355", name: "Driver Unit 01" },
+                      { phone: "+91 9643097002", name: "Wholesale Desk" },
                       { phone: "+91 9811223344", name: "Vikram Logistics" },
                     ].map((d) => (
                       <button

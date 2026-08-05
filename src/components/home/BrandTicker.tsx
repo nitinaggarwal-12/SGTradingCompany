@@ -147,7 +147,7 @@ export const BrandTicker: React.FC = () => {
         </div>
         <span className="text-[11px] text-slate-400 font-mono-spec flex items-center gap-1.5">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Hover carousel to pause • Rahul Garg &amp; Sonu • Mayur Vihar Phase-3, Delhi</span>
+          <span>Hover carousel to pause • SG Trading Company • Mayur Vihar Phase-3, Delhi</span>
         </span>
       </div>
 

@@ -45,7 +45,6 @@ export const AboutUsSection: React.FC = () => {
           </h2>
 
           <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto font-medium">
-            Founded and led by <strong className="text-white">Rahul Garg &amp; Sonu</strong>,{" "}
             <strong className="text-amber-400">SG Trading Company</strong> operates Delhi NCR&apos;s most reliable cold-chain &amp; General Trade FMCG wholesale distribution engine from Mayur Vihar Phase-3.
           </p>
         </div>
