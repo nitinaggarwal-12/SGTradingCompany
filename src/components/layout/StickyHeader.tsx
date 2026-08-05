@@ -27,6 +27,7 @@ import {
   RotateCcw,
   BarChart3,
   Gift,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import { PRODUCTS_CATALOG } from "@/data/products";
@@ -165,7 +166,9 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     },
   ];
 
-  const [activeMenu, setActiveMenu] = useState<"mega" | "deals" | "operations" | null>(null);
+  const [activeMenu, setActiveMenu] = useState<
+    "mega" | "deals" | "operations" | "account" | null
+  >(null);
 
   return (
     <header
@@ -443,7 +446,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               )}
             </div>
 
-            {/* GROUP 4: Corporate Identity & Account */}
+            {/* GROUP 4: Corporate Identity & Account with Hover Dropdown */}
             <Link
               href="/#about"
               className="hover:text-amber-400 font-bold transition-colors px-1"
@@ -451,16 +454,175 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               About
             </Link>
 
-            <Link
-              href="/account"
-              className="hover:text-amber-400 font-bold transition-colors truncate max-w-[130px] px-1"
-              title={currentUser ? currentUser.companyName : "Sign In / Guest Shopping"}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveMenu("account")}
             >
-              {currentUser ? currentUser.companyName : "Account"}
-            </Link>
+              <button
+                onClick={() =>
+                  setActiveMenu(activeMenu === "account" ? null : "account")
+                }
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-white font-extrabold transition-all cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5 text-amber-400" />
+                <span className="truncate max-w-[120px]">
+                  {currentUser ? currentUser.companyName : "Account & SSO"}
+                </span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-amber-400 transition-transform ${
+                    activeMenu === "account" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {activeMenu === "account" && (
+                <div
+                  onMouseEnter={() => setActiveMenu("account")}
+                  className="absolute top-full right-0 mt-2 w-80 bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3 space-y-2 z-[999] animate-in fade-in slide-in-from-top-2 font-mono-spec text-xs"
+                >
+                  <div className="px-3 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-amber-400 uppercase font-black">
+                    <span>
+                      {currentUser
+                        ? "Active Buyer Account Profile"
+                        : "Customer Portal & 1-Click SSO"}
+                    </span>
+                    <Link
+                      href="/account"
+                      onClick={() => setActiveMenu(null)}
+                      className="text-white hover:text-amber-400 underline font-bold"
+                    >
+                      Open Full Page →
+                    </Link>
+                  </div>
+
+                  {currentUser ? (
+                    <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                      <p className="font-extrabold text-white text-xs">
+                        {currentUser.companyName}
+                      </p>
+                      <p className="text-[10px] text-slate-400 font-sans">
+                        GSTIN: <strong className="text-amber-400">{currentUser.gstin}</strong> • {currentUser.phone}
+                      </p>
+                      <Link
+                        href="/account"
+                        onClick={() => setActiveMenu(null)}
+                        className="inline-block pt-1 text-[11px] text-emerald-400 font-bold hover:underline"
+                      >
+                        Manage Account &amp; Saved Cards →
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/account"
+                      onClick={() => setActiveMenu(null)}
+                      className="flex items-center gap-2.5 p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition-all group"
+                    >
+                      <UserCheck className="w-4 h-4 text-amber-400 group-hover:text-slate-950" />
+                      <div>
+                        <p className="font-extrabold text-xs text-amber-400 group-hover:text-slate-950">
+                          Sign In with WhatsApp / Google SSO
+                        </p>
+                        <p className="text-[10px] text-slate-300 group-hover:text-slate-900 font-sans">
+                          Passwordless 1-Click login for chefs &amp; hotels
+                        </p>
+                      </div>
+                    </Link>
+                  )}
+
+                  {/* PORTAL & ADMIN TOOLS SECTION UNDER ACCOUNT DROPDOWN */}
+                  <div className="pt-2 border-t border-slate-800 space-y-1.5">
+                    <span className="text-[9px] text-slate-400 uppercase font-black block px-2">
+                      PORTAL PREFERENCES &amp; ADMIN CONTROLS:
+                    </span>
+
+                    {/* 1. Admin Visual Canvas Edit Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleAdminCanvasToggle();
+                        setActiveMenu(null);
+                      }}
+                      className={`w-full text-left p-2.5 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
+                        isCanvasMode
+                          ? "bg-amber-500 text-slate-950 border-amber-400 font-black"
+                          : "bg-slate-950 hover:bg-slate-800 text-amber-400 border-slate-800"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-amber-400" />
+                        <div>
+                          <p className="font-bold text-xs">
+                            {isCanvasMode ? "Visual Canvas Edit: ON" : "Admin Visual Canvas Edit"}
+                          </p>
+                          <p className="text-[10px] text-slate-400 font-sans">
+                            Live CMS drag-and-drop page builder
+                          </p>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[9px] font-black">
+                        ADMIN
+                      </span>
+                    </button>
+
+                    {/* 2. Theme Switcher (Light / Dark) */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        toggleTheme();
+                        setActiveMenu(null);
+                      }}
+                      className="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        {theme === "dark" ? (
+                          <Sun className="w-4 h-4 text-amber-400" />
+                        ) : (
+                          <Moon className="w-4 h-4 text-sky-400" />
+                        )}
+                        <div>
+                          <p className="font-bold text-xs text-white">
+                            Switch Theme Mode
+                          </p>
+                          <p className="text-[10px] text-slate-400 font-sans">
+                            Current: {theme === "dark" ? "Dark Executive" : "Light Commercial"}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-bold text-amber-400">
+                        {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+                      </span>
+                    </button>
+
+                    {/* 3. Refresh & Clear Cache Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleClearCacheAndReload();
+                      }}
+                      className="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 flex items-center justify-between transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <RotateCcw className="w-4 h-4 text-sky-400" />
+                        <div>
+                          <p className="font-bold text-xs text-white">
+                            Clear Cache &amp; Reload Fresh
+                          </p>
+                          <p className="text-[10px] text-slate-400 font-sans">
+                            Flush local state and reload portal
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-bold text-sky-400">
+                        RELOAD
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
-          {/* Right: Consolidated Search, Wholesale Cart/Compare, Theme & TOP-RIGHT CORNER ADMIN CANVAS EDIT */}
+          {/* Right: Consolidated Search, Wholesale Cart/Compare & Account Dropdown */}
           <div className="flex items-center gap-2">
             {/* Instant Search Bar (Responsive Width) */}
             <div className="relative">
@@ -619,46 +781,6 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                   ({totalCartItems})
                 </span>
               </Link>
-            </div>
-
-            {/* Consolidated Theme, Refresh/Clear Cache & TOP-RIGHT CORNER ADMIN CANVAS EDIT */}
-            <div className="flex items-center gap-1.5 pl-2 border-l border-slate-800">
-              {/* Refresh / Clear Cache Button */}
-              <button
-                onClick={handleClearCacheAndReload}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
-                title="Clear Browser Cache & Reload Everything Fresh"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-slate-300 hover:text-amber-400 transition-all cursor-pointer"
-                title={`Switch to ${theme === "dark" ? "Light Commercial" : "Dark Executive"} Theme`}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-4 h-4 text-amber-400" />
-                ) : (
-                  <Moon className="w-4 h-4 text-sky-600" />
-                )}
-              </button>
-
-              {/* TOP RIGHT CORNER ADMIN CANVAS EDIT BUTTON */}
-              <button
-                onClick={handleAdminCanvasToggle}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono-spec text-xs font-black transition-all cursor-pointer ${
-                  isCanvasMode
-                    ? "bg-amber-500 text-slate-950 border-amber-400 shadow-lg shadow-amber-500/25"
-                    : "bg-slate-900 hover:bg-slate-800 text-amber-400 border-amber-500/50"
-                }`}
-                title="Admin Visual Canvas Editing & Page Builder (Top-Right Corner)"
-              >
-                <Sparkles className={`w-3.5 h-3.5 ${isCanvasMode ? "animate-spin" : ""}`} />
-                <span className="hidden sm:inline">
-                  {isCanvasMode ? "CANVAS: ON" : "ADMIN EDIT"}
-                </span>
-              </button>
             </div>
 
             {/* MOBILE MENU TOGGLE BUTTON (Visible on < xl screens) */}
