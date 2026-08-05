@@ -218,7 +218,10 @@ export default function CurrentOffersPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#060911] text-white">
+    <main
+      className="min-h-screen bg-[#060911] text-white"
+      style={{ backgroundColor: "#060911", color: "#FFFFFF" }}
+    >
       {/* Top Hero Banner */}
       <section className="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-slate-900 to-[#060911] py-16 md:py-24">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 relative z-10">
@@ -229,28 +232,31 @@ export default function CurrentOffersPage() {
                 <span>OFFICIAL AUTHORIZED FACTORY WHOLESALE PROMOTIONS &amp; CREDIT CARD CASHBACK • AUGUST 2026</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight" style={{ color: "#FFFFFF" }}>
                 Current Offers &amp;{" "}
                 <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
                   Credit Card Cashback.
                 </span>
               </h1>
 
-              <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                Direct factory volume rebates, commercial bank corporate credit card cashback (HDFC, ICICI, Axis), and banquet promotions dispatched from our <strong className="text-white">B-577 Mayur Vihar Phase-3 Central Cold Room 1 Hub</strong> with full GST Input Credit (<strong className="text-amber-400">GSTIN: 07ADQFS8839Q1ZQ</strong>).
+              <p className="text-base md:text-lg leading-relaxed max-w-2xl" style={{ color: "#E2E8F0" }}>
+                Direct factory volume rebates, commercial bank corporate credit card cashback (HDFC, ICICI, Axis), and banquet promotions dispatched from our <strong style={{ color: "#FFFFFF" }}>B-577 Mayur Vihar Phase-3 Central Cold Room 1 Hub</strong> with full GST Input Credit (<strong className="text-amber-400">GSTIN: 07ADQFS8839Q1ZQ</strong>).
               </p>
             </div>
 
             {/* Quick Promo Summary HUD */}
-            <div className="p-6 rounded-3xl bg-slate-900/90 border-2 border-amber-500/60 shadow-2xl space-y-3 shrink-0 md:w-80 font-mono-spec">
+            <div
+              className="p-6 rounded-3xl border-2 border-amber-500/60 shadow-2xl space-y-3 shrink-0 md:w-80 font-mono-spec"
+              style={{ backgroundColor: "#0B101D", color: "#FFFFFF" }}
+            >
               <div className="flex items-center justify-between text-xs text-amber-400 font-black uppercase">
                 <span>ACTIVE PROMO STATUS</span>
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               </div>
-              <div className="text-3xl font-black text-white">
+              <div className="text-3xl font-black" style={{ color: "#FFFFFF" }}>
                 9 Active Deals
               </div>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs" style={{ color: "#E2E8F0" }}>
                 Guaranteed factory-sealed stock • Next-morning refrigerated delivery across Delhi NCR.
               </p>
             </div>
