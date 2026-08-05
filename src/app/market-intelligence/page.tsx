@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   TrendingUp,
@@ -46,72 +46,10 @@ import {
   Activity,
   Compass,
   Radio,
+  Play,
+  Pause,
 } from "lucide-react";
 import MARKET_CONFIG_DATA from "@/data/market-intelligence-config.json";
-
-interface WhatIfScenario {
-  id: string;
-  name: string;
-  description: string;
-  category: "Agency Expansion" | "Logistics & Cold Room" | "Pricing & Digital" | "Territory";
-  baseRevenueMonthlyLakhs: number;
-  projectedRevenueGainLakhs: number;
-  projectedMarginImpactPct: number;
-  investmentRequiredLakhs: number;
-  paybackMonths: number;
-  active: boolean;
-}
-
-const INITIAL_SCENARIOS: WhatIfScenario[] = [
-  {
-    id: "sc-1",
-    name: "Tie Up with HyFun Foods & Godrej Yummiez (New Agencies)",
-    description: "Sign authorized HORECA distribution for HyFun institutional hashbrowns/fries & Godrej Yummiez frozen starters.",
-    category: "Agency Expansion",
-    baseRevenueMonthlyLakhs: 48.5,
-    projectedRevenueGainLakhs: 14.2,
-    projectedMarginImpactPct: 2.4,
-    investmentRequiredLakhs: 6.5,
-    paybackMonths: 3.2,
-    active: true,
-  },
-  {
-    id: "sc-2",
-    name: "Expand Mayur Vihar Cold Room Capacity (+60% -18°C Storage)",
-    description: "Install modular pallet racking and secondary compressor in B-577 Cold Room 1 to eliminate peak banquet stockouts.",
-    category: "Logistics & Cold Room",
-    baseRevenueMonthlyLakhs: 48.5,
-    projectedRevenueGainLakhs: 18.8,
-    projectedMarginImpactPct: 1.8,
-    investmentRequiredLakhs: 12.0,
-    paybackMonths: 4.8,
-    active: true,
-  },
-  {
-    id: "sc-3",
-    name: "Launch Digital B2B Order Portal & Instant RFQ Self-Service",
-    description: "Migrate 40%+ Kirana & Cloud Kitchen orders from manual WhatsApp/phone calls to automated web portal ordering.",
-    category: "Pricing & Digital",
-    baseRevenueMonthlyLakhs: 48.5,
-    projectedRevenueGainLakhs: 9.5,
-    projectedMarginImpactPct: 3.1,
-    investmentRequiredLakhs: 2.5,
-    paybackMonths: 1.9,
-    active: false,
-  },
-  {
-    id: "sc-4",
-    name: "Expand Dedicated Reefer Fleet to South & West Delhi Clusters",
-    description: "Add 2 refrigerated delivery vans dedicated to Cyber Hub, Hauz Khas, and Rajouri Garden QSR/hotel clusters.",
-    category: "Territory",
-    baseRevenueMonthlyLakhs: 48.5,
-    projectedRevenueGainLakhs: 22.4,
-    projectedMarginImpactPct: 1.2,
-    investmentRequiredLakhs: 16.0,
-    paybackMonths: 6.1,
-    active: false,
-  },
-];
 
 // Circular SVG Progress Ring Component
 const CircularProgressRing: React.FC<{
@@ -131,7 +69,7 @@ const CircularProgressRing: React.FC<{
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  const strokeDashoffset = circumference - (Math.min(Math.max(percentage, 0), 100) / 100) * circumference;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -155,7 +93,7 @@ const CircularProgressRing: React.FC<{
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             fill="transparent"
-            className="transition-all duration-1000 ease-out"
+            className="transition-all duration-500 ease-out"
           />
         </svg>
         <span className="absolute text-xs font-black font-mono-spec text-white">
@@ -172,23 +110,71 @@ const CircularProgressRing: React.FC<{
 };
 
 export default function MarketIntelligenceDashboardPage() {
-  const [scenarios, setScenarios] = useState<WhatIfScenario[]>(INITIAL_SCENARIOS);
+  // LIVE REAL-TIME INTERACTIVE SLIDER COCKPIT STATE
+  const [coldRoomExpansionPct, setColdRoomExpansionPct] = useState<number>(50); // 0 to 100%
+  const [newAgenciesCount, setNewAgenciesCount] = useState<number>(2); // 0 to 5 brands
+  const [reeferVanCount, setReeferVanCount] = useState<number>(4); // 2 to 8 vans
+  const [digitalAdoptionPct, setDigitalAdoptionPct] = useState<number>(35); // 0 to 80%
+
+  // Live Simulated Reefer Van Progress for Real-Time Map Animation
+  const [vanProgress, setVanProgress] = useState<number>(25);
+  const [liveTemp, setLiveTemp] = useState<number>(-18.4);
+
   const [marketTrends, setMarketTrends] = useState(MARKET_CONFIG_DATA.marketTrends);
-  const [recommendedAgencies, setRecommendedAgencies] = useState(MARKET_CONFIG_DATA.recommendedAgencies);
   const [customers, setCustomers] = useState(MARKET_CONFIG_DATA.customers);
   const [expandedCustomerIds, setExpandedCustomerIds] = useState<string[]>(["cust-04"]);
   const [selectedHub, setSelectedHub] = useState<string>("mayur-vihar");
   const [isSyncing, setIsSyncing] = useState(false);
 
+  // Live Reefer Van Telemetry Simulation Loop
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVanProgress((prev) => (prev >= 98 ? 0 : prev + 2));
+      setLiveTemp((prev) => {
+        const delta = (Math.random() - 0.5) * 0.2;
+        return Number((Math.max(-19.2, Math.min(-17.8, prev + delta))).toFixed(1));
+      });
+    }, 1200);
+    return () => clearInterval(interval);
+  }, []);
+
+  // REAL-TIME DYNAMIC MATH CALCULATIONS FROM SLIDERS
+  const baseMonthlyRev = 48.5; // Lakhs INR
+  const coldRoomRevLift = (coldRoomExpansionPct / 100) * 16.5; // Up to +16.5 Lakhs
+  const agencyRevLift = newAgenciesCount * 6.8; // Up to +34.0 Lakhs
+  const vanRevLift = (reeferVanCount - 2) * 4.2; // Up to +25.2 Lakhs
+  const digitalRevLift = (digitalAdoptionPct / 100) * 8.4; // Up to +8.4 Lakhs
+
+  const totalProjectedMonthlyRev = baseMonthlyRev + coldRoomRevLift + agencyRevLift + vanRevLift + digitalRevLift;
+  const addedRevGain = totalProjectedMonthlyRev - baseMonthlyRev;
+  const deliveryTimeNoidaMins = Math.max(35, Math.round(140 - reeferVanCount * 18));
+  const totalCapexLakhs = (coldRoomExpansionPct * 0.15) + (newAgenciesCount * 3.2) + ((reeferVanCount - 2) * 5.5) + (digitalAdoptionPct * 0.05);
+
+  // Generate 12-Month Projected Trajectory Points for Dynamic SVG Chart
+  const generateChartPoints = () => {
+    const points: number[] = [];
+    for (let month = 0; month < 12; month++) {
+      const growthFactor = 1 + (month / 11) * (addedRevGain / baseMonthlyRev);
+      points.push(baseMonthlyRev * growthFactor);
+    }
+    return points;
+  };
+
+  const chartPoints = generateChartPoints();
+  const maxChartVal = Math.max(...chartPoints, 110);
+  const svgPathD = chartPoints
+    .map((val, idx) => {
+      const x = (idx / 11) * 760 + 20;
+      const y = 220 - (val / maxChartVal) * 180;
+      return `${idx === 0 ? "M" : "L"} ${x} ${y}`;
+    })
+    .join(" ");
+
+  const svgAreaD = `${svgPathD} L 780 230 L 20 230 Z`;
+
   const toggleCustomerAccordion = (id: string) => {
     setExpandedCustomerIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
-  const toggleScenario = (id: string) => {
-    setScenarios((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
     );
   };
 
@@ -207,17 +193,18 @@ export default function MarketIntelligenceDashboardPage() {
     }
   };
 
-  const activeScenarios = scenarios.filter((s) => s.active);
-  const baseMonthlyRev = MARKET_CONFIG_DATA.baseMonthlyRevenueLakhs;
-  const addedRevGain = activeScenarios.reduce((acc, s) => acc + s.projectedRevenueGainLakhs, 0);
-  const totalProjectedMonthlyRev = baseMonthlyRev + addedRevGain;
-  const totalInvestment = activeScenarios.reduce((acc, s) => acc + s.investmentRequiredLakhs, 0);
-  const avgMarginLift = activeScenarios.length > 0
-    ? (activeScenarios.reduce((acc, s) => acc + s.projectedMarginImpactPct, 0) / activeScenarios.length).toFixed(1)
-    : "0.0";
+  const handleSendWhatsApp = (cust: typeof customers[0]) => {
+    const text = encodeURIComponent(
+      `Namaste ${cust.contactPerson}! SG Trading Company (Rahul Garg & Sonu, Mayur Vihar Phase-3) here.\n\n` +
+      `Fresh -18°C cold chain stock of McCain 9mm Fries, Britannia Diced Mozzarella & Veeba Mayo is ready for express dispatch today to ${cust.name}.\n\n` +
+      `📦 Direct Wholesale Rates & GST Input (07ADQFS8839Q1ZQ) Guaranteed.\n` +
+      `📞 Call/WhatsApp: 9667731355 / 9643097002`
+    );
+    window.open(`https://wa.me/${cust.phone.replace(/[^0-9]/g, "")}?text=${text}`, "_blank");
+  };
 
   return (
-    <div className="min-h-screen bg-[#070A12] text-white pb-28 relative overflow-hidden">
+    <div className="min-h-screen bg-[#070A12] text-white pb-32 relative overflow-hidden">
       {/* Ambient Neon Background Glows */}
       <div className="pointer-events-none fixed -top-40 left-1/4 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[140px]" />
       <div className="pointer-events-none fixed top-1/3 -right-40 w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[140px]" />
@@ -225,11 +212,11 @@ export default function MarketIntelligenceDashboardPage() {
 
       {/* Futuristic Glass Command Header */}
       <header className="sticky top-0 z-50 w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
-        <div className="max-w-8xl mx-auto px-6 md:px-12 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="max-w-8xl mx-auto px-6 md:px-12 py-3.5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="px-4 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-xs font-mono-spec font-black flex items-center gap-2 border border-slate-800 transition-all shadow-lg"
+              className="px-4 py-2 rounded-2xl bg-slate-900/90 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-xs font-mono-spec font-black flex items-center gap-2 border border-slate-800 transition-all shadow-lg"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Wholesale Catalog</span>
@@ -237,15 +224,15 @@ export default function MarketIntelligenceDashboardPage() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 text-[10px] font-mono-spec font-black uppercase shadow-md">
-                  COMMAND CENTER 2.0 • PALANTIR TERMINAL
+                  REAL-TIME SIMULATION WAR ROOM 3.0
                 </span>
                 <span className="text-xs text-emerald-400 font-mono-spec font-bold flex items-center gap-1.5">
                   <Radio className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
-                  <span>B-577 Mayur Vihar-3 Live Telemetry Active</span>
+                  <span>Live Reefer Telemetry: {liveTemp}°C</span>
                 </span>
               </div>
               <h1 className="text-xl md:text-3xl font-black text-white tracking-tight mt-0.5">
-                SG Trading Company • Executive Growth &amp; Intelligence War Room
+                SG Trading Company • Real-Time Interactive Growth Cockpit
               </h1>
             </div>
           </div>
@@ -254,7 +241,7 @@ export default function MarketIntelligenceDashboardPage() {
             <button
               onClick={handleRunAutonomousMarketScan}
               disabled={isSyncing}
-              className="px-4 py-2.5 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-mono-spec font-black text-xs flex items-center gap-2 border border-emerald-500/40 transition-all cursor-pointer shadow-lg"
+              className="px-4 py-2 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-mono-spec font-black text-xs flex items-center gap-2 border border-emerald-500/40 transition-all cursor-pointer shadow-lg"
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? "animate-spin" : ""}`} />
               <span>{isSyncing ? "Auto-Scanning Market..." : "Run Autonomous Daily Resync"}</span>
@@ -264,288 +251,301 @@ export default function MarketIntelligenceDashboardPage() {
       </header>
 
       <main className="max-w-8xl mx-auto px-6 md:px-12 pt-8 space-y-12 relative z-10">
-        {/* HERO STRATEGIC DASHBOARD COCKPIT ROW */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* Left 8 Cols: Interactive Animated Strategic Trajectory & Live Scenario Cockpit */}
-          <div className="lg:col-span-8 rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 hover:border-amber-500/50 p-6 md:p-8 space-y-6 shadow-2xl relative overflow-hidden">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+        {/* MILESTONE CONFETTI BANNER WHEN SIMULATION REACHES ₹75+ LAKHS/MO */}
+        {totalProjectedMonthlyRev >= 75 && (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-emerald-500 to-amber-500 text-slate-950 font-mono-spec flex flex-wrap items-center justify-between gap-4 shadow-2xl animate-in fade-in slide-in-from-top-4">
+            <div className="flex items-center gap-3">
+              <Sparkles className="w-6 h-6 shrink-0 font-black" />
               <div>
-                <span className="text-xs font-mono-spec text-amber-400 font-black uppercase tracking-wider block">
-                  REAL-TIME ADOPTION TRAJECTORY ENGINE
+                <span className="text-xs font-black uppercase tracking-wider block">
+                  🎉 STRATEGIC MILESTONE REACHED: EXECUTIVE HYPER-GROWTH TRAJECTORY!
                 </span>
-                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mt-0.5">
-                  Monthly Revenue Simulation Cockpit
+                <span className="text-sm font-black">
+                  Your active scenario configuration projects ₹{totalProjectedMonthlyRev.toFixed(2)} Lakhs/mo (₹{(totalProjectedMonthlyRev * 12).toFixed(1)} Lakhs/yr) run-rate!
+                </span>
+              </div>
+            </div>
+            <span className="px-4 py-1.5 rounded-xl bg-slate-950 text-amber-400 font-black text-xs">
+              CAPEX PAYBACK: ~{(totalCapexLakhs / addedRevGain).toFixed(1)} MONTHS
+            </span>
+          </div>
+        )}
+
+        {/* SECTION 1: REAL-TIME INTERACTIVE RANGE SLIDER COCKPIT & LIVE DYNAMIC AREA TREND CHART */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Left 5 Cols: Real-Time Interactive Range Sliders */}
+          <div className="lg:col-span-5 rounded-3xl bg-slate-900/70 backdrop-blur-xl border-2 border-slate-800/80 p-6 space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+              <div>
+                <span className="text-xs font-mono-spec text-amber-400 font-black uppercase">
+                  LIVE INTERACTIVE CONTROLS
+                </span>
+                <h2 className="text-xl md:text-2xl font-black text-white">
+                  Real-Time Scenario Sliders
                 </h2>
               </div>
-
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-400 text-xs font-mono-spec font-black border border-emerald-500/40">
-                  +{((addedRevGain / baseMonthlyRev) * 100).toFixed(1)}% REVENUE LIFT
-                </span>
-              </div>
+              <Sliders className="w-6 h-6 text-amber-400" />
             </div>
 
-            {/* Glowing Trajectory Progress Visualization */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-1">
-                <span className="text-[11px] font-mono-spec text-slate-400 uppercase">Current Base Run-Rate</span>
-                <div className="text-2xl font-black text-slate-300 font-mono-spec">
-                  ₹{baseMonthlyRev.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+            <p className="text-xs text-slate-300">
+              Drag any slider below to watch the 12-month revenue trajectory, delivery times, and financial gauges recalculate live!
+            </p>
+
+            <div className="space-y-6">
+              {/* Slider 1: Cold Room Expansion Pct */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono-spec">
+                  <span className="text-slate-200 font-bold">1. Cold Room 1 Capacity Expansion</span>
+                  <span className="text-amber-400 font-black text-sm">+{coldRoomExpansionPct}% Space</span>
                 </div>
-                <span className="text-[10px] text-slate-500 font-mono-spec block">12 Authorized Brands Baseline</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="10"
+                  value={coldRoomExpansionPct}
+                  onChange={(e) => setColdRoomExpansionPct(Number(e.target.value))}
+                  className="w-full accent-amber-500 h-2 bg-slate-950 rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
+                  <span>Current (-18°C Room 1)</span>
+                  <span className="text-emerald-400 font-bold">+₹{coldRoomRevLift.toFixed(1)} Lakhs/mo Lift</span>
+                </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 space-y-1">
-                <span className="text-[11px] font-mono-spec text-emerald-400 uppercase font-bold">Projected Active Gain</span>
-                <div className="text-2xl font-black text-emerald-400 font-mono-spec">
-                  +₹{addedRevGain.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+              {/* Slider 2: New Authorized Agency Tie-Ups */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono-spec">
+                  <span className="text-slate-200 font-bold">2. New FMCG Agency Tie-Ups</span>
+                  <span className="text-emerald-400 font-black text-sm">{newAgenciesCount} Brands Target</span>
                 </div>
-                <span className="text-[10px] text-emerald-400/80 font-mono-spec block">
-                  {activeScenarios.length} Strategic Scenarios Active
-                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="5"
+                  step="1"
+                  value={newAgenciesCount}
+                  onChange={(e) => setNewAgenciesCount(Number(e.target.value))}
+                  className="w-full accent-emerald-500 h-2 bg-slate-950 rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
+                  <span>HyFun, Godrej Yummiez, Dabur...</span>
+                  <span className="text-emerald-400 font-bold">+₹{agencyRevLift.toFixed(1)} Lakhs/mo Lift</span>
+                </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-amber-600/10 border-2 border-amber-500 space-y-1">
-                <span className="text-[11px] font-mono-spec text-amber-400 font-black uppercase">Simulated Total Target</span>
-                <div className="text-3xl font-black text-white font-mono-spec">
-                  ₹{totalProjectedMonthlyRev.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+              {/* Slider 3: Dedicated Reefer Van Fleet */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono-spec">
+                  <span className="text-slate-200 font-bold">3. Dedicated Reefer Fleet Size</span>
+                  <span className="text-sky-400 font-black text-sm">{reeferVanCount} Cold Vans</span>
                 </div>
-                <span className="text-[10px] text-amber-400 font-mono-spec block font-bold">
-                  Annualized: ₹{(totalProjectedMonthlyRev * 12).toFixed(1)} Lakhs/yr
-                </span>
+                <input
+                  type="range"
+                  min="2"
+                  max="8"
+                  step="1"
+                  value={reeferVanCount}
+                  onChange={(e) => setReeferVanCount(Number(e.target.value))}
+                  className="w-full accent-sky-400 h-2 bg-slate-950 rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
+                  <span>Noida Express Speed: <strong className="text-white">{deliveryTimeNoidaMins} mins</strong></span>
+                  <span className="text-sky-400 font-bold">+₹{vanRevLift.toFixed(1)} Lakhs/mo Lift</span>
+                </div>
               </div>
-            </div>
 
-            {/* Interactive Scenario Cards Stack */}
-            <div className="space-y-3 pt-2">
-              <span className="text-xs font-mono-spec text-slate-400 uppercase block font-bold">
-                Toggle Scenarios below to simulate immediate financial impact:
-              </span>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {scenarios.map((sc) => (
-                  <div
-                    key={sc.id}
-                    onClick={() => toggleScenario(sc.id)}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                      sc.active
-                        ? "bg-slate-950 border-amber-500 shadow-lg shadow-amber-500/10"
-                        : "bg-slate-950/50 border-slate-800/80 opacity-60 hover:opacity-100"
-                    }`}
-                  >
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[9px] font-mono-spec uppercase">
-                          {sc.category}
-                        </span>
-                        {sc.active && (
-                          <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-mono-spec font-black">
-                            ● ON
-                          </span>
-                        )}
-                      </div>
-                      <h4 className="text-xs font-extrabold text-white line-clamp-1">{sc.name}</h4>
-                    </div>
-
-                    <div className="text-right shrink-0 font-mono-spec">
-                      <span className="text-sm font-black text-emerald-400 block">
-                        +₹{sc.projectedRevenueGainLakhs.toFixed(1)}L
-                      </span>
-                      <span className="text-[10px] text-slate-400 block">
-                        ROI: {sc.paybackMonths}m
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              {/* Slider 4: Digital B2B Order Adoption */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono-spec">
+                  <span className="text-slate-200 font-bold">4. Web Portal B2B Self-Service</span>
+                  <span className="text-amber-400 font-black text-sm">{digitalAdoptionPct}% Orders</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="80"
+                  step="5"
+                  value={digitalAdoptionPct}
+                  onChange={(e) => setDigitalAdoptionPct(Number(e.target.value))}
+                  className="w-full accent-amber-500 h-2 bg-slate-950 rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono-spec text-slate-400">
+                  <span>Automated WhatsApp/Web Portal</span>
+                  <span className="text-amber-400 font-bold">+₹{digitalRevLift.toFixed(1)} Lakhs/mo Lift</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right 4 Cols: Interactive SVG Radar Spider Chart (SG Trading vs Metro vs Mandi) */}
-          <div className="lg:col-span-4 rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 p-6 flex flex-col justify-between shadow-2xl">
-            <div className="space-y-1">
-              <span className="text-xs font-mono-spec text-emerald-400 font-black uppercase">
-                STRATEGIC COMPETITIVE RADAR
-              </span>
-              <h3 className="text-lg font-black text-white">
-                Multi-Axis Dominance Scorecard
-              </h3>
-              <p className="text-xs text-slate-400">
-                SG Trading Company (Gold) vs. Metro Cash &amp; Carry (Sky Blue) vs. Mandi Wholesalers (Red).
-              </p>
+          {/* Right 7 Cols: DYNAMIC LIVE SVG AREA CHART & LIVE COUNTING METERS */}
+          <div className="lg:col-span-7 rounded-3xl bg-slate-900/70 backdrop-blur-xl border-2 border-amber-500/60 p-6 md:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+              <div>
+                <span className="text-xs font-mono-spec text-amber-400 font-black uppercase">
+                  DYNAMIC TRAJECTORY CURVE (MORPHS IN REAL TIME)
+                </span>
+                <h3 className="text-2xl md:text-3xl font-black text-white">
+                  12-Month Projected Wholesale Revenue Run-Rate
+                </h3>
+              </div>
+
+              <div className="text-right font-mono-spec">
+                <span className="text-xs text-slate-400 block">TOTAL SIMULATED RUN-RATE</span>
+                <span className="text-3xl font-black text-amber-400">
+                  ₹{totalProjectedMonthlyRev.toFixed(2)} <span className="text-xs text-slate-400">L/mo</span>
+                </span>
+              </div>
             </div>
 
-            {/* Glowing SVG Radar Chart */}
-            <div className="relative py-4 flex items-center justify-center">
-              <svg viewBox="0 0 300 280" className="w-full max-w-[260px] h-auto">
-                {/* Concentric Polygons */}
-                <polygon
-                  points="150,20 270,105 225,245 75,245 30,105"
+            {/* LIVE DYNAMIC SVG AREA TREND CHART */}
+            <div className="py-6 relative">
+              <svg viewBox="0 0 800 240" className="w-full h-auto max-h-[220px]">
+                <defs>
+                  <linearGradient id="areaGlow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.45" />
+                    <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Horizontal Grid Lines */}
+                <line x1="20" y1="40" x2="780" y2="40" stroke="rgba(255,255,255,0.06)" />
+                <line x1="20" y1="100" x2="780" y2="100" stroke="rgba(255,255,255,0.06)" />
+                <line x1="20" y1="160" x2="780" y2="160" stroke="rgba(255,255,255,0.06)" />
+                <line x1="20" y1="220" x2="780" y2="220" stroke="rgba(255,255,255,0.12)" />
+
+                {/* Area Fill */}
+                <path d={svgAreaD} fill="url(#areaGlow)" className="transition-all duration-300 ease-out" />
+
+                {/* Dynamic Curve Line */}
+                <path
+                  d={svgPathD}
                   fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth="1.5"
-                />
-                <polygon
-                  points="150,55 235,115 203,215 97,215 65,115"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth="1.5"
-                />
-                <polygon
-                  points="150,90 200,125 180,185 120,185 100,125"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth="1.5"
-                />
-
-                {/* Radar Axis Lines */}
-                <line x1="150" y1="150" x2="150" y2="20" stroke="rgba(255,255,255,0.12)" />
-                <line x1="150" y1="150" x2="270" y2="105" stroke="rgba(255,255,255,0.12)" />
-                <line x1="150" y1="150" x2="225" y2="245" stroke="rgba(255,255,255,0.12)" />
-                <line x1="150" y1="150" x2="75" y2="245" stroke="rgba(255,255,255,0.12)" />
-                <line x1="150" y1="150" x2="30" y2="105" stroke="rgba(255,255,255,0.12)" />
-
-                {/* Mandi Wholesalers (Red Polygon - Low Scores) */}
-                <polygon
-                  points="150,110 180,135 150,195 110,205 70,135"
-                  fill="rgba(239, 68, 68, 0.15)"
-                  stroke="#EF4444"
-                  strokeWidth="2"
-                />
-
-                {/* Metro Cash & Carry (Sky Blue Polygon - Mid Scores) */}
-                <polygon
-                  points="150,55 220,115 190,215 110,215 80,115"
-                  fill="rgba(56, 189, 248, 0.15)"
-                  stroke="#38BDF8"
-                  strokeWidth="2"
-                />
-
-                {/* SG Trading Company (Amber/Gold Polygon - Dominant 98/100) */}
-                <polygon
-                  points="150,24 265,108 220,242 78,242 34,108"
-                  fill="rgba(245, 158, 11, 0.25)"
                   stroke="#F59E0B"
-                  strokeWidth="3"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  className="transition-all duration-300 ease-out"
                 />
 
-                {/* Axis Labels */}
-                <text x="150" y="14" fill="#F59E0B" fontSize="10" fontWeight="bold" textAnchor="middle">-18°C COLD CHAIN</text>
-                <text x="275" y="110" fill="#CBD5E1" fontSize="9" textAnchor="start">EXPRESS DISPATCH</text>
-                <text x="228" y="260" fill="#CBD5E1" fontSize="9" textAnchor="middle">LOW MOQ FLEX</text>
-                <text x="72" y="260" fill="#CBD5E1" fontSize="9" textAnchor="middle">GST B2B CREDIT</text>
-                <text x="25" y="110" fill="#CBD5E1" fontSize="9" textAnchor="end">AUTH. FACTORY SEAL</text>
+                {/* Monthly Data Points */}
+                {chartPoints.map((val, idx) => {
+                  const x = (idx / 11) * 760 + 20;
+                  const y = 220 - (val / maxChartVal) * 180;
+                  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                  return (
+                    <g key={idx}>
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="5"
+                        fill="#070A12"
+                        stroke="#F59E0B"
+                        strokeWidth="3"
+                        className="transition-all duration-300"
+                      />
+                      <text
+                        x={x}
+                        y={240}
+                        fill="#94A3B8"
+                        fontSize="10"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                        fontFamily="monospace"
+                      >
+                        {months[idx]}
+                      </text>
+                    </g>
+                  );
+                })}
               </svg>
             </div>
 
-            {/* Radar Legend */}
-            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/80 font-mono-spec text-[10px]">
-              <div className="flex items-center gap-1.5 text-amber-400 font-extrabold">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                <span>SG (98/100)</span>
+            {/* Bottom KPI Bar */}
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800/80 font-mono-spec text-xs">
+              <div>
+                <span className="text-slate-400 block text-[10px]">Net Incremental Lift:</span>
+                <span className="text-emerald-400 font-black text-base">+₹{addedRevGain.toFixed(2)} Lakhs/mo</span>
               </div>
-              <div className="flex items-center gap-1.5 text-sky-400 font-bold">
-                <span className="w-2.5 h-2.5 rounded-full bg-sky-400" />
-                <span>Metro (74/100)</span>
+              <div>
+                <span className="text-slate-400 block text-[10px]">Estimated CAPEX Needed:</span>
+                <span className="text-sky-400 font-black text-base">₹{totalCapexLakhs.toFixed(1)} Lakhs</span>
               </div>
-              <div className="flex items-center gap-1.5 text-red-400 font-bold">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                <span>Mandi (45/100)</span>
+              <div>
+                <span className="text-slate-400 block text-[10px]">Noida Reefer Express Speed:</span>
+                <span className="text-amber-400 font-black text-base">{deliveryTimeNoidaMins} Mins</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* INTERACTIVE DELHI NCR COLD-CHAIN TELEMETRY WAR-ROOM MAP VISUALIZER */}
+        {/* SECTION 2: LIVE ANIMATED REEFER VAN GPS TELEMETRY MAP VISUALIZER */}
         <section className="rounded-3xl bg-slate-900/60 backdrop-blur-xl border-2 border-slate-800/80 p-6 md:p-8 space-y-6 shadow-2xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-400 text-xs font-mono-spec font-bold uppercase tracking-wider mb-2">
                 <Compass className="w-3.5 h-3.5" />
-                <span>DELHI NCR LOGISTICS COMMAND • INTERACTIVE GPS TELEMETRY MAP</span>
+                <span>DELHI NCR LOGISTICS TELEMETRY • LIVE ANIMATED DISPATCH TRAJECTORY</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                Mayur Vihar Phase-3 Central Warehouse &amp; Express NCR Dispatch Hubs
+                Mayur Vihar Phase-3 Warehouse GPS Dispatch Simulation
               </h2>
             </div>
 
-            <div className="flex flex-wrap gap-2 text-xs font-mono-spec">
-              {[
-                { id: "mayur-vihar", label: "🏢 B-577 Mayur Vihar-3 Central Warehouse (Hub)" },
-                { id: "radisson", label: "🏨 Kaushambi / East Delhi (Radisson Blu Hub)" },
-                { id: "noida", label: "🍔 Noida Sector-62 QSR Cluster (Burger Singh)" },
-                { id: "indirapuram", label: "☁️ Indirapuram Cloud Kitchen Hub (EatClub)" },
-              ].map((hub) => (
-                <button
-                  key={hub.id}
-                  onClick={() => setSelectedHub(hub.id)}
-                  className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
-                    selectedHub === hub.id
-                      ? "bg-amber-500 text-slate-950 font-black border-amber-400"
-                      : "bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700"
-                  }`}
-                >
-                  {hub.label}
-                </button>
-              ))}
+            <div className="flex items-center gap-3 font-mono-spec text-xs">
+              <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-emerald-400 font-bold flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                Live Core Reefer Temp: {liveTemp}°C (OK)
+              </span>
             </div>
           </div>
 
-          {/* Visual SVG NCR Map with Telemetry Vectors */}
-          <div className="relative rounded-2xl bg-slate-950 border border-slate-800 p-6 overflow-hidden min-h-[280px] flex items-center justify-center">
-            <svg viewBox="0 0 800 260" className="w-full h-auto max-h-[260px]">
-              {/* Subtle Grid Map Lines */}
-              <line x1="0" y1="60" x2="800" y2="60" stroke="rgba(255,255,255,0.04)" />
-              <line x1="0" y1="130" x2="800" y2="130" stroke="rgba(255,255,255,0.04)" />
-              <line x1="0" y1="200" x2="800" y2="200" stroke="rgba(255,255,255,0.04)" />
-              <line x1="200" y1="0" x2="200" y2="260" stroke="rgba(255,255,255,0.04)" />
-              <line x1="400" y1="0" x2="400" y2="260" stroke="rgba(255,255,255,0.04)" />
-              <line x1="600" y1="0" x2="600" y2="260" stroke="rgba(255,255,255,0.04)" />
+          {/* Visual SVG NCR Map with Live Animated Moving Delivery Truck Icon */}
+          <div className="relative rounded-2xl bg-slate-950 border border-slate-800 p-6 overflow-hidden min-h-[260px] flex items-center justify-center">
+            <svg viewBox="0 0 800 240" className="w-full h-auto max-h-[240px]">
+              {/* Grid Map Lines */}
+              <line x1="0" y1="120" x2="800" y2="120" stroke="rgba(255,255,255,0.04)" />
+              <line x1="400" y1="0" x2="400" y2="240" stroke="rgba(255,255,255,0.04)" />
 
-              {/* Pulsing Animated Delivery Routes from Mayur Vihar Central Hub (Center 400, 130) */}
-              <path
-                d="M 400 130 L 180 80"
-                stroke={selectedHub === "radisson" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
-                strokeWidth={selectedHub === "radisson" ? "4" : "2"}
-                strokeDasharray="6 4"
-              />
-              <path
-                d="M 400 130 L 630 75"
-                stroke={selectedHub === "noida" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
-                strokeWidth={selectedHub === "noida" ? "4" : "2"}
-                strokeDasharray="6 4"
-              />
-              <path
-                d="M 400 130 L 590 195"
-                stroke={selectedHub === "indirapuram" ? "#F59E0B" : "rgba(16, 185, 129, 0.4)"}
-                strokeWidth={selectedHub === "indirapuram" ? "4" : "2"}
-                strokeDasharray="6 4"
+              {/* Vector Delivery Route from Mayur Vihar Central Hub (180, 120) to Noida Sec-62 QSR Cluster (640, 120) */}
+              <line
+                x1="180"
+                y1="120"
+                x2="640"
+                y2="120"
+                stroke="#10B981"
+                strokeWidth="6"
+                strokeLinecap="round"
+                opacity="0.3"
               />
 
               {/* CENTRAL WAREHOUSE NODE (B-577 Mayur Vihar Phase-3) */}
-              <circle cx="400" cy="130" r="28" fill="rgba(245, 158, 11, 0.2)" />
-              <circle cx="400" cy="130" r="16" fill="#F59E0B" />
-              <circle cx="400" cy="130" r="6" fill="#070A12" />
-              <text x="400" y="175" fill="#F59E0B" fontSize="12" fontWeight="black" textAnchor="middle">
-                B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE (-18°C)
+              <circle cx="180" cy="120" r="24" fill="rgba(245, 158, 11, 0.2)" />
+              <circle cx="180" cy="120" r="14" fill="#F59E0B" />
+              <text x="180" y="165" fill="#F59E0B" fontSize="12" fontWeight="black" textAnchor="middle">
+                🏢 B-577 MAYUR VIHAR-3 CENTRAL WAREHOUSE (-18°C)
               </text>
 
-              {/* Kaushambi Radisson Blu Hub Node */}
-              <circle cx="180" cy="80" r="12" fill={selectedHub === "radisson" ? "#F59E0B" : "#10B981"} />
-              <text x="180" y="60" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
-                Kaushambi / Radisson Blu (3.5 Km • 15 mins)
+              {/* Destination Noida Sec-62 Burger Singh Cluster Node */}
+              <circle cx="640" cy="120" r="24" fill="rgba(16, 185, 129, 0.2)" />
+              <circle cx="640" cy="120" r="14" fill="#10B981" />
+              <text x="640" y="165" fill="#10B981" fontSize="12" fontWeight="black" textAnchor="middle">
+                🍔 NOIDA SEC-62 QSR HUB (BURGER SINGH)
               </text>
 
-              {/* Noida Sec-62 Burger Singh Cluster Node */}
-              <circle cx="630" cy="75" r="12" fill={selectedHub === "noida" ? "#F59E0B" : "#10B981"} />
-              <text x="630" y="55" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
-                Noida Sec-62 QSR Hub (8.2 Km • 22 mins)
-              </text>
-
-              {/* Indirapuram EatClub Cloud Kitchen Node */}
-              <circle cx="590" cy="195" r="12" fill={selectedHub === "indirapuram" ? "#F59E0B" : "#10B981"} />
-              <text x="590" y="220" fill="#CBD5E1" fontSize="11" fontWeight="bold" textAnchor="middle">
-                Indirapuram Cloud Kitchen (6.4 Km • 18 mins)
-              </text>
+              {/* LIVE ANIMATED REEFER TRUCK ICON SLIDING IN REAL TIME */}
+              {(() => {
+                const vanX = 180 + (vanProgress / 100) * (640 - 180);
+                return (
+                  <g transform={`translate(${vanX}, 120)`} className="transition-all duration-1000 ease-linear">
+                    <circle cx="0" cy="0" r="18" fill="#F59E0B" />
+                    <text x="0" y="4" fill="#070A12" fontSize="12" textAnchor="middle">🚚</text>
+                    <rect x="-35" y="-35" width="70" height="18" rx="4" fill="#070A12" stroke="#F59E0B" strokeWidth="1" />
+                    <text x="0" y="-22" fill="#F59E0B" fontSize="9" fontWeight="bold" textAnchor="middle" fontFamily="monospace">
+                      {liveTemp}°C • {vanProgress}%
+                    </text>
+                  </g>
+                );
+              })()}
             </svg>
           </div>
         </section>
@@ -627,13 +627,23 @@ export default function MarketIntelligenceDashboardPage() {
                       <span>Contact: <strong>{cust.contactPerson}</strong></span>
                     </div>
 
-                    <button
-                      onClick={() => toggleCustomerAccordion(cust.id)}
-                      className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer"
-                    >
-                      <span>{isExpanded ? "Hide Acquisition Plan" : "Show Acquisition Plan"}</span>
-                      {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleSendWhatsApp(cust)}
+                        className="px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 border border-emerald-500/40 font-mono-spec text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                      >
+                        <MessageSquare className="w-3.5 h-3.5" />
+                        <span>WhatsApp Quote</span>
+                      </button>
+
+                      <button
+                        onClick={() => toggleCustomerAccordion(cust.id)}
+                        className="px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 hover:text-slate-950 text-amber-400 font-mono-spec text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer"
+                      >
+                        <span>{isExpanded ? "Hide Acquisition Plan" : "Show Acquisition Plan"}</span>
+                        {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      </button>
+                    </div>
                   </div>
 
                   {isExpanded && cust.acquisitionRecommendations && (
