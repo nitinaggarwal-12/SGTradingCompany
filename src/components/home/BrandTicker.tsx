@@ -410,8 +410,14 @@ export const BrandTicker: React.FC = () => {
 
       {/* BRAND COMMERCIAL PRODUCT DETAIL & ADD-TO-CART MODAL */}
       {selectedBrandModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-slate-900 border-2 border-amber-500/80 shadow-2xl p-6 md:p-8 space-y-6 text-white">
+        <div
+          onMouseLeave={() => setSelectedBrandModal(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#060911]/75 backdrop-blur-sm transition-all duration-200"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#0B101D] text-white border-2 border-amber-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-6 md:p-8 space-y-6"
+          >
             {/* Modal Header */}
             <div className="flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
               <div className="flex items-center gap-4">
@@ -459,7 +465,7 @@ export const BrandTicker: React.FC = () => {
                 return (
                   <div
                     key={sku.skuName}
-                    className="p-4 rounded-2xl bg-slate-950 border-2 border-slate-800 hover:border-amber-500/60 transition-all space-y-3"
+                    className="p-4 rounded-2xl bg-slate-950/90 border-2 border-slate-800 hover:border-amber-500/60 transition-all space-y-3"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
