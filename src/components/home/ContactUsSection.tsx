@@ -198,8 +198,8 @@ export const ContactUsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Direct Commercial Inquiry Form (7 Cols) */}
-          <div className="lg:col-span-7">
+          {/* Right Direct Commercial Inquiry Form & HORECA Institutional SLA Panel (7 Cols) */}
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
             <div className="industrial-card rounded-2xl p-6 md:p-8 border border-slate-800">
               {formSubmitted ? (
                 <div className="p-8 text-center space-y-4">
@@ -299,16 +299,16 @@ export const ContactUsSection: React.FC = () => {
                         className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
                       >
                         <option value="McCain Food Service (HORECA)">
-                          McCain Food Service (French Fries & Cheese Balls)
+                          McCain Food Service (French Fries &amp; Cheese Balls)
                         </option>
                         <option value="ITC Master Chef (HORECA)">
-                          ITC Master Chef (Nuggets & Gravy Bases)
+                          ITC Master Chef (Nuggets &amp; Gravy Bases)
                         </option>
                         <option value="Veeba Food Services (HORECA)">
-                          Veeba Food Services (Mayo, Pizza & Dressings)
+                          Veeba Food Services (Mayo, Pizza &amp; Dressings)
                         </option>
                         <option value="Britannia Cheese (HORECA)">
-                          Britannia Cheese (Diced Mozzarella & 51 Slices)
+                          Britannia Cheese (Diced Mozzarella &amp; 51 Slices)
                         </option>
                         <option value="Iscon Balaji / Go Cheese / Chatha">
                           Iscon Balaji / Go Diced Cheese / Chatha Foods
@@ -340,10 +340,92 @@ export const ContactUsSection: React.FC = () => {
                     className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
-                    <span>Send Commercial Inquiry to Rahul Garg & Sonu →</span>
+                    <span>Send Commercial Inquiry to Rahul Garg &amp; Sonu →</span>
                   </button>
                 </form>
               )}
+            </div>
+
+            {/* AUTHORIZED INSTITUTIONAL DISTRIBUTION SLA & COLD-CHAIN LOGISTICS PROTOCOL CARD */}
+            <div className="industrial-card rounded-2xl p-5 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                <span className="text-xs font-mono-spec font-bold uppercase text-amber-400">
+                  INSTITUTIONAL SUPPLY SLA &amp; GST COMPLIANCE
+                </span>
+                <span className="px-2.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-spec font-bold">
+                  DIRECT MAYUR VIHAR COLD ROOM
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+                  <span className="text-[10px] font-mono-spec text-amber-400 font-bold uppercase block">
+                    CONTRACT RATES
+                  </span>
+                  <p className="text-xs font-extrabold text-white">
+                    Fixed B2B Wholesale Pricing
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight">
+                    Guaranteed distributor rates locked for hotels &amp; banquet kitchens.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+                  <span className="text-[10px] font-mono-spec text-cyan-400 font-bold uppercase block">
+                    -18°C COLD FLEET
+                  </span>
+                  <p className="text-xs font-extrabold text-white">
+                    Direct Kitchen Delivery
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight">
+                    Unbroken refrigerated transport from Mayur Vihar Phase-3.
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+                  <span className="text-[10px] font-mono-spec text-emerald-400 font-bold uppercase block">
+                    GSTIN COMPLIANT
+                  </span>
+                  <p className="text-xs font-extrabold text-white">
+                    07ADQFS8839Q1ZQ Invoice
+                  </p>
+                  <p className="text-[11px] text-slate-400 leading-tight">
+                    Full 5% &amp; 12% input tax credit compliance for accounting.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* COMMERCIAL FAQ & DISTRIBUTOR QUICK-REFERENCE CARD */}
+            <div className="industrial-card rounded-2xl p-5 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <h4 className="text-xs font-bold text-white uppercase">
+                  Frequently Asked B2B Commercial Supply Questions
+                </h4>
+                <span className="text-[10px] font-mono-spec text-slate-400">
+                  SG Trading Co. Quick Help
+                </span>
+              </div>
+
+              <div className="space-y-2 text-xs">
+                <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800/80">
+                  <p className="font-extrabold text-amber-400">
+                    Q: What is the minimum order quantity for Mayur Vihar Phase-3 refrigerated delivery?
+                  </p>
+                  <p className="text-slate-300 mt-1 leading-relaxed">
+                    Orders above ₹2,000 qualify for free -18°C cold-chain van delivery across East Delhi, Noida, Mayur Vihar, and Greater Delhi NCR.
+                  </p>
+                </div>
+
+                <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800/80">
+                  <p className="font-extrabold text-amber-400">
+                    Q: How fast can Rahul Garg &amp; Sonu arrange emergency same-day stock replenishment?
+                  </p>
+                  <p className="text-slate-300 mt-1 leading-relaxed">
+                    Call Rahul Garg (<strong className="text-white">9667731355</strong>) or Sonu (<strong className="text-white">9643097002</strong>) directly for emergency kitchen dispatch within 3 hours.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
