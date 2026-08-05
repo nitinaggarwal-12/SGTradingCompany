@@ -479,7 +479,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               {/* Instant Search Dropdown Results & Dynamic Recommended Searches */}
               {isSearchFocused && (
                 <div
-                  className="fixed sm:absolute top-14 sm:top-full left-4 right-4 sm:left-auto sm:right-0 mt-2 w-auto sm:w-96 max-w-[92vw] bg-slate-900 border-2 border-amber-500/80 text-white rounded-2xl shadow-2xl p-3.5 z-[999] font-mono-spec text-xs space-y-3"
+                  className="fixed top-14 left-4 right-4 sm:absolute sm:top-full sm:left-0 sm:right-auto mt-2 w-auto sm:w-96 max-w-[94vw] bg-slate-900 border-2 border-amber-500 text-white rounded-2xl shadow-2xl p-3.5 z-[999] font-mono-spec text-xs space-y-3"
                   onMouseDown={(e) => e.preventDefault()}
                 >
                   {/* DYNAMIC RECOMMENDED SEARCH CHIPS (FILTERED AS USER TYPES) */}
