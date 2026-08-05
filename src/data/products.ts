@@ -61,10 +61,10 @@ export const PRODUCTS_CATALOG: Product[] = [
     lowStockThreshold: 20,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
     isFeatured: true,
-    image: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["HORECA No.1 Fry", "Golden Crisp", "-18°C Cold Chain"],
@@ -96,13 +96,13 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 95,
     lowStockThreshold: 15,
     warehouseZone: "Cold Room 1 (-18°C Deep Frozen)",
-    image: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Gourmet Starter", "Melting Cheese Center", "HORECA Bulk"],
+    badges: ["Gourmet Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
     description:
       "Crispy golden potato bites stuffed with creamy rich melted cheese and herbs. High-margin appetizer item for lounge bars, cafes, and banquet menus.",
     highlights: [
@@ -137,9 +137,9 @@ export const PRODUCTS_CATALOG: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1585325701165-351af916e581?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["ITC Master Chef", "Juicy Chicken Bite", "-18°C Cold Chain"],
+    badges: ["ITC Master Chef", "Juicy Chicken Nuggets", "-18°C Cold Chain"],
     description:
       "Tender, seasoned real chicken meat coated in crunchy breading crafted by ITC Master Chefs for commercial kitchens, multiplexes, and QSR stores.",
     highlights: [
@@ -173,7 +173,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Chef Consistency", "Zero Preservatives", "Standard Taste"],
+    badges: ["Makhani Gravy Base", "Zero Preservatives", "Standard Taste"],
     description:
       "Rich, silky butter tomato gravy base crafted by ITC Master Chefs. Eliminates 2 hours of kitchen prep while guaranteeing identical taste across multi-outlet restaurants.",
     highlights: [
@@ -210,7 +210,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Veeba Food Services", "100% Eggless", "High Viscosity"],
+    badges: ["Veeba Mayonnaise", "100% Eggless", "High Viscosity"],
     description:
       "Ultra-creamy, high-viscosity eggless mayonnaise formulated by Veeba Food Services specifically for commercial burgers, rolls, shawarmas, and dips.",
     highlights: [
@@ -241,10 +241,10 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Italian Herbs", "Pizza Base Spread", "Veeba HORECA"],
+    badges: ["Italian Herb Pizza Sauce", "Pizza Base Spread", "Veeba HORECA"],
     description:
       "Tangy Italian vine-ripened tomato pizza sauce enriched with oregano and basil. Engineered for high-temperature stone and deck pizza ovens.",
     highlights: [
@@ -278,10 +278,10 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Britannia Cheese", "Long Stretch", "Diced Pizza Blend"],
+    badges: ["Britannia Mozzarella", "Long Cheese Stretch", "Diced Blend"],
     description:
       "Institutional-grade pre-diced Mozzarella & Cheddar cheese blend from Britannia. Delivers signature long cheesy stretch and rich golden blister browning for pizzas & garlic breads.",
     highlights: [
@@ -315,7 +315,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["51 Slices Pack", "Instant Melt", "Burger Ready"],
+    badges: ["51 Burger Slices", "Instant Melt Cheese", "Britannia Commercial"],
     description:
       "Commercial burger slice pack containing 51 uniform cheese slices. Instant smooth melting over hot burger patties, grilled sandwiches, and kathi rolls.",
     highlights: [
@@ -351,7 +351,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Peri Peri Seasoned", "Crinkle Cut", "High Profit"],
+    badges: ["Peri Peri Seasoned Fries", "Crinkle Cut", "High Profit"],
     description:
       "Spicy Peri Peri dusted crinkle-cut fries manufactured from selected high-starch potatoes by Iscon Balaji Foods.",
     highlights: [
@@ -387,7 +387,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1627054234558-85474d221ff1?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Smoky Hickory", "HORECA Sausage", "Chatha Foods"],
+    badges: ["Smoky Frankfurters", "Hotdog Sausages", "Chatha Foods"],
     description:
       "Hickory smoked commercial chicken frankfurter sausages for hotdog carts, breakfast buffets, and QSR roller grills.",
     highlights: [
@@ -417,13 +417,13 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 90,
     lowStockThreshold: 15,
     warehouseZone: "Chilled Bay B1 (2°C to 4°C)",
-    image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
     images: [
-      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1548365328-8c6db3220e4c?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Go Diced", "Pure Milk Cheese", "Pizza Specialist"],
+    badges: ["Go Diced Mozzarella", "Pure Dairy Cheese", "Pizza Specialist"],
     description:
       "High-elasticity 100% cow milk diced Mozzarella engineered for wood-fired and conveyor pizza ovens.",
     highlights: [
@@ -451,13 +451,13 @@ export const PRODUCTS_CATALOG: Product[] = [
     stockQuantity: 65,
     lowStockThreshold: 10,
     warehouseZone: "Chilled Bay B2",
-    image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
     images: [
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1552767059-ce182ead8c20?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Milkana Professional", "Velvety Spread", "Cafe Ready"],
+    badges: ["Milkana Cheese Spread", "Velvety Commercial", "Cafe Ready"],
     description:
       "Velvety, rich commercial cheese spread tub for cafe toasties, creamy pasta sauces, and garlic bread toppings.",
     highlights: [
@@ -494,7 +494,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Anoop Sattu", "100% Roasted Chana", "GT FMCG Bestseller"],
+    badges: ["Anoop Roasted Sattu", "100% Roasted Chana", "GT FMCG Bestseller"],
     description:
       "Traditional high-protein roasted Bengal gram flour (Sattu) from Anoop Foods. Fast-moving retail carton pack for Kirana supermarkets & modern trade outlets.",
     highlights: [
@@ -529,7 +529,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Ocean Beverage", "Vitamin Enriched", "High Retail Turn"],
+    badges: ["Ocean Fruit Water", "Vitamin Enriched", "High Retail Turn"],
     description:
       "Refreshingly light fruit-infused hydration water enriched with B-Vitamins and Electrolytes. Top-performing retail beverage SKU in NCR.",
     highlights: [
@@ -563,7 +563,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["100% Arabica", "Sleepy Owl", "Premium Coffee GT"],
+    badges: ["100% Arabica", "Sleepy Owl Coffee", "Premium Coffee GT"],
     description:
       "Microground 100% Arabica instant coffee jar from Sleepy Owl. Delivers café-quality creasiness in hot milk or cold iced coffee.",
     highlights: [
@@ -597,7 +597,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1200&q=85",
     ],
-    badges: ["Loyka Gourmet", "Roasted Almonds", "Gift & Impulse GT"],
+    badges: ["Loyka Gourmet Brittle", "Roasted Almonds", "Gift & Impulse GT"],
     description:
       "Crunchy roasted California almonds smothered in golden buttery caramel and rich dark chocolate. Fast-moving gourmet confectionery SKU.",
     highlights: [
