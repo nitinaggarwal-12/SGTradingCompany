@@ -40,7 +40,7 @@ export const TURNKEY_KITCHEN_CONFIGS: TurnkeyConfig[] = [
 ];
 
 export const PRODUCTS_CATALOG: Product[] = [
-  // 1. MCCAIN (HORECA) - French Fries
+  // 1. MCCAIN (HORECA) - 9mm French Fries
   {
     id: "mccain-01",
     sku: "SG-MCC-FF-9MM",
@@ -64,8 +64,8 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["HORECA No.1 Fry", "Golden Crisp", "-18°C Cold Chain"],
     description:
@@ -77,7 +77,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Authorized SG Trading Company Cold Chain Distribution in Delhi NCR",
     ],
   },
-  // 2. MCCAIN - Potato Cheese Balls (Golden fried cheese croquettes / balls)
+  // 2. MCCAIN - Potato Cheese Balls (Golden fried cheese croquettes)
   {
     id: "mccain-02",
     sku: "SG-MCC-PCB-1KG",
@@ -100,7 +100,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Golden Cheese Balls", "Melting Cheese Center", "HORECA Bulk"],
@@ -137,7 +137,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["ITC Master Chef", "Juicy Chicken Nuggets", "-18°C Cold Chain"],
@@ -149,7 +149,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Consistent size & shape for accurate cost-per-serving calculations",
     ],
   },
-  // 4. ITC MASTER CHEF - Tomato Makhani Gravy Base (Makhani curry)
+  // 4. ITC MASTER CHEF - Tomato Makhani Gravy Base (Makhani butter curry)
   {
     id: "itc-02",
     sku: "SG-ITC-GRV-MAKH",
@@ -172,7 +172,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Makhani Gravy Base", "Zero Preservatives", "Standard Taste"],
@@ -185,7 +185,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 5. VEEBA FOOD SERVICES - Eggless Mayonnaise (White creamy mayonnaise dip bowl)
+  // 5. VEEBA FOOD SERVICES - Eggless Mayonnaise (White mayonnaise dip bowl)
   {
     id: "veeba-01",
     sku: "SG-VEB-MAYO-1KG",
@@ -209,7 +209,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     image: "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
     images: [
       "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
-      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
       "https://images.unsplash.com/photo-1472476443507-c7a5948772fc?auto=format&fit=crop&w=1200&q=85",
     ],
     badges: ["Veeba Mayonnaise", "100% Eggless", "High Viscosity"],
@@ -221,7 +221,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Convenient commercial spout pouch minimizes kitchen waste",
     ],
   },
-  // 6. VEEBA FOOD SERVICES - Gourmet Pizza & Pasta Sauce (Red pizza sauce)
+  // 6. VEEBA FOOD SERVICES - Gourmet Pizza & Pasta Sauce (Red tomato pizza sauce)
   {
     id: "veeba-02",
     sku: "SG-VEB-PIZZ-1KG",
@@ -257,7 +257,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 7. BRITANNIA CHEESE - Diced Mozzarella & Cheddar Blend (Mozzarella stretch)
+  // 7. BRITANNIA CHEESE - Diced Mozzarella & Cheddar Blend (Melting Mozzarella stretch)
   {
     id: "brit-01",
     sku: "SG-BRT-DCD-1KG",
@@ -293,7 +293,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Trusted by leading pizza chains, hotel kitchens & cafes",
     ],
   },
-  // 8. BRITANNIA CHEESE - Processed Cheese Slices (Yellow American cheese slice)
+  // 8. BRITANNIA CHEESE - Processed Cheese Slices (Melted yellow American cheese slice)
   {
     id: "brit-02",
     sku: "SG-BRT-SLC-750G",
@@ -329,7 +329,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 9. ISCON BALAJI FOODS - Peri Peri Crinkle Fries (Seasoned french fries)
+  // 9. ISCON BALAJI FOODS - Peri Peri Crinkle Fries (Spicy Peri Peri fries)
   {
     id: "iscon-01",
     sku: "SG-ISC-PERI-2.5KG",
@@ -472,7 +472,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     ],
   },
 
-  // 13. ANOOP SATTU - Pure Roasted Chana Sattu (Roasted Bengal gram golden pulses)
+  // 13. ANOOP SATTU - Pure Roasted Chana Sattu (Roasted Bengal gram golden pulse)
   {
     id: "anoop-01",
     sku: "SG-ANP-STU-500G",
@@ -508,7 +508,7 @@ export const PRODUCTS_CATALOG: Product[] = [
       "Attractive retail margin for GT distributor & Kirana store partners",
     ],
   },
-  // 14. OCEAN WATER - Peach & Passion Fruit Water (Peach beverage drink bottle)
+  // 14. OCEAN WATER - Peach & Passion Fruit Water (Peach cold beverage drink bottle)
   {
     id: "ocean-01",
     sku: "SG-OCN-PEACH-500ML",
